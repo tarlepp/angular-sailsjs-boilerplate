@@ -1,0 +1,16 @@
+<h1>Hello {{user().firstName}} {{user().lastName}}</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-ng-repeat="book in books">
+            <td>{{book.title}}</td>
+            <td>{{book.author.firstName}} {{book.author.lastName}}</td>
+        </tr>
+    </tbody>
+</table>

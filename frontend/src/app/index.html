@@ -19,24 +19,10 @@
         <!-- endinject -->
     </head>
     <body>
-        <div class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <a href="/" class="navbar-brand">Boilerplate</a>
-                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-            </div>
-        </div>
+        <navigation-header></navigation-header>
 
         <div id="container" class="container main-container">
             <div data-ui-view>
-                <sign-in-directive></sign-in-directive>
-                <a data-ui-sref="state1">State 1</a>
-                <a data-ui-sref="state2">State 2</a>
             </div>
         </div>
 
@@ -61,12 +47,14 @@
         <!-- inject:js -->
         <script src="/frontend-templates.js"></script>
         <script src="/app.js"></script>
-        <script src="/assets/Controllers/SignInController.js"></script>
-        <script src="/assets/Directives/SignInDirective.js"></script>
+        <script src="/assets/Constants/AccessLevelsConstant.js"></script>
+        <script src="/assets/Controllers/BooksController.js"></script>
+        <script src="/assets/Controllers/LoginController.js"></script>
+        <script src="/assets/Directives/NavigationHeaderDirective.js"></script>
         <script src="/assets/Interceptors/AuthInterceptor.js"></script>
-        <script src="/assets/Interceptors/CORSInterceptor.js"></script>
-        <script src="/assets/Services/AuthService.js"></script>
-        <script src="/assets/Services/SessionService.js"></script>
+        <script src="/assets/Services/Auth.js"></script>
+        <script src="/assets/Services/CurrentUser.js"></script>
+        <script src="/assets/Services/Storage.js"></script>
         <!-- endinject -->
 
     </body>

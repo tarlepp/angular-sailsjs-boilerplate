@@ -111,5 +111,5 @@ module.exports.blueprints = {
     pluralize: false,
 
     defaultLimit: 100,
-    populate: false
+    populate: true
 };

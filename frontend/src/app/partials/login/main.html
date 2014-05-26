@@ -1,6 +1,8 @@
 
 <div class="form-signin">
     <form method="post" novalidate="novalidate">
+        <h2>Please sign in</h2>
+
         <input type="text" name="username" class="form-control" placeholder="enter username or email" autofocus autocomplete="off"
             data-ng-model="credentials.identifier"
         />
@@ -8,12 +10,6 @@
            data-ng-model="credentials.password"
         />
 
-        <div class="checkbox text-center">
-            <label>
-                <input type="checkbox" name="credentials.rememberMe" value="1" style="float: none; position: relative; top: 1px;"> Remember me
-            </label>
-        </div>
-
-        <button class="btn btn-primary pull-right" data-ng-click="signIn()">Sign in</button>
+        <button class="btn btn-primary btn-block" data-ng-click="login()">Sign in</button>
     </form>
 </div>

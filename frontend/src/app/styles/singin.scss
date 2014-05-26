@@ -1,13 +1,20 @@
 .form-signin {
-  padding: 15px 15px 0 15px;
+  max-width: 250px;
+  padding: 15px;
   margin: 0 auto;
 
-  &.modal-body {
-    overflow-y: auto;
+  h2 {
+    text-align: center;
   }
 
   .checkbox {
     font-weight: normal;
+
+    input {
+      float: none;
+      position: relative;
+      top: 1px;
+    }
   }
 
   .form-control {
