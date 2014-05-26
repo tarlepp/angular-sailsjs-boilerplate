@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('frontend.controllers')
-        .controller('BooksController',
+        .controller('AuthorsController',
             [
                 '$scope', '$http', 'Auth', 'CurrentUser',
                 function($scope, $http, Auth, CurrentUser) {
@@ -10,10 +10,10 @@
                     $scope.user = CurrentUser.user;
 
                     $http
-                        .get('http://10.1.1.177:1337/book')
+                        .get('http://10.1.1.177:1337/author')
                         .then(
                             function(response) {
-                                $scope.books = response.data;
+                                $scope.authors = response.data;
                             }
                         );
                 }

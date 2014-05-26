@@ -66,7 +66,13 @@
                             url: '/books',
                             templateUrl: '/partials/books/main.html',
                             controller: 'BooksController'
-                        });
+                        })
+                        .state('board.authors', {
+                            url: '/authors',
+                            templateUrl: '/partials/authors/main.html',
+                            controller: 'AuthorsController'
+                        })
+                    ;
 
                     // For any unmatched url, redirect to /state1
                     $urlRouterProvider.otherwise('/login');
@@ -79,7 +85,7 @@
             '$rootScope', '$state', 'Auth',
             function($rootScope, $state, Auth) {
                 // And when ever route changes we must check authenticate status
-                $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+                $rootScope.$on('$stateChangeStart', function(event, toState) {
                     if (!Auth.authorize(toState.data.access)) {
                         event.preventDefault();
 

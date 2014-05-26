@@ -46,8 +46,8 @@
     angular.module('frontend.services')
         .factory('Auth',
             [
-                '$http', 'Storage', 'AccessLevels',
-                function($http, Storage, AccessLevels) {
+                '$http', '$state', 'Storage', 'AccessLevels',
+                function($http, $state, Storage, AccessLevels) {
                     return {
                         /**
                          * Method to authorize current user with given access level in application.
@@ -101,6 +101,8 @@
                          */
                         logout: function() {
                             Storage.unset('auth_token');
+
+                            $state.go('anon.login');
                         }
                     };
                 }

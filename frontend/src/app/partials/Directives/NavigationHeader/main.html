@@ -9,17 +9,20 @@
             </button>
         </div>
 
-        <ul id="navigation" class="nav nav-pills"
+        <ul id="navigation" class="nav navbar-nav"
             data-ng-show="auth.isAuthenticated()"
         >
-            <li>
-                {{user().firstName}} {{user().lastName}} ({{user().username}})
+            <li data-ui-sref-active="active">
+                <a href="#" data-ui-sref="board.books">Books</a>
+            </li>
+
+            <li data-ui-sref-active="active">
+                <a href="#" data-ui-sref="board.authors">Authors</a>
             </li>
 
             <li class="pull-right">
-                <a data-ng-click="logout()">Logout</a>
+                <a href="#" data-ng-click="logout()">Logout</a>
             </li>
         </ul>
-
     </div>
 </div>

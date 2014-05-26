@@ -1,0 +1,16 @@
+<h2>Authors</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Author</th>
+            <th>Books</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-ng-repeat="author in authors">
+            <td>{{author.firstName}} {{author.lastName}}</td>
+            <td>{{author.books.length}}</td>
+        </tr>
+    </tbody>
+</table>
