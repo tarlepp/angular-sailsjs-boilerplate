@@ -119,9 +119,17 @@ gulp.task('assets', function () {
 });
 
 /**
+ * Partials
+ */
+gulp.task('partials', function () {
+    return gulp.src('./src/app/partials/**')
+        .pipe(gulp.dest('./dist/partials'));
+});
+
+/**
  * Dist
  */
-gulp.task('dist', ['vendors', 'assets', 'styles-dist', 'scripts-dist'], function() {
+gulp.task('dist', ['vendors', 'assets', 'partials', 'styles-dist', 'scripts-dist'], function() {
     return gulp.src('./src/app/index.html')
         .pipe(g.inject(gulp.src('./dist/vendors.min.{js,css}'), {ignorePath: 'dist', starttag: '<!-- inject:vendor:{{ext}} -->'}))
         .pipe(g.inject(gulp.src('./dist/' + bower.name + '.min.{js,css}'), {ignorePath: 'dist'}))
@@ -133,8 +141,19 @@ gulp.task('dist', ['vendors', 'assets', 'styles-dist', 'scripts-dist'], function
  * Static file server
  */
 gulp.task('statics', g.serve({
-    port: 3000,
+    port: 3001,
     root: ['./.tmp', './src/app', './bower_components'],
+    middleware: function(req, res, next) {
+        return historyApiFallback(req, res, next);
+    }
+}));
+
+/**
+ * Production file server, note remember to run 'gulp dist' first!
+ */
+gulp.task('production', g.serve({
+    port: 3000,
+    root: ['./dist'],
     middleware: function(req, res, next) {
         return historyApiFallback(req, res, next);
     }

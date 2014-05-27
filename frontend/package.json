@@ -13,7 +13,7 @@
     "connect-history-api-fallback": "0.0.4"
   },
   "devDependencies": {
-    "gulp": "~3.5.5",
+    "gulp": "~3.6.2",
     "gulp-util": "~2.2.14",
     "gulp-jshint": "~1.5.0",
     "gulp-load-plugins": "~0.4.0",

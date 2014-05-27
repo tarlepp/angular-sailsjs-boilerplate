@@ -86,7 +86,7 @@
                          */
                         login: function(credentials) {
                             return $http
-                                .post('http://10.1.1.177:1337/login', credentials, {withCredentials: true})
+                                .post('http://wunder.sytes.net:1339/login', credentials, {withCredentials: true})
                                 .then(
                                     function(response) {
                                         Storage.set('auth_token', JSON.stringify(response.data));

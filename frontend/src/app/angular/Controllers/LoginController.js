@@ -16,10 +16,12 @@
             [
                 '$scope', '$state', 'Auth',
                 function($scope, $state, Auth) {
+                    // Already authenticated so redirect back to books list
                     if (Auth.isAuthenticated()) {
                         $state.go('board.books');
                     }
 
+                    // Initialize credentiasl
                     $scope.credentials = {
                         identifier: '',
                         password: ''

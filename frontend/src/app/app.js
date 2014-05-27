@@ -1,22 +1,41 @@
+/**
+ * Frontend application definition.
+ *
+ * This is the main file for the 'Frontend' application.
+ *
+ * @todo should these be done in separated files?
+ */
 (function() {
     'use strict';
 
+    // Create frontend module and specify dependencies for that
     angular.module('frontend', [
         'ngCookies',
         'ui.router',
         'ui.bootstrap',
+        'ui.bootstrap.showErrors',
+        'angularMoment',
         'frontend.controllers',
         'frontend.directives',
         'frontend.interceptors',
         'frontend.services',
     ]);
 
+    // Initialize used frontend specified modules
     angular.module('frontend.controllers', []);
     angular.module('frontend.directives', []);
     angular.module('frontend.filters', []);
     angular.module('frontend.interceptors', []);
     angular.module('frontend.services', []);
 
+    /**
+     * Configuration for frontend application, this contains following main sections:
+     *
+     *  1) Configure $httpProvider and $sailsSocketProvider
+     *  2) Set necessary HTTP and Socket interceptor(s)
+     *  3) Turn on HTML5 mode on application routes
+     *  4) Set up application routes
+     */
     angular.module('frontend')
         .config(
             [
@@ -26,6 +45,7 @@
 
                     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
+                    // Add interceptor for $http
                     $httpProvider
                         .interceptors
                             .push([
@@ -35,11 +55,12 @@
                                 }
                             ]);
 
+                    // Yeah we wanna to use HTML5 urls!
                     $locationProvider
                         .html5Mode(true)
                         .hashPrefix('!');
 
-                    // Now set up the states
+                    // Routes that are accessible by anyone
                     $stateProvider
                         .state('anon', {
                             abstract: true,
@@ -48,12 +69,17 @@
                                 access: AccessLevels.anon
                             }
                         })
+                        .state('anon.about', {
+                            url: '/about',
+                            templateUrl: '/partials/about/about.html'
+                        })
                         .state('anon.login', {
                             url: '/login',
-                            templateUrl: '/partials/login/main.html',
+                            templateUrl: '/partials/login/login.html',
                             controller: 'LoginController'
                         });
 
+                    // Routes that needs authenticated user
                     $stateProvider
                         .state('board', {
                             abstract: true,
@@ -64,22 +90,26 @@
                         })
                         .state('board.books', {
                             url: '/books',
-                            templateUrl: '/partials/books/main.html',
+                            templateUrl: '/partials/books/books.html',
                             controller: 'BooksController'
                         })
                         .state('board.authors', {
                             url: '/authors',
-                            templateUrl: '/partials/authors/main.html',
+                            templateUrl: '/partials/authors/authors.html',
                             controller: 'AuthorsController'
                         })
                     ;
 
                     // For any unmatched url, redirect to /state1
-                    $urlRouterProvider.otherwise('/login');
+                    $urlRouterProvider.otherwise('/about');
                 }
             ]
         );
 
+    /**
+     * Frontend application run hook configuration. This will attach auth status
+     * check whenever application changes URL states.
+     */
     angular.module('frontend')
         .run([
             '$rootScope', '$state', 'Auth',

@@ -4,12 +4,14 @@
     <thead>
         <tr>
             <th>Title</th>
+            <th>Year</th>
             <th>Author</th>
         </tr>
     </thead>
     <tbody>
         <tr data-ng-repeat="book in books">
             <td>{{book.title}}</td>
+            <td>{{book.releaseDate | amDateFormat: 'YYYY'}}</td>
             <td>{{book.author.firstName}} {{book.author.lastName}}</td>
         </tr>
     </tbody>

@@ -3,8 +3,9 @@
   padding: 15px;
   margin: 0 auto;
 
-  h2 {
+  .title {
     text-align: center;
+    font-size: 26px;
   }
 
   .checkbox {
@@ -17,11 +18,12 @@
     }
   }
 
+  .form-group {
+    margin-bottom: 0;
+  }
+
   .form-control {
     position: relative;
-    font-size: 16px;
-    height: auto;
-    padding: 10px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -37,13 +39,15 @@
   }
 
   input[type="text"] {
-    margin-bottom: -1px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
 
   input[type="password"] {
-    margin-bottom: 10px;
+    border-radius: 0;
+  }
+
+  .btn {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }

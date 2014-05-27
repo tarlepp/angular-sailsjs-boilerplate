@@ -11,8 +11,9 @@
         .directive('navigationHeader', function() {
             return {
                 restrict: 'E',
+                replace: true,
                 scope: {},
-                templateUrl: '/partials/Directives/NavigationHeader/main.html',
+                templateUrl: '/partials/Directives/NavigationHeader/header.html',
                 controller: [
                     '$scope', 'CurrentUser', 'Auth',
                     function($scope, CurrentUser, Auth) {
