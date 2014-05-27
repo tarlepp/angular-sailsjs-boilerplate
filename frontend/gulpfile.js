@@ -10,6 +10,7 @@ var gulp = require('gulp'),
     stylish = require('jshint-stylish'),
     bower = require('./bower'),
     historyApiFallback = require('connect-history-api-fallback'),
+    fs = require('fs'),
     isWatching = false;
 
 var htmlminOpts = {
@@ -18,6 +19,10 @@ var htmlminOpts = {
     removeEmptyAttributes: false,
     collapseBooleanAttributes: true,
     removeRedundantAttributes: true
+};
+
+var getPackageJson = function() {
+    return JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 };
 
 /**

@@ -4,10 +4,54 @@ body {
   font-family: 'PT Sans', sans-serif;
 }
 
+.container {
+  min-width: 100%;
+  max-width: 100%;
+}
+
 .main-container {
   margin-top: 50px;
 }
 
 header .navbar-nav {
   float: none;
+}
+
+footer {
+  .navbar {
+    min-height: 25px;
+    max-height: 25px;
+    text-align: center;
+
+    .navbar-nav {
+      float: none;
+
+      &> li {
+        float: none;
+        display: inline-block;
+
+        > a {
+          padding: 0 10px;
+          line-height: 25px;
+          font-size: 11px;
+
+          .fa {
+            position: relative;
+            top: 1px;
+            margin-right: 3px;
+            font-size: 14px;
+            color: #999999;
+          }
+
+          &:hover {
+            color: #3399f3;
+
+            .fa {
+              color: #337bd5;
+            }
+          }
+        }
+      }
+    }
+  }
 }
