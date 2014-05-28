@@ -1,13 +1,13 @@
 /**
  * Just an example controller to list all authors.
  *
- * @todo Refactor data fetching
+ * @todo Make service for data fetch.
  */
 (function() {
     'use strict';
 
-    angular.module('frontend.books')
-        .controller('BooksController',
+    angular.module('frontend.authors')
+        .controller('AuthorsController',
             [
                 '$scope', '$http', '$sailsSocket',
                 function($scope, $http, $sailsSocket) {
@@ -21,15 +21,14 @@
 
                     // Initialize used title items
                     $scope.titleItems = [
-                        {title: 'Title', column: 'title'},
-                        {title: 'Author', column: 'author'},
-                        {title: 'Year', column: 'releaseDate'}
+                        {title: 'Author', column: 'name'},
+                        {title: 'Books', column: false, class: 'text-right'}
                     ];
 
                     // Initialize default sort data
                     $scope.sort = {
-                        column: 'releaseDate',
-                        direction: false
+                        column: 'name',
+                        direction: true
                     };
 
                     // Function to change sort column / direction on list
@@ -63,14 +62,14 @@
 
                         // Fetch data count
                         $sailsSocket
-                            .get("http://wunder.sytes.net:1339/book/count/")
+                            .get("http://wunder.sytes.net:1339/author/count/")
                             .success(function(response) {
                                 $scope.itemCount = response.count;
                             });
 
                         // Fetch data items
                         $sailsSocket
-                            .get("http://wunder.sytes.net:1339/book/", {
+                            .get("http://wunder.sytes.net:1339/author/", {
                                 params: parameters
                             })
                             .success(function(response) {

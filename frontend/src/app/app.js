@@ -17,11 +17,12 @@
         'ui.bootstrap.showErrors',
         'angularMoment',
         'sails.io',
-        'frontend.books',
         'frontend.controllers',
         'frontend.directives',
         'frontend.interceptors',
         'frontend.services',
+        'frontend.books',
+        'frontend.authors'
     ]);
 
     // Initialize used frontend specified modules

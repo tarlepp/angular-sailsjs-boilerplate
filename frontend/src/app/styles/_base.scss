@@ -61,3 +61,7 @@ footer {
 .noSelect {
   @include noSelect();
 }
+
+.pagination {
+  margin: 0;
+}
