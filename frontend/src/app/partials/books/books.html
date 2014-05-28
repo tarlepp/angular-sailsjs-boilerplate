@@ -1,5 +1,15 @@
 <h2>Books ({{itemCount}})</h2>
 
+<pagination
+        data-total-items="itemCount"
+        data-ng-model="currentPage"
+        data-items-per-page="itemsPerPage"
+        data-max-size="10"
+        data-boundary-links="true"
+        data-rotate="false"
+        >
+</pagination>
+
 <table class="table">
     <thead class="noSelect">
         <tr>
@@ -26,12 +36,3 @@
         </tr>
     </tbody>
 </table>
-
-<pagination
-    data-total-items="itemCount"
-    data-ng-model="currentPage"
-    data-items-per-page="itemsPerPage"
-    data-max-size="10"
-    data-boundary-links="true"
-    data-rotate="false"
-></pagination>
