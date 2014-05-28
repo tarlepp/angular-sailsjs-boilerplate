@@ -21,7 +21,9 @@
     "passport-google": "~0.3.0",
     "bcrypt": "~0.7.8",
     "validator": "~3.12.0",
-    "jsonwebtoken": "~0.4.0"
+    "jsonwebtoken": "~0.4.0",
+    "barrels": "0.0.3",
+    "lodash": "~2.4.1"
   },
   "scripts": {
     "start": "node app.js",

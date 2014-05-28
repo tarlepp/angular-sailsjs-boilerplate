@@ -10,16 +10,9 @@ module.exports = {
     schema: true,
 
     attributes: {
-        firstName: {
+        name: {
             type: 'string',
             required: true
-        },
-        lastName: {
-            type: 'string',
-            required: true
-        },
-        email: {
-            type: 'email'
         },
         description: {
             type: 'text'

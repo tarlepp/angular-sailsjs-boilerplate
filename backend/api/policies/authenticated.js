@@ -19,8 +19,9 @@ module.exports = function(request, response, next) {
     } else if (request.param('token')) {
         token = request.param('token');
 
-        // We delete the token from param to not mess with blueprints
+        // We delete the token from query and body to not mess with blueprints
         delete request.query.token;
+        delete request.body.token;
     } else {
         return response.json(401, {message: 'No Authorization header was found'});
     }

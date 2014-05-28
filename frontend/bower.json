@@ -30,7 +30,8 @@
     "angular-cookies": "~1.2.16",
     "angular-moment": "~0.7.1",
     "angular-bootstrap-show-errors": "~1.0.0",
-    "angularSails": "*"
+    "angularSails": "*",
+    "angular-sanitize": "~1.2.16"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.14"

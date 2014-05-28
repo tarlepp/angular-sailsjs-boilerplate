@@ -110,6 +110,6 @@ module.exports.blueprints = {
     // DELETE /foos/:id?
     pluralize: false,
 
-    defaultLimit: 100,
+    defaultLimit: 10,
     populate: true
 };

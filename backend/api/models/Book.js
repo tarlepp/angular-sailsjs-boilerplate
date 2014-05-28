@@ -24,10 +24,6 @@ module.exports = {
         },
         author: {
             model: 'author'
-        },
-        chapters: {
-            collection: 'chapter',
-            via: 'book'
         }
     }
 };

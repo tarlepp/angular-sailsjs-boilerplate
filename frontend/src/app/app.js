@@ -11,10 +11,13 @@
     // Create frontend module and specify dependencies for that
     angular.module('frontend', [
         'ngCookies',
+        'ngSanitize',
         'ui.router',
         'ui.bootstrap',
         'ui.bootstrap.showErrors',
         'angularMoment',
+        'sails.io',
+        'frontend.books',
         'frontend.controllers',
         'frontend.directives',
         'frontend.interceptors',
@@ -36,24 +39,18 @@
      *  3) Turn on HTML5 mode on application routes
      *  4) Set up application routes
      */
-    angular.module('frontend')
-        .config(
-            [
-                '$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider', 'AccessLevels',
-                function($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider, AccessLevels) {
-                    $httpProvider.defaults.useXDomain = true;
+angular.module('frontend')
+    .config(
+        [
+            '$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider', '$sailsSocketProvider', 'AccessLevels',
+            function($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider, $sailsSocketProvider, AccessLevels) {
+                $httpProvider.defaults.useXDomain = true;
 
                     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
-                    // Add interceptor for $http
-                    $httpProvider
-                        .interceptors
-                            .push([
-                                '$injector',
-                                function($injector) {
-                                    return $injector.get('AuthInterceptor');
-                                }
-                            ]);
+                    // Add interceptor for $httpProvider and $sailsSocketProvider
+                    $httpProvider.interceptors.push("AuthInterceptor");
+                    $sailsSocketProvider.interceptors.push("AuthInterceptor");
 
                     // Yeah we wanna to use HTML5 urls!
                     $locationProvider

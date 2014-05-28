@@ -32,7 +32,18 @@
                                 token = angular.fromJson(Storage.get('auth_token')).token;
                             }
 
+                            // Yeah we have a token
                             if (token) {
+                                if (!config.data) {
+                                    config.data = {};
+                                }
+
+                                /**
+                                 * Set token to actual data and headers. Note that we need bot ways because of
+                                 * socket cannot modify headers anyway. These values are cleaned up in backend
+                                 * side policy (middleware).
+                                 */
+                                config.data.token = token;
                                 config.headers.Authorization = 'Bearer ' + token;
                             }
 

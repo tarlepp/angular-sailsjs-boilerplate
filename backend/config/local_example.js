@@ -18,16 +18,14 @@
  *      Good news is, that means you can specify configuration for your local
  *      machine in this file without inadvertently committing personal information
  *      (like database passwords) to the repo.  Plus, this prevents other members
- *      of your team from commiting their local configuration changes on top of yours.
+ *      of your team from committing their local configuration changes on top of yours.
  *
  * For more information, check out:
  * http://links.sailsjs.org/docs/config/local
  */
 module.exports = {
     connections: {
-        // If you leave the adapter config unspecified
-        // in a model definition, 'default' will be used.
-        // 'default': 'mysql',
+        // Add your connections here, remember install that adapter also
 
         // MySQL is the world's most popular relational database.
         // Learn more: http://en.wikipedia.org/wiki/MySQL
@@ -45,6 +43,6 @@ module.exports = {
     port: 1337,
     environment: 'development',
     log: {
-        level: 'verbose'
+        level: 'info'
     }
 };

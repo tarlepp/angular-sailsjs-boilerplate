@@ -1,18 +1,37 @@
-<h2>Books</h2>
+<h2>Books ({{itemCount}})</h2>
 
 <table class="table">
-    <thead>
+    <thead class="noSelect">
         <tr>
-            <th>Title</th>
-            <th>Year</th>
-            <th>Author</th>
+            <th class="text-nowrap"
+                data-ng-repeat="item in titleItems | filter:titleFilter"
+            >
+                <a
+                    data-ng-click="changeSort(item)"
+                    data-ng-bind-html="item.title"
+                ></a>
+
+                <i class="fa"
+                    data-ng-show="sort.column == item.column"
+                    data-ng-class="{'fa-angle-down': !sort.direction, 'fa-angle-up': sort.direction}"
+                ></i>
+            </th>
         </tr>
     </thead>
     <tbody>
-        <tr data-ng-repeat="book in books">
-            <td>{{book.title}}</td>
-            <td>{{book.releaseDate | amDateFormat: 'YYYY'}}</td>
-            <td>{{book.author.firstName}} {{book.author.lastName}}</td>
+        <tr data-ng-repeat="book in items">
+            <td class="col-md-9">{{book.title}}</td>
+            <td class="col-md-2">{{book.author.name}}</td>
+            <td class="col-md-1">{{book.releaseDate | amDateFormat: 'YYYY'}}</td>
         </tr>
     </tbody>
 </table>
+
+<pagination
+    data-total-items="itemCount"
+    data-ng-model="currentPage"
+    data-items-per-page="itemsPerPage"
+    data-max-size="10"
+    data-boundary-links="true"
+    data-rotate="false"
+></pagination>
