@@ -14,12 +14,7 @@
                 restrict: 'E',
                 replace: true,
                 scope: {},
-                templateUrl: '/partials/Directives/NavigationFooter/footer.html',
-                controller: [
-                    '$scope',
-                    function($scope) {
-                    }
-                ]
+                templateUrl: '/partials/Directives/NavigationFooter/footer.html'
             };
         });
 }());

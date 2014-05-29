@@ -5,8 +5,6 @@
  *
  * @see http://angular-tips.com/blog/2014/05/json-web-tokens-introduction/
  * @see http://angular-tips.com/blog/2014/05/json-web-tokens-examples/
- *
- * @todo Add error message show via some MessageService
  */
 (function() {
     'use strict';

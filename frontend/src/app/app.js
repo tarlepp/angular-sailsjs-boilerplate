@@ -21,8 +21,7 @@
         'frontend.directives',
         'frontend.interceptors',
         'frontend.services',
-        'frontend.books',
-        'frontend.authors'
+        'frontend.example'
     ]);
 
     // Initialize used frontend specified modules
@@ -31,6 +30,11 @@
     angular.module('frontend.filters', []);
     angular.module('frontend.interceptors', []);
     angular.module('frontend.services', []);
+    angular.module('frontend.example', [
+        'frontend.example.books',
+        'frontend.example.authors',
+        'frontend.example.messages'
+    ]);
 
     /**
      * Configuration for frontend application, this contains following main sections:
@@ -50,8 +54,10 @@ angular.module('frontend')
                     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
                     // Add interceptor for $httpProvider and $sailsSocketProvider
-                    $httpProvider.interceptors.push("AuthInterceptor");
-                    $sailsSocketProvider.interceptors.push("AuthInterceptor");
+                    $httpProvider.interceptors.push('AuthInterceptor');
+                    $httpProvider.interceptors.push('ErrorInterceptor');
+                    $sailsSocketProvider.interceptors.push('AuthInterceptor');
+                    $sailsSocketProvider.interceptors.push('ErrorInterceptor');
 
                     // Yeah we wanna to use HTML5 urls!
                     $locationProvider
@@ -75,26 +81,32 @@ angular.module('frontend')
                             url: '/login',
                             templateUrl: '/partials/login/login.html',
                             controller: 'LoginController'
-                        });
+                        })
+                    ;
 
                     // Routes that needs authenticated user
                     $stateProvider
-                        .state('board', {
+                        .state('example', {
                             abstract: true,
                             template: '<ui-view/>',
                             data: {
                                 access: AccessLevels.user
                             }
                         })
-                        .state('board.books', {
+                        .state('example.books', {
                             url: '/books',
                             templateUrl: '/partials/books/books.html',
                             controller: 'BooksController'
                         })
-                        .state('board.authors', {
+                        .state('example.authors', {
                             url: '/authors',
                             templateUrl: '/partials/authors/authors.html',
                             controller: 'AuthorsController'
+                        })
+                        .state('example.messages', {
+                            url: '/messages',
+                            templateUrl: '/partials/messages/messages.html',
+                            controller: 'MessagesController'
                         })
                     ;
 

@@ -1,0 +1,1 @@
+angular.module('frontend.example.messages', []);

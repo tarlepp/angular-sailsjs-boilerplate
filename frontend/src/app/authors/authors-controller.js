@@ -6,7 +6,7 @@
 (function() {
     'use strict';
 
-    angular.module('frontend.authors')
+    angular.module('frontend.example.authors')
         .controller('AuthorsController',
             [
                 '$scope', '$http', '$sailsSocket',
@@ -35,14 +35,14 @@
                     $scope.changeSort = function(item) {
                         var sort = $scope.sort;
 
-                        if (sort.column == item.column) {
+                        if (sort.column === item.column) {
                             sort.direction = !sort.direction;
                         } else {
                             sort.column = item.column;
                             sort.direction = true;
                         }
 
-                        if ($scope.currentPage == 1) {
+                        if ($scope.currentPage === 1) {
                             $scope.fetchData();
                         } else {
                             $scope.currentPage = 1;
@@ -62,14 +62,14 @@
 
                         // Fetch data count
                         $sailsSocket
-                            .get("http://wunder.sytes.net:1339/author/count/")
+                            .get('http://wunder.sytes.net:1339/author/count/')
                             .success(function(response) {
                                 $scope.itemCount = response.count;
                             });
 
                         // Fetch data items
                         $sailsSocket
-                            .get("http://wunder.sytes.net:1339/author/", {
+                            .get('http://wunder.sytes.net:1339/author/', {
                                 params: parameters
                             })
                             .success(function(response) {

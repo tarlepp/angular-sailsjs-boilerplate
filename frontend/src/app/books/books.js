@@ -1,1 +1,1 @@
-angular.module('frontend.books', []);
+angular.module('frontend.example.books', []);
