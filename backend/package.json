@@ -8,7 +8,6 @@
     "sails": "~0.10.0-rc7",
     "sails-disk": "~0.10.0",
     "sails-mysql": "~0.10.0-rc7",
-    "sails-generate-auth": "~0.1.4",
     "rc": "~0.3.3",
     "include-all": "~0.1.3",
     "ejs": "~0.8.4",
@@ -24,6 +23,9 @@
     "jsonwebtoken": "~0.4.0",
     "barrels": "0.0.3",
     "lodash": "~2.4.1"
+  },
+  "devDependencies": {
+    "sails-generate-auth": "~0.1.4"
   },
   "scripts": {
     "start": "node app.js",
