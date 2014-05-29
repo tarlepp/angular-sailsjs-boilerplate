@@ -18,7 +18,7 @@
                 function($scope, $state, Auth) {
                     // Already authenticated so redirect back to books list
                     if (Auth.isAuthenticated()) {
-                        $state.go('board.books');
+                        $state.go('example.books');
                     }
 
                     // Initialize credentiasl
@@ -33,7 +33,7 @@
                             .login($scope.credentials)
                             .then(
                                 function() {
-                                    $state.go('board.books');
+                                    $state.go('example.books');
                                 }
                             );
                     };

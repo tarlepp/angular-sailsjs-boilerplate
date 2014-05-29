@@ -47,7 +47,7 @@
                             } else if (response.data.message) {
                                 message = response.data.message;
                             } else {
-                                message = 'HTTP status ' + response.status;
+                                message = response.statusText + ' <span class="text-medium">(HTTP status ' + response.status + ')</span>';
                             }
 
                             if (message) {
