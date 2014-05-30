@@ -28,7 +28,6 @@
         <navigation-footer></navigation-footer>
 
         <!-- inject:vendor:js -->
-        <script src="/sails.io.js/dist/sails.io.js"></script>
         <script src="/jquery/dist/jquery.js"></script>
         <script src="/bootstrap/dist/js/bootstrap.js"></script>
         <script src="/bootswatch-dist/js/bootstrap.min.js"></script>
@@ -42,12 +41,16 @@
         <script src="/moment/moment.js"></script>
         <script src="/angular-moment/angular-moment.js"></script>
         <script src="/angular-bootstrap-show-errors/src/showErrors.js"></script>
-        <script src="/angularSails/dist/ngsails.io.js"></script>
         <script src="/angular-sanitize/angular-sanitize.js"></script>
+        <script src="/sails.io.js/dist/sails.io.js"></script>
+        <script src="/angularSails/dist/ngsails.io.js"></script>
         <!-- endinject -->
 
         <!-- TODO: Add here your backend API URL without trailing slashes -->
-        <script>io.sails.url = '';</script>
+        <script>
+            io.sails.useCORSRouteToGetCookie = false;
+            io.sails.url = 'http://wunder.sytes.net:1339';
+        </script>
 
         <!-- inject:js -->
         <script src="/app.js"></script>

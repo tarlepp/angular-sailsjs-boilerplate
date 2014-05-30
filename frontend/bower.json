@@ -19,7 +19,6 @@
     "src"
   ],
   "dependencies": {
-    "sails.io.js": "~0.10.0-rc4",
     "bootstrap": "~3.1.1",
     "bootswatch-dist": "3.1.1-spacelab",
     "fontawesome": "~4.1.0",
@@ -32,8 +31,9 @@
     "angular-cookies": "~1.2.16",
     "angular-moment": "~0.7.1",
     "angular-bootstrap-show-errors": "~1.0.0",
-    "angularSails": "*",
-    "angular-sanitize": "~1.2.16"
+    "angular-sanitize": "~1.2.16",
+    "sails.io.js": "~0.10.0-rc4",
+    "angularSails": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.14"
