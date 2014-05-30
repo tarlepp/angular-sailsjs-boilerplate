@@ -25,7 +25,7 @@
                          * @returns {Promise}
                          */
                         response: function(response) {
-                            if (response.data.status && response.data.status != 200) {
+                            if (response.data.status && response.data.status !== 200) {
                                 return $q.reject(response);
                             } else {
                                 return response || $q.when(response);
@@ -56,7 +56,7 @@
 
                             return $q.reject(response);
                         }
-                    }
+                    };
                 }
             ]
         );

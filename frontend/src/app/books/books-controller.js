@@ -9,9 +9,10 @@
     angular.module('frontend.example.books')
         .controller('BooksController',
             [
-                '$scope', '$http', '$sailsSocket',
-                function($scope, $http, $sailsSocket) {
+                '$scope', 'DataService',
+                function($scope, DataService) {
                     // Initialize data
+                    $scope.endPoint = 'book';
                     $scope.itemCount = 0;
                     $scope.items = [];
                     $scope.itemsPerPage = 10;
@@ -62,17 +63,15 @@
                         };
 
                         // Fetch data count
-                        $sailsSocket
-                            .get('http://wunder.sytes.net:1339/book/count/')
+                        DataService
+                            .count($scope.endPoint)
                             .success(function(response) {
                                 $scope.itemCount = response.count;
                             });
 
-                        // Fetch data items
-                        $sailsSocket
-                            .get('http://wunder.sytes.net:1339/book/', {
-                                params: parameters
-                            })
+                        // Fetch actual data
+                        DataService
+                            .get($scope.endPoint, parameters)
                             .success(function(response) {
                                 $scope.items = response;
 

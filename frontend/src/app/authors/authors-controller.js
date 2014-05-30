@@ -1,7 +1,5 @@
 /**
  * Just an example controller to list all authors.
- *
- * @todo Make service for data fetch.
  */
 (function() {
     'use strict';
@@ -9,9 +7,10 @@
     angular.module('frontend.example.authors')
         .controller('AuthorsController',
             [
-                '$scope', '$http', '$sailsSocket',
-                function($scope, $http, $sailsSocket) {
+                '$scope', 'DataService',
+                function($scope, DataService) {
                     // Initialize data
+                    $scope.endPoint = 'author';
                     $scope.itemCount = 0;
                     $scope.items = [];
                     $scope.itemsPerPage = 10;
@@ -61,17 +60,15 @@
                         };
 
                         // Fetch data count
-                        $sailsSocket
-                            .get('http://wunder.sytes.net:1339/author/count/')
+                        DataService
+                            .count($scope.endPoint)
                             .success(function(response) {
                                 $scope.itemCount = response.count;
                             });
 
-                        // Fetch data items
-                        $sailsSocket
-                            .get('http://wunder.sytes.net:1339/author/', {
-                                params: parameters
-                            })
+                        // Fetch actual data
+                        DataService
+                            .get($scope.endPoint, parameters)
                             .success(function(response) {
                                 $scope.items = response;
 
