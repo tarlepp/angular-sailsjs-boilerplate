@@ -17,6 +17,7 @@
  * views.
  *
  * Usage example in controller:
+ *
  *  angular
  *      .module('app')
  *      .controller('SomeController',
@@ -30,6 +31,7 @@
  *      );
  *
  * Usage example in view:
+ *
  *  <div data-ng-show="auth.isAuthenticated()">
  *      Hello, <strong>{{user().email}}</strong>
  *  </div>
@@ -38,7 +40,6 @@
  *
  * @todo    Revoke method?
  * @todo    Admin right?
- * @todo    Hardcoded backend url.
  */
 (function() {
     'use strict';
@@ -46,8 +47,8 @@
     angular.module('frontend.services')
         .factory('Auth',
             [
-                '$http', '$state', 'Storage', 'AccessLevels',
-                function($http, $state, Storage, AccessLevels) {
+                '$http', '$state', 'Storage', 'AccessLevels', 'BackendConfig',
+                function($http, $state, Storage, AccessLevels, BackendConfig) {
                     return {
                         /**
                          * Method to authorize current user with given access level in application.
@@ -86,12 +87,10 @@
                          */
                         login: function(credentials) {
                             return $http
-                                .post('http://wunder.sytes.net:1339/login', credentials, {withCredentials: true})
-                                .then(
-                                    function(response) {
-                                        Storage.set('auth_token', JSON.stringify(response.data));
-                                    }
-                                );
+                                .post(BackendConfig.url + '/login', credentials, {withCredentials: true})
+                                .success(function(response) {
+                                    Storage.set('auth_token', JSON.stringify(response));
+                                });
                         },
 
                         /**

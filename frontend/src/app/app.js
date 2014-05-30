@@ -47,74 +47,78 @@
 angular.module('frontend')
     .config(
         [
-            '$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider', '$sailsSocketProvider', 'AccessLevels',
-            function($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider, $sailsSocketProvider, AccessLevels) {
+            '$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider', '$sailsSocketProvider',
+            'AccessLevels',
+            function($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider, $sailsSocketProvider,
+                     AccessLevels
+            ) {
                 $httpProvider.defaults.useXDomain = true;
 
-                    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+                delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
-                    // Add interceptor for $httpProvider and $sailsSocketProvider
-                    $httpProvider.interceptors.push('AuthInterceptor');
-                    $httpProvider.interceptors.push('ErrorInterceptor');
-                    $sailsSocketProvider.interceptors.push('AuthInterceptor');
-                    $sailsSocketProvider.interceptors.push('ErrorInterceptor');
+                // Add interceptors for $httpProvider and $sailsSocketProvider
+                $httpProvider.interceptors.push('AuthInterceptor');
+                $httpProvider.interceptors.push('ErrorInterceptor');
+                $sailsSocketProvider.interceptors.push('AuthInterceptor');
+                $sailsSocketProvider.interceptors.push('ErrorInterceptor');
 
-                    // Yeah we wanna to use HTML5 urls!
-                    $locationProvider
-                        .html5Mode(true)
-                        .hashPrefix('!');
+                // Yeah we wanna to use HTML5 urls!
+                $locationProvider
+                    .html5Mode(true)
+                    .hashPrefix('!')
+                ;
 
-                    // Routes that are accessible by anyone
-                    $stateProvider
-                        .state('anon', {
-                            abstract: true,
-                            template: '<ui-view/>',
-                            data: {
-                                access: AccessLevels.anon
-                            }
-                        })
-                        .state('anon.about', {
-                            url: '/about',
-                            templateUrl: '/partials/about/about.html'
-                        })
-                        .state('anon.login', {
-                            url: '/login',
-                            templateUrl: '/partials/login/login.html',
-                            controller: 'LoginController'
-                        })
-                    ;
+                // Routes that are accessible by anyone
+                $stateProvider
+                    .state('anon', {
+                        abstract: true,
+                        template: '<ui-view/>',
+                        data: {
+                            access: AccessLevels.anon
+                        }
+                    })
+                    .state('anon.about', {
+                        url: '/about',
+                        templateUrl: '/partials/about/about.html'
+                    })
+                    .state('anon.login', {
+                        url: '/login',
+                        templateUrl: '/partials/login/login.html',
+                        controller: 'LoginController'
+                    })
+                ;
 
-                    // Routes that needs authenticated user
-                    $stateProvider
-                        .state('example', {
-                            abstract: true,
-                            template: '<ui-view/>',
-                            data: {
-                                access: AccessLevels.user
-                            }
-                        })
-                        .state('example.books', {
-                            url: '/books',
-                            templateUrl: '/partials/books/books.html',
-                            controller: 'BooksController'
-                        })
-                        .state('example.authors', {
-                            url: '/authors',
-                            templateUrl: '/partials/authors/authors.html',
-                            controller: 'AuthorsController'
-                        })
-                        .state('example.messages', {
-                            url: '/messages',
-                            templateUrl: '/partials/messages/messages.html',
-                            controller: 'MessagesController'
-                        })
-                    ;
+                // Routes that needs authenticated user
+                $stateProvider
+                    .state('example', {
+                        abstract: true,
+                        template: '<ui-view/>',
+                        data: {
+                            access: AccessLevels.user
+                        }
+                    })
+                    .state('example.books', {
+                        url: '/books',
+                        templateUrl: '/partials/books/books.html',
+                        controller: 'BooksController'
+                    })
+                    .state('example.authors', {
+                        url: '/authors',
+                        templateUrl: '/partials/authors/authors.html',
+                        controller: 'AuthorsController'
+                    })
+                    .state('example.messages', {
+                        url: '/messages',
+                        templateUrl: '/partials/messages/messages.html',
+                        controller: 'MessagesController'
+                    })
+                ;
 
-                    // For any unmatched url, redirect to /state1
-                    $urlRouterProvider.otherwise('/about');
-                }
-            ]
-        );
+                // For any unmatched url, redirect to /state1
+                $urlRouterProvider.otherwise('/about');
+            }
+        ]
+    );
 
     /**
      * Frontend application run hook configuration. This will attach auth status

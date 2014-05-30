@@ -7,8 +7,8 @@
     angular.module('frontend.example.messages')
         .controller('MessagesController',
             [
-                '$scope', '$http', '$sailsSocket', 'Message',
-                function($scope, $http, $sailsSocket, Message) {
+                '$scope', '$http', '$sailsSocket', 'Message', 'BackendConfig',
+                function($scope, $http, $sailsSocket, Message, BackendConfig) {
                     $scope.message = '';
                     $scope.type = 'default';
                     $scope.messageTypes = [
@@ -21,8 +21,8 @@
                     };
 
                     var urls = [
-                        'http://wunder.sytes.net:1339/Basdfasdf',
-                        'http://wunder.sytes.net:1339/Book/123123123'
+                        BackendConfig.url + '/Basdfasdf',
+                        BackendConfig.url + '/Book/123123123'
                     ];
 
                     $scope.makeInvalidHttpRequest = function(type) {
