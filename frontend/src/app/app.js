@@ -33,7 +33,8 @@
     angular.module('frontend.example', [
         'frontend.example.books',
         'frontend.example.authors',
-        'frontend.example.messages'
+        'frontend.example.messages',
+        'frontend.example.chat'
     ]);
 
     /**
@@ -111,6 +112,11 @@ angular.module('frontend')
                         url: '/messages',
                         templateUrl: '/partials/messages/messages.html',
                         controller: 'MessagesController'
+                    })
+                    .state('example.chat', {
+                        url: '/chat',
+                        templateUrl: '/partials/chat/chat.html',
+                        controller: 'ChatController'
                     })
                 ;
 

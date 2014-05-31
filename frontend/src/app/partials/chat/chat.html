@@ -1,0 +1,63 @@
+<template src="layout/example.navigation"></template>
+
+<div class="chat-enter"
+    data-ng-show="!message.nick"
+>
+    <h4>Enter a nick</h4>
+
+
+    <div class="input-group col-md-4">
+        <input id="message" name="message" class="form-control" type="text" placeholder="Enter a nickname"
+           data-key-press="enterToChat()"
+           data-key-code="13"
+           data-ng-model="nick"
+        />
+        <span class="input-group-btn">
+            <button class="btn btn-primary" type="button"
+                data-ng-click="enterToChat()"
+            >Enter to chat</button>
+        </span>
+    </div>
+
+</div>
+
+<div class="chat"
+    data-ng-show="message.nick"
+>
+    <div class="row">
+        <div id="messages" class="col-md-12 messages chat-screen">
+            <ul class="list-unstyled">
+                <li class="clearfix"
+                    data-ng-repeat="message in messages | orderBy: 'createdAt'"
+                >
+                    <span class="pull-left time text-muted">
+                        <code>[{{message.createdAt | amDateFormat:'HH:mm:ss'}}]</code>
+                    </span>
+
+                    <span class="pull-left message">
+                        <span class="text-info">{{message.nick}}</span>
+                        {{message.message}}
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-group col-md-12">
+            <span class="input-group-addon">
+                {{message.nick}}
+            </span>
+            <input id="message" name="message" class="form-control" type="text"
+                data-key-press="postMessage()"
+                data-key-code="13"
+                data-ng-model="message.message"
+            />
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button"
+                    data-ng-click="postMessage()"
+                >Send message</button>
+            </span>
+        </div>
+    </div>
+</div>
