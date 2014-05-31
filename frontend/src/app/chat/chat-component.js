@@ -21,7 +21,7 @@
                 function($timeout) {
                     return {
                         restrict: 'C',
-                        link: function(scope, element, attributes) {
+                        link: function(scope, element) {
                             var resize = function() {
                                 var totalHeight =  angular.element(document).height() - 170;
 
@@ -139,7 +139,7 @@
                         );
 
                     $scope.enterToChat = function() {
-                        if ($scope.nick != '') {
+                        if ($scope.nick !== '') {
                             $scope.message.nick = $scope.nick;
 
                             Storage.set('chat.nick', $scope.nick);
@@ -150,7 +150,7 @@
 
                     // Function to post a new message
                     $scope.postMessage = function() {
-                        if ($scope.message.message != '') {
+                        if ($scope.message.message !== '') {
                             Messages
                                 .send($scope.message)
                                 .success(
@@ -161,7 +161,7 @@
                                     }
                                 );
                         }
-                    }
+                    };
                 }
             ]
         );

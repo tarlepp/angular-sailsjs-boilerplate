@@ -5,7 +5,6 @@
  * After successfully login Auth service will store user data and JWT token via 'Storage'
  * service where those are asked whenever needed in application.
  *
- * @todo    Error handling? Maybe via MessageService?
  * @todo    Different authentication providers?
  */
 (function() {

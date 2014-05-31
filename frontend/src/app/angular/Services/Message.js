@@ -67,7 +67,7 @@
 
                     var defaultOptions = {
                         text: message,
-                        layout: "top",
+                        layout: 'top',
                         timeout: 3000
                     };
 

@@ -1,1 +1,5 @@
-angular.module('frontend.example.authors', []);
+(function() {
+    'use strict';
+
+    angular.module('frontend.example.authors', []);
+}());

@@ -20,8 +20,8 @@
     angular.module('frontend.directives')
         .directive('keyPress', function() {
             return function(scope, element, attributes) {
-                element.bind("keydown keypress", function(event) {
-                    if (event.which == attributes.keyCode) {
+                element.bind('keydown keypress', function(event) {
+                    if (event.which === parseInt(attributes.keyCode)) {
                         scope.$apply(function() {
                             scope.$eval(attributes.keyPress, {'event': event});
                         });
