@@ -36,7 +36,7 @@
 
                     <span class="pull-left message">
                         <span class="text-info">{{message.nick}}</span>
-                        {{message.message}}
+                        <span data-ng-bind-html="message.message | linkify"></span>
                     </span>
                 </li>
             </ul>

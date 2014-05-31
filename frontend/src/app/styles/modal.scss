@@ -26,6 +26,22 @@
   padding: 0;
   overflow-x: auto;
   overflow-y: scroll;
+
+  h1, h2, h3, h4, h5, h5 {
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+
+  &.modal-help {
+    padding: 15px;
+
+    p, ul {
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+  }
 }
 
 .modal-footer {

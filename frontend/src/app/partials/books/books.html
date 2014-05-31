@@ -16,7 +16,7 @@
 <table class="table">
     <thead class="noSelect">
         <tr>
-            <th class="text-nowrap"
+            <th class="text-nowrap {{item.class}}"
                 data-ng-repeat="item in titleItems | filter:titleFilter"
             >
                 <a
@@ -40,7 +40,7 @@
         <tr data-ng-repeat="book in items">
             <td class="col-md-9">{{book.title}}</td>
             <td class="col-md-2">{{book.author.name}}</td>
-            <td class="col-md-1">{{book.releaseDate | amDateFormat: 'YYYY'}}</td>
+            <td class="col-md-1 text-right">{{book.releaseDate | amDateFormat: 'YYYY'}}</td>
         </tr>
     </tbody>
 </table>

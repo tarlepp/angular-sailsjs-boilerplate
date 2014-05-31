@@ -16,6 +16,7 @@
         'ui.bootstrap',
         'ui.bootstrap.showErrors',
         'angularMoment',
+        'linkify',
         'sails.io',
         'frontend.controllers',
         'frontend.directives',

@@ -7,8 +7,8 @@
     angular.module('frontend.example.authors')
         .controller('AuthorsController',
             [
-                '$scope', 'DataService',
-                function($scope, DataService) {
+                '$scope', '$modal', 'DataService',
+                function($scope, $modal, DataService) {
                     // Initialize data
                     $scope.endPoint = 'author';
                     $scope.itemCount = 0;
@@ -80,6 +80,23 @@
                     $scope.$watch('currentPage', function() {
                         $scope.fetchData();
                     });
+
+                    // Help function for this controller
+                    $scope.showHelp = function() {
+                        $modal.open({
+                            templateUrl: '/partials/layout/help.html',
+                            controller: 'InfoController',
+                            size: 'lg',
+                            resolve: {
+                                title: function() {
+                                    return 'Information about "Authors" GUI';
+                                },
+                                section: function() {
+                                    return 'authors';
+                                }
+                            }
+                        });
+                    };
                 }
             ]
         );

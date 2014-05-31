@@ -9,8 +9,8 @@
     angular.module('frontend.example.books')
         .controller('BooksController',
             [
-                '$scope', 'DataService',
-                function($scope, DataService) {
+                '$scope', '$modal', 'DataService',
+                function($scope, $modal, DataService) {
                     // Initialize data
                     $scope.endPoint = 'book';
                     $scope.itemCount = 0;
@@ -24,7 +24,7 @@
                     $scope.titleItems = [
                         {title: 'Title', column: 'title'},
                         {title: 'Author', column: 'author'},
-                        {title: 'Year', column: 'releaseDate'}
+                        {title: 'Year', column: 'releaseDate', 'class': 'text-right'}
                     ];
 
                     // Initialize default sort data
@@ -83,6 +83,23 @@
                     $scope.$watch('currentPage', function() {
                         $scope.fetchData();
                     });
+
+                    // Help function for this controller
+                    $scope.showHelp = function() {
+                        $modal.open({
+                            templateUrl: '/partials/layout/help.html',
+                            controller: 'InfoController',
+                            size: 'lg',
+                            resolve: {
+                                title: function() {
+                                    return 'Information about "Books" GUI';
+                                },
+                                section: function() {
+                                    return 'books';
+                                }
+                            }
+                        });
+                    };
                 }
             ]
         );

@@ -1,0 +1,60 @@
+<h4>General info</h4>
+
+<p>
+    This GUI demonstrates how you can use <code>$sailsSocket</code> service to fetch data from backend for
+    your GUI and how you can use <code>ui.bootstrap.pagination</code> component for that data. Also this will
+    demonstrate how you can sort that data by simply click table header.
+</p>
+
+<p>
+    This GUI has following basic actions attached to it.
+</p>
+
+<ul>
+    <li>Data fetch from server via WebSocket communications</li>
+    <li>Data pagination</li>
+    <li>Data sort by column</li>
+</ul>
+
+<p>
+    Every time when user changes <em>page</em> or <em>sort order</em> data is been fetched from server via
+    <code>$sailsSocket</code>. Used codes for this GUI is listed below.
+</p>
+
+<h4>Backend</h4>
+
+<ul class="list-unstyled">
+    <li>
+        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/backend/api/models/Author.js" target="_blank">Author.js</a>
+        <span class="text-muted">(model)</span>
+    </li>
+    <li>
+        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/backend/api/controllers/AuthorController.js" target="_blank">AuthorController.js</a>
+        <span class="text-muted">(controller)</span>
+    </li>
+    <li>
+        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/backend/api/base/controller.js" target="_blank">controller.js</a>
+        <span class="text-muted">(base controller)</span>
+    </li>
+    <li>
+        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/backend/test/fixtures/Author.json" target="_blank">Author.json</a>
+        <span class="text-muted">(initial data)</span>
+    </li>
+</ul>
+
+<h4>Frontend</h4>
+
+<ul class="list-unstyled">
+    <li>
+        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/frontend/src/app/authors/authors.js" target="_blank">authors.js</a>
+        <span class="text-muted">(module configuration)</span>
+    </li>
+    <li>
+        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/frontend/src/app/authors/authors-controller.js" target="_blank">authors-controller.js</a>
+        <span class="text-muted">(controller)</span>
+    </li>
+    <li>
+        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/frontend/src/app/angular/Services/DataService.js" target="_blank">DataService.js</a>
+        <span class="text-muted">(data service)</span>
+    </li>
+</ul>

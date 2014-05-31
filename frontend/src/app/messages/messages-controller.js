@@ -7,8 +7,8 @@
     angular.module('frontend.example.messages')
         .controller('MessagesController',
             [
-                '$scope', '$http', '$sailsSocket', 'Message', 'BackendConfig',
-                function($scope, $http, $sailsSocket, Message, BackendConfig) {
+                '$scope', '$http', '$sailsSocket', '$modal', 'Message', 'BackendConfig',
+                function($scope, $http, $sailsSocket, $modal, Message, BackendConfig) {
                     $scope.message = '';
                     $scope.type = 'default';
                     $scope.messageTypes = [
@@ -31,6 +31,23 @@
 
                     $scope.makeInvalidSailsSocketRequest = function(type) {
                         $sailsSocket.get(urls[type]);
+                    };
+
+                    // Help function for this controller
+                    $scope.showHelp = function() {
+                        $modal.open({
+                            templateUrl: '/partials/layout/help.html',
+                            controller: 'InfoController',
+                            size: 'lg',
+                            resolve: {
+                                title: function() {
+                                    return 'Information about "Messages" GUI';
+                                },
+                                section: function() {
+                                    return 'messages';
+                                }
+                            }
+                        });
                     };
                 }
             ]
