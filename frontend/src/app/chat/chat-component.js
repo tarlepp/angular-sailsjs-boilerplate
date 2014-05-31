@@ -106,8 +106,8 @@
     angular.module('frontend.example.chat')
         .controller('ChatController',
             [
-                '$scope', '$timeout', 'Messages', 'Storage',
-                function($scope, $timeout, Messages, Storage) {
+                '$scope', '$timeout', '$modal', 'Messages', 'Storage',
+                function($scope, $timeout, $modal, Messages, Storage) {
                     $scope.nick = Storage.get('chat.nick');
                     $scope.message = {
                         nick: $scope.nick,
@@ -161,6 +161,23 @@
                                     }
                                 );
                         }
+                    };
+
+                    // Help function for this controller
+                    $scope.showHelp = function() {
+                        $modal.open({
+                            templateUrl: '/partials/layout/help.html',
+                            controller: 'InfoController',
+                            size: 'lg',
+                            resolve: {
+                                title: function() {
+                                    return 'Information about "Chat" GUI';
+                                },
+                                section: function() {
+                                    return 'chat';
+                                }
+                            }
+                        });
                     };
                 }
             ]
