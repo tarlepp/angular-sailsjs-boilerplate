@@ -118,7 +118,7 @@ function index() {
 /**
  * Assets
  */
-gulp.task('assets', function () {
+gulp.task('assets', function() {
     return gulp.src('./src/app/assets/**')
         .pipe(gulp.dest('./dist/assets'));
 });
@@ -126,15 +126,23 @@ gulp.task('assets', function () {
 /**
  * Partials
  */
-gulp.task('partials', function () {
+gulp.task('partials', function() {
     return gulp.src('./src/app/partials/**')
         .pipe(gulp.dest('./dist/partials'));
 });
 
 /**
+ * Fonts
+ */
+gulp.task('fonts', function() {
+    return gulp.src('./bower_components/fontawesome/fonts/**')
+        .pipe(gulp.dest('./dist/fonts'));
+});
+
+/**
  * Dist
  */
-gulp.task('dist', ['vendors', 'assets', 'partials', 'styles-dist', 'scripts-dist'], function() {
+gulp.task('dist', ['vendors', 'assets', 'partials', 'fonts', 'styles-dist', 'scripts-dist'], function() {
     return gulp.src('./src/app/index.html')
         .pipe(g.inject(gulp.src('./dist/vendors.min.{js,css}'), {ignorePath: 'dist', starttag: '<!-- inject:vendor:{{ext}} -->'}))
         .pipe(g.inject(gulp.src('./dist/' + bower.name + '.min.{js,css}'), {ignorePath: 'dist'}))
