@@ -20,7 +20,7 @@
 
                     // Getter function for content template
                     $scope.getContentTemplate = function() {
-                        return '/partials/' + $scope.section + '/info.html';
+                        return '/frontend/' + $scope.section + '/info.html';
                     };
                 }
             ]

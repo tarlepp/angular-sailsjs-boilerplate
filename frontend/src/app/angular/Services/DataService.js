@@ -48,8 +48,6 @@
                         count: function(endPoint, parameters) {
                             parameters = parameters || {};
 
-                            console.log(parseEndPointUrl(endPoint));
-
                             return $sailsSocket.get(parseEndPointUrl(endPoint) + '/count/', parseParameters(parameters));
                         },
 

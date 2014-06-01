@@ -13,7 +13,7 @@
                 restrict: 'E',
                 replace: true,
                 scope: {},
-                templateUrl: '/partials/Directives/NavigationHeader/header.html',
+                templateUrl: '/frontend/partials/Directives/NavigationHeader/header.html',
                 controller: [
                     '$scope', 'CurrentUser', 'Auth',
                     function($scope, CurrentUser, Auth) {

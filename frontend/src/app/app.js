@@ -17,6 +17,7 @@
         'ui.bootstrap.showErrors',
         'angularMoment',
         'linkify',
+        'frontend-templates',
         'sails.io',
         'frontend.controllers',
         'frontend.directives',
@@ -81,11 +82,11 @@ angular.module('frontend')
                     })
                     .state('anon.about', {
                         url: '/about',
-                        templateUrl: '/partials/about/about.html'
+                        templateUrl: '/frontend/about/about.html'
                     })
                     .state('anon.login', {
                         url: '/login',
-                        templateUrl: '/partials/login/login.html',
+                        templateUrl: '/frontend/login/login.html',
                         controller: 'LoginController'
                     })
                 ;
@@ -101,22 +102,22 @@ angular.module('frontend')
                     })
                     .state('example.books', {
                         url: '/books',
-                        templateUrl: '/partials/books/books.html',
+                        templateUrl: '/frontend/books/books.html',
                         controller: 'BooksController'
                     })
                     .state('example.authors', {
                         url: '/authors',
-                        templateUrl: '/partials/authors/authors.html',
+                        templateUrl: '/frontend/authors/authors.html',
                         controller: 'AuthorsController'
                     })
                     .state('example.messages', {
                         url: '/messages',
-                        templateUrl: '/partials/messages/messages.html',
+                        templateUrl: '/frontend/messages/messages.html',
                         controller: 'MessagesController'
                     })
                     .state('example.chat', {
                         url: '/chat',
-                        templateUrl: '/partials/chat/chat.html',
+                        templateUrl: '/frontend/chat/chat.html',
                         controller: 'ChatController'
                     })
                 ;

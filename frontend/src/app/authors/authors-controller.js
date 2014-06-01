@@ -84,7 +84,7 @@
                     // Help function for this controller
                     $scope.showHelp = function() {
                         $modal.open({
-                            templateUrl: '/partials/layout/help.html',
+                            templateUrl: '/frontend/info/help.html',
                             controller: 'InfoController',
                             size: 'lg',
                             resolve: {
