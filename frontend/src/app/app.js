@@ -10,7 +10,6 @@
 
     // Create frontend module and specify dependencies for that
     angular.module('frontend', [
-        'ngCookies',
         'ngSanitize',
         'ui.router',
         'ui.bootstrap',
