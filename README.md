@@ -87,6 +87,10 @@ gulp dist
 gulp production
 </pre>
 
+## Demo
+This might be up and running... or not.
+http://wunder.sytes.net:3000/
+
 ## Author
 Tarmo Leppänen
 
