@@ -5,10 +5,10 @@ Modern web applications has separated front- and backend sides to use. This boil
 
 ### Main goals of this boilerplate
 * Separate back- and frontend development
-* Light frontside application
+* Light frontend application
 * Authenticate with backend (possible multiple ways: local, github, twitter, etc.)
 * Power of AngularJS + WebSockets
-???
+* Simple examples how to use these
 
 ### Directory structure
 ```
