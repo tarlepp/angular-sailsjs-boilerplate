@@ -10,8 +10,8 @@
     angular.module('frontend.services')
         .factory('DataService',
             [
-                '$sailsSocket', 'BackendConfig',
-                function($sailsSocket, BackendConfig) {
+                '$q', '$sailsSocket', 'BackendConfig',
+                function($q, $sailsSocket, BackendConfig) {
                     /**
                      * Helper function to get "proper" end point url for sails backend API.
                      *
@@ -52,7 +52,8 @@
                         },
 
                         /**
-                         * Service method to get data from certain end point.
+                         * Service method to get data from certain end point. This will always return a collection
+                         * of data.
                          *
                          * @param   {string}    endPoint    Name of the end point
                          * @param   {{}}        parameters  Used query parameters
@@ -63,6 +64,29 @@
                             parameters = parameters || {};
 
                             return $sailsSocket.get(parseEndPointUrl(endPoint), parseParameters(parameters));
+                        },
+
+                        /**
+                         * Service method to get data from certain end point. This will return just a one
+                         * record as an object.
+                         *
+                         * @param   {string}    endPoint    Name of the end point
+                         * @param   {{}}        parameters  Used query parameters
+                         *
+                         * @returns {HttpPromise}
+                         */
+                        getOne: function(endPoint, parameters) {
+                            parameters = parameters || {};
+
+                            var deferred = $q.defer();
+
+                            $sailsSocket
+                                .get(parseEndPointUrl(endPoint), parseParameters(parameters))
+                                .success(function(data) {
+                                    deferred.resolve(data[0] || data);
+                                });
+
+                            return deferred.promise;
                         }
                     };
                 }
