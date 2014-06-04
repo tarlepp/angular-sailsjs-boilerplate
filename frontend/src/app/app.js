@@ -20,6 +20,7 @@
         'sails.io',
         'frontend.controllers',
         'frontend.directives',
+        'frontend.filters',
         'frontend.interceptors',
         'frontend.services',
         'frontend.example'
@@ -32,6 +33,7 @@
     angular.module('frontend.interceptors', []);
     angular.module('frontend.services', []);
     angular.module('frontend.example', [
+        'frontend.example.book',
         'frontend.example.books',
         'frontend.example.authors',
         'frontend.example.messages',
@@ -103,6 +105,19 @@ angular.module('frontend')
                         url: '/books',
                         templateUrl: '/frontend/books/books.html',
                         controller: 'BooksController'
+                    })
+                    .state('example.book', {
+                        url: '/book/:bookTitle',
+                        templateUrl: '/frontend/book/book.html',
+                        controller: 'BookController',
+                        resolve: {
+                            book: [
+                                '$stateParams','DataService',
+                                function($stateParams, DataService) {
+                                    return DataService.getOne('book', {title: $stateParams.bookTitle});
+                                }
+                            ]
+                        }
                     })
                     .state('example.authors', {
                         url: '/authors',

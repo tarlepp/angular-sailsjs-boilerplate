@@ -1,7 +1,5 @@
 /**
- * Just an example controller to list all authors.
- *
- * @todo Refactor data fetching
+ * Just an example controller to list all books.
  */
 (function() {
     'use strict';
