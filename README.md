@@ -39,7 +39,7 @@ need to run this application.
 <pre>
 npm install bower -g
 npm install slush -g
-npm install sails@beta -g
+npm install sails -g
 </pre>
 
 After you have fetched codes of this project to your computer, please follow instructions below.
