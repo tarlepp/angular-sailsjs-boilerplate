@@ -10,18 +10,25 @@ module.exports = {
     schema: true,
 
     attributes: {
+        // Book title
         title: {
             type:       'string',
             required:   true
         },
+        // Book description
         description: {
             type:       'text',
             defaultsTo: ''
         },
+        // Book release date
         releaseDate: {
             type:       'date',
             required:   true
         },
+
+        // Below is all specification for relations to another models
+
+        // Author of the book
         author: {
             model: 'author'
         }

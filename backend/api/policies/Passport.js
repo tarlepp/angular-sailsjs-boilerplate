@@ -19,13 +19,15 @@
  * For more information on the Passport.js middleware, check out:
  * http://passportjs.org/guide/configure/
  *
- * @param   {Object}    request
- * @param   {Object}    response
- * @param   {Function}  next
+ * @param   {Request}   request     Request object
+ * @param   {Response}  response    Response object
+ * @param   {Function}  next        Callback function
  */
 var passport = require('passport');
 
 module.exports = function(request, response, next) {
+    sails.log.verbose(__filename + ':' + __line + ' [Policy.Passport() called]');
+
     // Initialize Passport
     passport.initialize()(request, response, function() {
         // Use the built-in sessions

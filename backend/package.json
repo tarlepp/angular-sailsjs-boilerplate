@@ -5,9 +5,9 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
-    "sails": "~0.10.0-rc7",
-    "sails-disk": "~0.10.0",
-    "sails-mysql": "~0.10.0-rc7",
+    "sails": "~0.10.1",
+    "sails-disk": "~0.10.3",
+    "sails-mysql": "~0.10.4",
     "rc": "~0.3.3",
     "include-all": "~0.1.3",
     "ejs": "~0.8.4",
@@ -21,8 +21,9 @@
     "bcrypt": "~0.7.8",
     "validator": "~3.12.0",
     "jsonwebtoken": "~0.4.0",
-    "barrels": "0.0.3",
-    "lodash": "~2.4.1"
+    "barrels": "0.0.5",
+    "lodash": "~2.4.1",
+    "ua-parser": "~0.3.3"
   },
   "devDependencies": {
     "sails-generate-auth": "~0.1.4"

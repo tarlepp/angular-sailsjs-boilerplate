@@ -26,13 +26,23 @@ module.exports = {
             type: 'string',
             required: true
         },
+
+        // Below is all specification for relations to another models
+
+        // Passport configurations
         passports: {
             collection: 'Passport',
             via: 'user'
         },
+        // Message objects that user has sent
         messages: {
             collection: 'message',
             via: 'user'
+        },
+        // Login objects that are attached to user
+        logins: {
+            collection: 'UserLogin',
+            via:        'user'
         }
     }
 };

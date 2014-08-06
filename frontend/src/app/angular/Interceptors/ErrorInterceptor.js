@@ -47,7 +47,13 @@
                             } else if (response.data.message) {
                                 message = response.data.message;
                             } else {
-                                message = response.statusText + ' <span class="text-medium">(HTTP status ' + response.status + ')</span>';
+                                if (typeof response.data === 'string') {
+                                    message = response.data;
+                                } else if (response.statusText) {
+                                    message = response.statusText;
+                                }
+
+                                message = message + ' <span class="text-medium">(HTTP status ' + response.status + ')</span>';
                             }
 
                             if (message) {

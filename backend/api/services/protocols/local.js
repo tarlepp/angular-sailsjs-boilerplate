@@ -29,27 +29,30 @@ exports.connect = function(request, response, next) {
     var user = request.user;
     var password = request.param('password');
 
-    Passport.findOne({
-        protocol: 'local',
-        user: user.id
-    }, function(error, passport) {
-        if (error) {
-            next(error);
-        } else {
-            if (!passport) {
-                Passport
-                    .create({
-                        protocol: 'local',
-                        password: password,
-                        user: user.id
-                    }, function (err, passport) {
-                        next(err, user);
-                    });
+    sails.models['passport']
+        .findOne({
+            protocol: 'local',
+            user: user.id
+        })
+        .exec(function(error, passport) {
+            if (error) {
+                next(error);
             } else {
-                next(null, user);
+                if (!passport) {
+                    sails.models['passport']
+                        .create({
+                            protocol: 'local',
+                            password: password,
+                            user: user.id
+                        })
+                        .exec(function (error) {
+                            next(error, user);
+                        });
+                } else {
+                    next(null, user);
+                }
             }
-        }
-    });
+        });
 };
 
 /**
@@ -74,41 +77,34 @@ exports.login = function(request, identifier, password, next) {
         query.username = identifier;
     }
 
-    User.findOne(query, function(error, user) {
-        if (error) {
-            next(error);
-        } else if (!user) {
-            if (isEmail) {
-                request.flash('error', 'Error.Passport.Email.NotFound');
+    sails.models['user']
+        .findOne(query)
+        .exec(function(error, user) {
+            if (error) {
+                next(error);
+            } else if (!user) {
+                next(null, false);
             } else {
-                request.flash('error', 'Error.Passport.Username.NotFound');
+                sails.models['passport']
+                    .findOne({
+                        protocol: 'local',
+                        user: user.id
+                    })
+                    .exec(function(error, passport) {
+                        if (passport) {
+                            passport.validatePassword(password, function(error, response) {
+                                if (error) {
+                                    next(error);
+                                } else if (!response) {
+                                    next(null, false);
+                                } else {
+                                    next(null, user);
+                                }
+                            });
+                        } else {
+                            next(null, false);
+                        }
+                    });
             }
-
-            next(null, false);
-        } else {
-            Passport
-                .findOne({
-                    protocol: 'local',
-                    user: user.id
-                }, function(error, passport) {
-                    if (passport) {
-                        passport.validatePassword(password, function(error, response) {
-                            if (error) {
-                                next(error);
-                            } else if (!response) {
-                                request.flash('error', 'Error.Passport.Password.Wrong');
-
-                                next(null, false);
-                            } else {
-                                next(null, user);
-                            }
-                        });
-                    } else {
-                        request.flash('error', 'Error.Passport.Password.NotSet');
-
-                        next(null, false);
-                    }
-                });
-        }
-    });
+        });
 };

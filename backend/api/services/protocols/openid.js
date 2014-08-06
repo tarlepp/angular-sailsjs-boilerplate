@@ -23,5 +23,5 @@ module.exports = function(request, identifier, profile, next) {
         protocol: 'openid'
     };
 
-    passport.connect(request, query, profile, next);
+    sails.services['passport'].connect(request, query, profile, next);
 };

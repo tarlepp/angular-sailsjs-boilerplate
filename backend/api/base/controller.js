@@ -1,13 +1,13 @@
 'use strict';
 
+var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
+
 /**
  * BaseController.js
  *
  * Base controller for all sails.js controllers. This just contains some common code
  * that every controller uses
  */
-var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
-
 module.exports = {
     /**
      * Generic count action for controller.

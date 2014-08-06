@@ -18,13 +18,19 @@
  * flat files from `assets` to `.tmp/public`.  This allows you to do things like compile LESS or
  * CoffeeScript for the front-end.
  *
- * For more information on routes, check out:
- * http://links.sailsjs.org/docs/config/routes
+ * For more information on configuring custom routes, check out:
+ * http://sailsjs.org/#/documentation/concepts/Routes/RouteTargetSyntax.html
  */
 module.exports.routes = {
+    // See https://github.com/balderdashy/sails/issues/2062
+    'OPTIONS /*': function(req, res) {
+        res.send(200);
+    },
+
+    // Authentication routes
     '/logout': 'AuthController.logout',
-    'post /login': 'AuthController.callback',
-    'post /login/:action': 'AuthController.callback',
-    'post /auth/local': 'AuthController.callback',
-    'post /auth/local/:action': 'AuthController.callback'
+    'POST /login': 'AuthController.callback',
+    'POST /login/:action': 'AuthController.callback',
+    'POST /auth/local': 'AuthController.callback',
+    'POST /auth/local/:action': 'AuthController.callback'
 };

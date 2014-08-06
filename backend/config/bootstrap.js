@@ -7,10 +7,8 @@
  * An asynchronous bootstrap function that runs before your Sails app gets lifted.
  * This gives you an opportunity to set up your data model, run jobs, or perform some special logic.
  *
- *
- *
  * For more information on bootstrapping your app, check out:
- * http://links.sailsjs.org/docs/config/bootstrap
+ * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.bootstrap.html
  */
 module.exports.bootstrap = function(next) {
     /**
@@ -19,6 +17,11 @@ module.exports.bootstrap = function(next) {
      */
     sails.services.passport.loadStrategies();
 
+    // This will catch all socket requests that are made and logs those to database.
+    sails.on('router:request', function(request) {
+        sails.services['logger'].request(request);
+    });
+
     // Initialize backend database
-    database.init(next);
+    sails.services['database'].init(next);
 };

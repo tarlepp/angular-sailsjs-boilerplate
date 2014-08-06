@@ -18,6 +18,7 @@
         'linkify',
         'frontend-templates',
         'sails.io',
+        'frontend.components',
         'frontend.controllers',
         'frontend.directives',
         'frontend.filters',
@@ -27,6 +28,7 @@
     ]);
 
     // Initialize used frontend specified modules
+    angular.module('frontend.components', []);
     angular.module('frontend.controllers', []);
     angular.module('frontend.directives', []);
     angular.module('frontend.filters', []);

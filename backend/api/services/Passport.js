@@ -3,6 +3,7 @@
 var passport = require('passport');
 var path = require('path');
 var url = require('url');
+var _ = require('lodash');
 
 /**
  * Passport Service
@@ -63,6 +64,8 @@ passport.protocols = require('./protocols');
  * @param   {Function}  next
  */
 passport.connect = function(request, query, profile, next) {
+    sails.log.verbose(__filename + ':' + __line + ' [Service.Passport.connect() called]');
+
     var strategies = sails.config.passport;
     var config = strategies[profile.provider];
     var user = {};
@@ -86,59 +89,63 @@ passport.connect = function(request, query, profile, next) {
     if (!Object.keys(user).length) {
         next(new Error('Neither a username or email was available', null));
     } else {
-        Passport.findOne({
-            provider: profile.provider,
-            identifier: query.identifier.toString()
-        }, function(error, passport) {
-            if (error) {
-                next(error);
-            } else if (!request.user) {
-                if (!passport) {
-                    // Scenario: A new user is attempting to sign up using a third-party authentication provider.
-                    // Action:   Create a new user and assign them a passport.
+        sails.models['passport']
+            .findOne({
+                provider: profile.provider,
+                identifier: query.identifier.toString()
+            })
+            .exec(function(error, passport) {
+                if (error) {
+                    next(error);
+                } else if (!request.user) {
+                    if (!passport) {
+                        // Scenario: A new user is attempting to sign up using a third-party authentication provider.
+                        // Action:   Create a new user and assign them a passport.
 
-                    next("user not found")
-                } else {
-                    // Scenario: An existing user is trying to log in using an already connected passport.
-                    // Action:   Get the user associated with the passport.
+                        next("user not found")
+                    } else {
+                        // Scenario: An existing user is trying to log in using an already connected passport.
+                        // Action:   Get the user associated with the passport.
 
-                    // If the tokens have changed since the last session, update them
-                    if (query.hasOwnProperty('tokens') && query.tokens !== passport.tokens) {
-                        passport.tokens = query.tokens;
+                        // If the tokens have changed since the last session, update them
+                        if (query.hasOwnProperty('tokens') && query.tokens !== passport.tokens) {
+                            passport.tokens = query.tokens;
+                        }
+
+                        // Save any updates to the Passport before moving on
+                        passport
+                            .save(function(error, passport) {
+                                if (error) {
+                                    next(error);
+                                } else {
+                                    // Fetch the user associated with the Passport
+                                    User.findOne(passport.user, next);
+                                }
+                            });
                     }
+                } else {
+                    // Scenario: A user is currently logged in and trying to connect a new passport.
+                    // Action:   Create and assign a new passport to the user.
+                    if (!passport) {
+                        query.user = request.user.id;
 
-                    // Save any updates to the Passport before moving on
-                    passport.save(function(error, passport) {
-                        if (error) {
-                            next(error);
-                        } else {
-                            // Fetch the user associated with the Passport
-                            User.findOne(passport.user, next);
-                        }
-                    });
+                        sails.models['passport']
+                            .create(query)
+                            .exec(function(error) {
+                                // If a passport wasn't created, bail out
+                                if (error) {
+                                    next(error);
+                                } else {
+                                    next(error, request.user);
+                                }
+                            });
+                    } else {
+                        // Scenario: The user is a nutjob or spammed the back-button.
+                        // Action:   Simply pass along the already established session.
+                        next(null, request.user);
+                    }
                 }
-            } else {
-                // Scenario: A user is currently logged in and trying to connect a new passport.
-                // Action:   Create and assign a new passport to the user.
-                if (!passport) {
-                    query.user = request.user.id;
-
-                    Passport.create(query, function(error, passport) {
-                        // If a passport wasn't created, bail out
-                        if (error) {
-                            next(error);
-                        } else {
-                            next(error, request.user);
-                        }
-                    });
-                }
-                // Scenario: The user is a nutjob or spammed the back-button.
-                // Action:   Simply pass along the already established session.
-                else {
-                    next(null, request.user);
-                }
-            }
-        });
+            });
     }
 };
 
@@ -152,6 +159,8 @@ passport.connect = function(request, query, profile, next) {
  * @param   {Object}    response
  */
 passport.endpoint = function(request, response) {
+    sails.log.verbose(__filename + ':' + __line + ' [Service.Passport.endpoint() called]');
+
     var strategies = sails.config.passport;
     var provider = request.param('provider');
     var options = {};
@@ -186,6 +195,8 @@ passport.endpoint = function(request, response) {
  * @param   {Function}  next
  */
 passport.callback = function(request, response, next) {
+    sails.log.verbose(__filename + ':' + __line + ' [Service.Passport.callback() called]');
+
     var provider = request.param('provider', 'local');
     var action = request.param('action');
 
@@ -230,6 +241,8 @@ passport.callback = function(request, response, next) {
  * @param   {Object}    request
  */
 passport.loadStrategies = function(request) {
+    sails.log.verbose(__filename + ':' + __line + ' [Service.Passport.loadStrategies() called]');
+
     var self = this;
     var strategies = sails.config.passport;
 
@@ -282,11 +295,15 @@ passport.loadStrategies = function(request) {
 };
 
 passport.serializeUser(function(user, next) {
+    sails.log.verbose(__filename + ':' + __line + ' [Service.Passport.serializeUser() called]');
+
     next(null, user.id);
 });
 
 passport.deserializeUser(function(id, next) {
-    User.findOne(id, next);
+    sails.log.verbose(__filename + ':' + __line + ' [Service.Passport.deserializeUser() called]');
+
+    sails.models['user'].findOne(id, next);
 });
 
 module.exports = passport;

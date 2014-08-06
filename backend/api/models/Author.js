@@ -10,13 +10,19 @@ module.exports = {
     schema: true,
 
     attributes: {
+        // Name of the author
         name: {
             type: 'string',
             required: true
         },
+        // Author description
         description: {
             type: 'text'
         },
+
+        // Below is all specification for relations to another models
+
+        // Books that area attached to author
         books: {
             collection: 'book',
             via: 'author'

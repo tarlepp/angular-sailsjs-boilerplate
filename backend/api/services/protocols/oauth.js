@@ -32,5 +32,5 @@ module.exports = function(request, token, tokenSecret, profile, next) {
         query.tokens.tokenSecret = tokenSecret;
     }
 
-    passport.connect(request, query, profile, next);
+    sails.services['passport'].connect(request, query, profile, next);
 };

@@ -18,9 +18,12 @@ module.exports = {
             type: 'text',
             required: true
         },
+
+        // Below is all specification for relations to another models
+
+        // User object that is attached to message
         user: {
             model: 'user'
         }
     }
 };
-

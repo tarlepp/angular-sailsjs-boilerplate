@@ -19,18 +19,18 @@
     "src"
   ],
   "dependencies": {
-    "bootstrap": "~3.1.1",
-    "bootswatch-dist": "3.1.1-spacelab",
+    "bootstrap": "~3.2.0",
+    "bootswatch-dist": "3.2.0-spacelab",
     "fontawesome": "~4.1.0",
     "noty": "~2.2.5",
     "lodash": "~2.4.1",
-    "angular": "~1.2.14",
+    "angular": "~1.2.16",
     "angular-ui-router": "~0.2.10",
     "angular-ui-bootstrap-bower": "~0.11.0",
-    "angular-moment": "~0.7.1",
+    "angular-moment": "~0.8.0",
     "angular-bootstrap-show-errors": "~1.0.0",
     "angular-sanitize": "~1.2.16",
-    "sails.io.js": "~0.10.0-rc4",
+    "sails.io.js": "0.10.3",
     "angularSails": "*",
     "angular-linkify": "~0.3.3"
   },

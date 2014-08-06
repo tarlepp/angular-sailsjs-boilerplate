@@ -21,7 +21,7 @@
                     // Initialize used title items
                     $scope.titleItems = [
                         {title: 'Title', column: 'title'},
-                        {title: 'Author', column: 'author'},
+                        {title: 'Author', column: false},
                         {title: 'Year', column: 'releaseDate', 'class': 'text-right'}
                     ];
 
