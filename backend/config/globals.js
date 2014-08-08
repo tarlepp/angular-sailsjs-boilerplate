@@ -27,7 +27,7 @@ module.exports.globals = {
      * --save, then var async = require('async') at the top of any file.         *
      *                                                                           *
      ****************************************************************************/
-    async: true,
+    async: false,
 
     /****************************************************************************
      *                                                                           *
