@@ -83,7 +83,10 @@ var AuthController = {
                 } else { // Upon successful login, send back user data and JWT token
                     sails.services['logger'].login(user, request);
 
-                    response.json(200, {user: user, token: sails.services['token'].issue(user.id)});
+                    response.json(200, {
+                        user: user,
+                        token: sails.services['token'].issue(_.isObject(user.id) ? JSON.stringify(user.id) : user.id)
+                    });
                 }
             });
         });
