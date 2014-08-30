@@ -5,6 +5,7 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "async": "0.9.0",
     "sails": "~0.10.4",
     "sails-disk": "~0.10.3",
     "sails-mysql": "~0.10.6",
