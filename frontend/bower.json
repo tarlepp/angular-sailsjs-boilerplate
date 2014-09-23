@@ -22,7 +22,6 @@
     "bootstrap": "~3.2.0",
     "bootswatch-dist": "3.2.0-spacelab",
     "fontawesome": "~4.1.0",
-    "noty": "~2.2.5",
     "lodash": "~2.4.1",
     "angular": "~1.2.16",
     "angular-ui-router": "~0.2.10",
@@ -30,17 +29,15 @@
     "angular-moment": "~0.8.0",
     "angular-bootstrap-show-errors": "~1.0.0",
     "angular-sanitize": "~1.2.16",
+    "angular-linkify": "~0.3.3",
+    "angular-toastr": "~0.4.0",
     "sails.io.js": "0.10.3",
-    "angularSails": "*",
-    "angular-linkify": "~0.3.3"
+    "angularSails": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.14"
   },
   "overrides": {
-    "noty": {
-      "main": "js/noty/packaged/jquery.noty.packaged.min.js"
-    },
     "fontawesome": {
       "main": [
         "css/font-awesome.min.css",

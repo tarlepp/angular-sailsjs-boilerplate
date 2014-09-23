@@ -39,7 +39,6 @@
  * Happy coding!
  *
  * @todo    Revoke method?
- * @todo    Admin right?
  */
 (function() {
     'use strict';
@@ -48,9 +47,9 @@
         .factory('Auth',
             [
                 '$http', '$state',
-                'Storage', 'AccessLevels', 'BackendConfig',
+                'Storage', 'AccessLevels', 'BackendConfig', 'Message',
                 function($http, $state,
-                         Storage, AccessLevels, BackendConfig
+                         Storage, AccessLevels, BackendConfig, Message
                 ) {
                     return {
                         /**
@@ -60,7 +59,7 @@
                          *
                          * @returns {Boolean}
                          */
-                        authorize: function(accessLevel) {
+                        authorize: function authorize(accessLevel) {
                             if (accessLevel === AccessLevels.user) {
                                 return Boolean(this.isAuthenticated());
                             } else if (accessLevel === AccessLevels.admin) {
@@ -76,7 +75,7 @@
                          *
                          * @returns {*}
                          */
-                        isAuthenticated: function() {
+                        isAuthenticated: function isAuthenticated() {
                             return Storage.get('auth_token');
                         },
 
@@ -90,10 +89,12 @@
                          *
                          * @returns {*|Promise}
                          */
-                        login: function(credentials) {
+                        login: function login(credentials) {
                             return $http
                                 .post(BackendConfig.url + '/login', credentials, {withCredentials: true})
                                 .then(function(response) {
+                                    Message.success('You have been logged in.');
+
                                     Storage.set('auth_token', JSON.stringify(response.data));
                                 });
                         },
@@ -104,8 +105,10 @@
                          *
                          * Question still: Should we still make logout process to backend side?
                          */
-                        logout: function() {
+                        logout: function logout() {
                             Storage.unset('auth_token');
+
+                            Message.success('You have been logged out.');
 
                             $state.go('anon.login');
                         }

@@ -7,17 +7,20 @@
     angular.module('frontend.example.messages')
         .controller('MessagesController',
             [
-                '$scope', '$http', '$sailsSocket', '$modal', 'Message', 'BackendConfig',
-                function($scope, $http, $sailsSocket, $modal, Message, BackendConfig) {
+                '$scope', '$http', '$sailsSocket', '$modal',
+                'Message', 'BackendConfig',
+                function($scope, $http, $sailsSocket, $modal,
+                         Message, BackendConfig
+                ) {
                     $scope.message = '';
-                    $scope.type = 'default';
+                    $scope.type = 'info';
                     $scope.messageTypes = [
-                        'default', 'success', 'error', 'warning'
+                        'info', 'success', 'warning', 'error'
                     ];
 
                     // Scope function to show specified message
                     $scope.showMessage = function() {
-                        Message.message($scope.message, {type: $scope.type});
+                        Message[$scope.type]($scope.message);
                     };
 
                     var urls = [

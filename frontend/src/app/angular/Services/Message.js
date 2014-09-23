@@ -17,63 +17,85 @@
     angular.module('frontend.services')
         .factory('Message',
             [
-                '_', 'Noty',
-                function(_, Noty) {
+                'toastr', '_',
+                function(toastr, _) {
                     var service = {};
 
                     /**
-                     * Method to generate default 'success' message with noty. Note that this method eventually uses
-                     * this instance 'service.message' method.
+                     * Private helper function to make actual message via toastr component.
                      *
-                     * @param   {string}    message Message to show
-                     * @param   {{}}        options Message options
+                     * @param   {string}    message         Message content
+                     * @param   {string}    title           Message title
+                     * @param   {{}}        options         Message specified options
+                     * @param   {{}}        defaultOptions  Default options for current message type
+                     * @param   {string}    type            Message type
+                     * @private
                      */
-                    service.success = function(message, options) {
+                    function _makeMessage(message, title, options, defaultOptions, type) {
+                        title = title || '';
                         options = options || {};
 
+                        toastr[type](message, title, _.assign(defaultOptions, options));
+                    }
+
+                    /**
+                     * Method to generate 'success' message.
+                     *
+                     * @param   {string}    message     Message content
+                     * @param   {string}    [title]     Message title
+                     * @param   {{}}        [options]   Message options
+                     */
+                    service.success = function success(message, title, options) {
                         var defaultOptions = {
-                            type: 'success',
-                            timeout: 2000
+                            timeOut: 2000
                         };
 
-                        service.message(message, _.assign(defaultOptions, options));
+                        _makeMessage(message, title, options, defaultOptions, 'success');
                     };
 
                     /**
-                     * Method to generate default 'error' message with noty. Note that this method eventually uses
-                     * this instance 'service.message' method.
+                     * Method to generate 'info' message.
                      *
-                     * @param   {string}    message Message to show
-                     * @param   {{}}        options Message options
+                     * @param   {string}    message     Message content
+                     * @param   {string}    [title]     Message title
+                     * @param   {{}}        [options]   Message options
                      */
-                    service.error = function(message, options) {
-                        options = options || {};
-
+                    service.info = function error(message, title, options) {
                         var defaultOptions = {
-                            type: 'error',
-                            timeout: 4000
-                        };
-
-                        service.message(message, _.assign(defaultOptions, options));
-                    };
-
-                    /**
-                     * Generic noty message generator method that will activate actual noty message with specified
-                     * options. Note that all other methods on this message controller uses this main method.
-                     *
-                     * @param   {string}    message Message to show
-                     * @param   {{}}        options Message options
-                     */
-                    service.message = function(message, options) {
-                        options = options || {};
-
-                        var defaultOptions = {
-                            text: message,
-                            layout: 'top',
                             timeout: 3000
                         };
 
-                        new Noty(_.assign(defaultOptions, options));
+                        _makeMessage(message, title, options, defaultOptions, 'info');
+                    };
+
+                    /**
+                     * Method to generate 'warning' message.
+                     *
+                     * @param   {string}    message     Message content
+                     * @param   {string}    [title]     Message title
+                     * @param   {{}}        [options]   Message options
+                     */
+                    service.warning = function error(message, title, options) {
+                        var defaultOptions = {
+                            timeout: 3000
+                        };
+
+                        _makeMessage(message, title, options, defaultOptions, 'warning');
+                    };
+
+                    /**
+                     * Method to generate 'error' message.
+                     *
+                     * @param   {string}    message     Message content
+                     * @param   {string}    [title]     Message title
+                     * @param   {{}}        [options]   Message options
+                     */
+                    service.error = function error(message, title, options) {
+                        var defaultOptions = {
+                            timeout: 4000
+                        };
+
+                        _makeMessage(message, title, options, defaultOptions, 'error');
                     };
 
                     return service;
