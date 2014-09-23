@@ -47,19 +47,24 @@
     angular.module('frontend.services')
         .factory('Auth',
             [
-                '$http', '$state', 'Storage', 'AccessLevels', 'BackendConfig',
-                function($http, $state, Storage, AccessLevels, BackendConfig) {
+                '$http', '$state',
+                'Storage', 'AccessLevels', 'BackendConfig',
+                function($http, $state,
+                         Storage, AccessLevels, BackendConfig
+                ) {
                     return {
                         /**
                          * Method to authorize current user with given access level in application.
                          *
-                         * @param   {Number}    access  Access level to check
+                         * @param   {Number}    accessLevel Access level to check
                          *
-                         * @returns {*}
+                         * @returns {Boolean}
                          */
-                        authorize: function(access) {
-                            if (access === AccessLevels.user) {
-                                return this.isAuthenticated();
+                        authorize: function(accessLevel) {
+                            if (accessLevel === AccessLevels.user) {
+                                return Boolean(this.isAuthenticated());
+                            } else if (accessLevel === AccessLevels.admin) {
+                                return Boolean(this.isAuthenticated()) && Boolean(angular.fromJson(Storage.get('auth_token')).user.admin);
                             } else {
                                 return true;
                             }
@@ -88,15 +93,16 @@
                         login: function(credentials) {
                             return $http
                                 .post(BackendConfig.url + '/login', credentials, {withCredentials: true})
-                                .success(function(response) {
-                                    Storage.set('auth_token', JSON.stringify(response));
+                                .then(function(response) {
+                                    Storage.set('auth_token', JSON.stringify(response.data));
                                 });
                         },
 
                         /**
-                         * The backend doesn't care about logouts, delete the token and you're good to go.
+                         * The backend doesn't care about actual user logout, just delete the token
+                         * and you're good to go.
                          *
-                         * Should we still make logout process to backend side?
+                         * Question still: Should we still make logout process to backend side?
                          */
                         logout: function() {
                             Storage.unset('auth_token');
