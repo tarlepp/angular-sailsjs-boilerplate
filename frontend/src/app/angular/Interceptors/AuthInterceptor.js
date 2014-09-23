@@ -12,14 +12,17 @@
     angular.module('frontend.interceptors')
         .factory('AuthInterceptor',
             [
-                '$q', '$injector', 'Storage',
-                function($q, $injector, Storage) {
+                '$q', '$injector',
+                'Storage',
+                function($q, $injector,
+                         Storage
+                ) {
                     return {
                         /**
                          * Interceptor method for $http requests. Main purpose of this method is to add JWT token
                          * to every request that application does.
                          *
-                         * @param   {*} config
+                         * @param   {*} config  HTTP request configuration
                          *
                          * @returns {*}
                          */
