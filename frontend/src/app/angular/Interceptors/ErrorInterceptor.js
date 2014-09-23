@@ -11,8 +11,11 @@
     angular.module('frontend.interceptors')
         .factory('ErrorInterceptor',
             [
-                '$q', 'Message',
-                function($q, Message) {
+                '$q',
+                'Message',
+                function($q,
+                         Message
+                    ) {
                     return {
                         /**
                          * Interceptor method which is triggered whenever response occurs on $http queries. Note
