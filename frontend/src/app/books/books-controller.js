@@ -7,8 +7,11 @@
     angular.module('frontend.example.books')
         .controller('BooksController',
             [
-                '$scope', '$modal', 'DataService',
-                function($scope, $modal, DataService) {
+                '$scope', '$q', '$modal',
+                'DataService',
+                function($scope, $q, $modal,
+                         DataService
+                ) {
                     // Initialize data
                     $scope.endPoint = 'book';
                     $scope.itemCount = 0;
@@ -61,18 +64,22 @@
                         };
 
                         // Fetch data count
-                        DataService
+                        var count = DataService
                             .count($scope.endPoint)
-                            .success(function(response) {
-                                $scope.itemCount = response.count;
+                            .then(function(response) {
+                                $scope.itemCount = response.data.count;
                             });
 
                         // Fetch actual data
-                        DataService
-                            .get($scope.endPoint, parameters)
-                            .success(function(response) {
-                                $scope.items = response;
+                        var collection = DataService
+                            .collection($scope.endPoint, parameters)
+                            .then(function(response) {
+                                $scope.items = response.data;
+                            });
 
+                        $q
+                            .all([count, collection])
+                            .finally(function() {
                                 $scope.loaded = true;
                                 $scope.loading = false;
                             });

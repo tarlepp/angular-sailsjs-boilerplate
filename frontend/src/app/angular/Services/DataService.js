@@ -1,8 +1,9 @@
 /**
- * Generic data service to interact with Sails.js backend.
+ * Generic data service to interact with Sails.js backend. This will just
+ * wrap $sailsSocket methods to a single service, that is used from application.
  *
- * @todo Add support for generic POST, PUT and DELETE
- * @todo Do we need to check that BackendConfig.url is set
+ * This is needed because we need to make some common url handling for sails
+ * endpoint.
  */
 (function() {
     'use strict';
@@ -10,18 +11,29 @@
     angular.module('frontend.services')
         .factory('DataService',
             [
-                '$q', '$sailsSocket', 'BackendConfig',
-                function($q, $sailsSocket, BackendConfig) {
+                '$sailsSocket',
+                '_',
+                'BackendConfig',
+                function($sailsSocket,
+                         _,
+                         BackendConfig
+                ) {
                     /**
                      * Helper function to get "proper" end point url for sails backend API.
                      *
-                     * @param   {string}    endPoint    Name of the end point
+                     * @param   {string}    endPoint        Name of the end point
+                     * @param   {number}    [identifier]    Identifier of endpoint object
                      *
                      * @returns {string}
                      */
-                    function parseEndPointUrl(endPoint) {
+                    function parseEndPointUrl(endPoint, identifier) {
+                        if (!_.isUndefined(identifier)) {
+                            endPoint = endPoint + '/' + identifier;
+                        }
+
                         return BackendConfig.url + '/' + endPoint;
                     }
+
 
                     /**
                      * Helper function to parse used parameters in 'get' and 'count' methods.
@@ -43,12 +55,11 @@
                          * @param   {string}    endPoint    Name of the end point
                          * @param   {{}}        parameters  Used query parameters
                          *
-                         * @returns {HttpPromise}
+                         * @returns {Promise|*}
                          */
-                        count: function(endPoint, parameters) {
-                            parameters = parameters || {};
-
-                            return $sailsSocket.get(parseEndPointUrl(endPoint) + '/count/', parseParameters(parameters));
+                        'count': function(endPoint, parameters) {
+                            return $sailsSocket
+                                .get(parseEndPointUrl(endPoint) + '/count/', parseParameters(parameters));
                         },
 
                         /**
@@ -58,12 +69,11 @@
                          * @param   {string}    endPoint    Name of the end point
                          * @param   {{}}        parameters  Used query parameters
                          *
-                         * @returns {HttpPromise}
+                         * @returns {Promise|*}
                          */
-                        get: function(endPoint, parameters) {
-                            parameters = parameters || {};
-
-                            return $sailsSocket.get(parseEndPointUrl(endPoint), parseParameters(parameters));
+                        'collection': function(endPoint, parameters) {
+                            return $sailsSocket
+                                .get(parseEndPointUrl(endPoint), parseParameters(parameters));
                         },
 
                         /**
@@ -71,22 +81,54 @@
                          * record as an object.
                          *
                          * @param   {string}    endPoint    Name of the end point
+                         * @param   {number}    identifier  Identifier of endpoint object
                          * @param   {{}}        parameters  Used query parameters
                          *
-                         * @returns {HttpPromise}
+                         * @returns {Promise|*}
                          */
-                        getOne: function(endPoint, parameters) {
-                            parameters = parameters || {};
+                        'fetch': function(endPoint, identifier, parameters) {
+                            return $sailsSocket
+                                .get(parseEndPointUrl(endPoint, identifier), parseParameters(parameters));
+                        },
 
-                            var deferred = $q.defer();
+                        /**
+                         * Service method to create new object to specified end point.
+                         *
+                         * @param   {string}    endPoint    Name of the end point
+                         * @param   {{}}        data        Data to update
+                         *
+                         * @returns {Promise|*}
+                         */
+                        'create': function(endPoint, data) {
+                            return $sailsSocket
+                                .post(parseEndPointUrl(endPoint), data);
+                        },
 
-                            $sailsSocket
-                                .get(parseEndPointUrl(endPoint), parseParameters(parameters))
-                                .success(function(data) {
-                                    deferred.resolve(data[0] || data);
-                                });
+                        /**
+                         * Service method to update specified end point object.
+                         *
+                         * @param   {string}    endPoint    Name of the end point
+                         * @param   {number}    identifier  Identifier of endpoint object
+                         * @param   {{}}        data        Data to update
+                         *
+                         * @returns {Promise|*}
+                         */
+                        'update': function(endPoint, identifier, data) {
+                            return $sailsSocket
+                                .put(parseEndPointUrl(endPoint, identifier), data);
+                        },
 
-                            return deferred.promise;
+                        /**
+                         * Service method to delete specified object.
+                         *
+                         * @param   {string}    endPoint    Name of the end point
+                         * @param   {number}    identifier  Identifier of endpoint object
+                         *
+                         * @returns {Promise|*}
+                         */
+                        'delete': function(endPoint, identifier) {
+                            return $sailsSocket
+                                .delete(parseEndPointUrl(endPoint, identifier))
                         }
                     };
                 }
