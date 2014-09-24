@@ -5,8 +5,9 @@
  *
  * Generic database service which will handle database initialize.
  */
-var barrels = require('barrels');
-var fixtures = barrels.load().objects;
+var Barrels = require('barrels');
+var barrels = new Barrels();
+var fixtures = barrels.data;
 
 /**
  * Database init service. This will populate database with specified fixture data. Fixtures
