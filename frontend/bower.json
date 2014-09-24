@@ -5,9 +5,9 @@
     "/dist/frontend.min.css"
   ],
   "version": "0.1.0",
-  "description": "TODO",
+  "description": "Frontend application for angular-sailsjs-boilerplate",
   "authors": [
-    "TODO"
+    "Tarmo Leppänen"
   ],
   "ignore": [
     "**/.*",
@@ -19,23 +19,27 @@
     "src"
   ],
   "dependencies": {
-    "bootstrap": "~3.2.0",
+    "jquery": "2.1.1",
+    "bootstrap": "3.2.0",
     "bootswatch-dist": "3.2.0-spacelab",
-    "fontawesome": "~4.1.0",
-    "lodash": "~2.4.1",
-    "angular": "~1.2.16",
-    "angular-ui-router": "~0.2.10",
-    "angular-ui-bootstrap-bower": "~0.11.0",
-    "angular-moment": "~0.8.0",
-    "angular-bootstrap-show-errors": "~1.0.0",
-    "angular-sanitize": "~1.2.16",
-    "angular-linkify": "~0.3.3",
-    "angular-toastr": "~0.4.0",
+    "fontawesome": "4.2.0",
+    "moment": "2.8.3",
+    "moment-timezone": "0.2.2",
+    "lodash": "2.4.1",
+    "angular": "1.2.24",
+    "angular-ui-router": "0.2.11",
+    "angular-ui-bootstrap-bower": "0.11.0",
+    "angular-moment": "0.8.2",
+    "angular-bootstrap-show-errors": "1.0.2",
+    "angular-sanitize": "1.2.24",
+    "angular-linkify": "0.4.0",
+    "angular-toastr": "0.4.0",
+    "textAngular": "1.2.2",
     "sails.io.js": "0.10.3",
     "angularSails": "*"
   },
   "devDependencies": {
-    "angular-mocks": "~1.2.14"
+    "angular-mocks": "1.2.24"
   },
   "overrides": {
     "fontawesome": {

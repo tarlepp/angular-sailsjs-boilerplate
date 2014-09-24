@@ -151,6 +151,22 @@
                         })
                     ;
 
+                    // Routes that needs authenticated user
+                    $stateProvider
+                        .state('profile', {
+                            abstract: true,
+                            template: '<ui-view/>',
+                            data: {
+                                access: AccessLevels.user
+                            }
+                        })
+                        .state('profile.edit', {
+                            url: '/profile',
+                            templateUrl: '/frontend/profile/profile.html',
+                            controller: 'ProfileController'
+                        })
+                    ;
+
                     // For any unmatched url, redirect to /about
                     $urlRouterProvider.otherwise('/about');
                 }
