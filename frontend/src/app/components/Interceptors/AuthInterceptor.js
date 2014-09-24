@@ -29,6 +29,7 @@
                         request: function(config) {
                             var token;
 
+                            // Yeah we have some user data on local storage
                             if (Storage.get('auth_token')) {
                                 token = angular.fromJson(Storage.get('auth_token')).token;
                             }

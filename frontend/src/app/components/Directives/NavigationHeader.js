@@ -15,8 +15,11 @@
                 scope: {},
                 templateUrl: '/frontend/partials/Directives/NavigationHeader/header.html',
                 controller: [
-                    '$scope', 'CurrentUser', 'Auth',
-                    function($scope, CurrentUser, Auth) {
+                    '$scope',
+                    'CurrentUser', 'Auth',
+                    function($scope,
+                             CurrentUser, Auth
+                    ) {
                         $scope.user = CurrentUser.user;
                         $scope.auth = Auth;
 

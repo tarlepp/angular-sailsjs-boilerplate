@@ -25,7 +25,10 @@
                          * @returns {Promise}
                          */
                         response: function(response) {
-                            if (response.data.status && response.data.status !== 200) {
+                            if (response.data.error &&
+                                response.data.status &&
+                                response.data.status !== 200
+                            ) {
                                 return $q.reject(response);
                             } else {
                                 return response || $q.when(response);
@@ -51,9 +54,11 @@
                                     message = response.data;
                                 } else if (response.statusText) {
                                     message = response.statusText;
+                                } else {
+                                    // Todo make some message text according to status code
                                 }
 
-                                message = message + ' <span class="text-medium">(HTTP status ' + response.status + ')</span>';
+                                message = message + ' <span class="text-small">(HTTP status ' + response.status + ')</span>';
                             }
 
                             if (message) {

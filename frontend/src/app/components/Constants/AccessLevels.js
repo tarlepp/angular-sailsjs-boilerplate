@@ -3,8 +3,6 @@
  * restrict access to certain routes in application.
  *
  * Note that actual access check is done by currently signed in user.
- *
- * @todo    Add 'admin' level
  */
 (function() {
     'use strict';

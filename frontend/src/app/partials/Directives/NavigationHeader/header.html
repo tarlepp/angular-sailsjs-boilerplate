@@ -10,27 +10,37 @@
                 </button>
             </div>
 
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav"
+                data-ng-show="auth.isAuthenticated()"
+            >
                 <li data-ui-sref-active="active">
                     <a href="#" data-ui-sref="anon.about">About</a>
                 </li>
 
-                <li
-                    data-ui-sref-active="active"
-                    data-ng-show="auth.isAuthenticated()"
-                >
+                <li data-ui-sref-active="active">
                     <a href="#" data-ui-sref="example.books">Examples</a>
                 </li>
 
-                <li class="pull-right"
-                    data-ng-show="auth.isAuthenticated()"
-                >
+                <li class="pull-right">
                     <a href="#" data-ng-click="logout()">Logout</a>
                 </li>
 
                 <li class="pull-right"
                     data-ui-sref-active="active"
-                    data-ng-show="!auth.isAuthenticated()"
+                >
+                    <a href="#" data-ui-sref="profile.edit">{{user().username}}</a>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav"
+                data-ng-show="!auth.isAuthenticated()"
+            >
+                <li data-ui-sref-active="active">
+                    <a href="#" data-ui-sref="anon.about">About</a>
+                </li>
+
+                <li class="pull-right"
+                    data-ui-sref-active="active"
                 >
                     <a href="#" data-ui-sref="anon.login">Login</a>
                 </li>

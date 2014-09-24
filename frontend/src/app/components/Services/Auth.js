@@ -39,6 +39,7 @@
  * Happy coding!
  *
  * @todo    Revoke method?
+ * @todo    Text localizations?
  */
 (function() {
     'use strict';
@@ -59,11 +60,11 @@
                          *
                          * @returns {Boolean}
                          */
-                        authorize: function authorize(accessLevel) {
+                        'authorize': function authorize(accessLevel) {
                             if (accessLevel === AccessLevels.user) {
-                                return Boolean(this.isAuthenticated());
+                                return this.isAuthenticated();
                             } else if (accessLevel === AccessLevels.admin) {
-                                return Boolean(this.isAuthenticated()) && Boolean(angular.fromJson(Storage.get('auth_token')).user.admin);
+                                return this.isAuthenticated() && Boolean(angular.fromJson(Storage.get('auth_token')).user.admin);
                             } else {
                                 return true;
                             }
@@ -73,10 +74,10 @@
                          * Method to check if current user is authenticated or not. This will just
                          * simply call 'Storage' service 'get' method and returns it results.
                          *
-                         * @returns {*}
+                         * @returns {Boolean}
                          */
-                        isAuthenticated: function isAuthenticated() {
-                            return Storage.get('auth_token');
+                        'isAuthenticated': function isAuthenticated() {
+                            return Boolean(Storage.get('auth_token'));
                         },
 
                         /**
@@ -89,7 +90,7 @@
                          *
                          * @returns {*|Promise}
                          */
-                        login: function login(credentials) {
+                        'login': function login(credentials) {
                             return $http
                                 .post(BackendConfig.url + '/login', credentials, {withCredentials: true})
                                 .then(function(response) {
@@ -103,9 +104,9 @@
                          * The backend doesn't care about actual user logout, just delete the token
                          * and you're good to go.
                          *
-                         * Question still: Should we still make logout process to backend side?
+                         * Question still: Should we make logout process to backend side?
                          */
-                        logout: function logout() {
+                        'logout': function logout() {
                             Storage.unset('auth_token');
 
                             Message.success('You have been logged out.');
