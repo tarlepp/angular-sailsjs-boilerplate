@@ -8,25 +8,20 @@
         .controller('BooksController',
             [
                 '$scope', '$q', '$modal',
-                'DataService',
+                'ListConfig',
+                'BookModel',
                 function($scope, $q, $modal,
-                         DataService
+                         ListConfig,
+                         BookModel
                 ) {
                     // Initialize data
                     $scope.endPoint = 'book';
-                    $scope.itemCount = 0;
-                    $scope.items = [];
-                    $scope.itemsPerPage = 10;
-                    $scope.currentPage = 1;
-                    $scope.loading = true;
-                    $scope.loaded = false;
+
+                    // Add default list configuration variable to current scope
+                    $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
 
                     // Initialize used title items
-                    $scope.titleItems = [
-                        {title: 'Title', column: 'title'},
-                        {title: 'Author', column: false},
-                        {title: 'Year', column: 'releaseDate', 'class': 'text-right'}
-                    ];
+                    $scope.titleItems = ListConfig.getTitleItems($scope.endPoint);
 
                     // Initialize default sort data
                     $scope.sort = {
@@ -64,17 +59,17 @@
                         };
 
                         // Fetch data count
-                        var count = DataService
-                            .count($scope.endPoint)
+                        var count = BookModel
+                            .count()
                             .then(function(response) {
-                                $scope.itemCount = response.data.count;
+                                $scope.itemCount = response.count;
                             });
 
                         // Fetch actual data
-                        var collection = DataService
-                            .collection($scope.endPoint, parameters)
+                        var collection = BookModel
+                            .load(parameters)
                             .then(function(response) {
-                                $scope.items = response.data;
+                                $scope.items = response;
                             });
 
                         $q
