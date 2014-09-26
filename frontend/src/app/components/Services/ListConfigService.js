@@ -21,6 +21,10 @@
                      * @type {{book: *[]}}
                      */
                     var titleItems = {
+                        author: [
+                            {title: 'Author', column: 'name'},
+                            {title: 'Books', column: false, class: 'text-right'}
+                        ],
                         book: [
                             {title: 'Title', column: 'title'},
                             {title: 'Author', column: false},
@@ -46,7 +50,7 @@
                             return {
                                 itemCount: 0,
                                 items: [],
-                                itemsPerPage: 15,
+                                itemsPerPage: 10,
                                 currentPage: 1,
                                 where: {},
                                 loading: true,

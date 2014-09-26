@@ -8,24 +8,20 @@
         .controller('AuthorsController',
             [
                 '$scope', '$q', '$modal',
-                'DataService',
+                'ListConfig',
+                'AuthorModel',
                 function($scope, $q, $modal,
-                         DataService
+                         ListConfig,
+                         AuthorModel
                 ) {
                     // Initialize data
                     $scope.endPoint = 'author';
-                    $scope.itemCount = 0;
-                    $scope.items = [];
-                    $scope.itemsPerPage = 10;
-                    $scope.currentPage = 1;
-                    $scope.loading = true;
-                    $scope.loaded = false;
+
+                    // Add default list configuration variable to current scope
+                    $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
 
                     // Initialize used title items
-                    $scope.titleItems = [
-                        {title: 'Author', column: 'name'},
-                        {title: 'Books', column: false, class: 'text-right'}
-                    ];
+                    $scope.titleItems = ListConfig.getTitleItems($scope.endPoint);
 
                     // Initialize default sort data
                     $scope.sort = {
@@ -63,17 +59,17 @@
                         };
 
                         // Fetch data count
-                        var count = DataService
-                            .count($scope.endPoint)
+                        var count = AuthorModel
+                            .count()
                             .then(function(response) {
-                                $scope.itemCount = response.data.count;
+                                $scope.itemCount = response.count;
                             });
 
                         // Fetch actual data
-                        var collection = DataService
-                            .collection($scope.endPoint, parameters)
+                        var collection = AuthorModel
+                            .load(parameters)
                             .then(function(response) {
-                                $scope.items = response.data;
+                                $scope.items = response;
                             });
 
                         $q
