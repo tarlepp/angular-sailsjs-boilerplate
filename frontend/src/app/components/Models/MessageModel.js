@@ -1,5 +1,5 @@
 /**
- * Model for Author API, this is used to wrap all Author objects specified actions and
+ * Model for Message API, this is used to wrap all Message objects specified actions and
  * data change actions.
  *
  * @todo about 99% of this code is same for all models, figure out to avoid this
@@ -8,7 +8,7 @@
     'use strict';
 
     angular.module('frontend.models')
-        .factory('AuthorModel',
+        .factory('MessageModel',
             [
                 '$sailsSocket',
                 '_',
@@ -18,7 +18,7 @@
                          DataService
                 ) {
                     // We need to specify current model endpoint
-                    var endpoint = 'author';
+                    var endpoint = 'message';
 
                     // Subscribe to specified endpoint for socket messages
                     $sailsSocket
@@ -49,6 +49,8 @@
                     var handlers = {
                         'created': function recordCreated(message) {
                             console.log('recordCreated', endpoint, message);
+
+                            model.messages.push(message.data);
                         },
                         'updated': function recordUpdated(message) {
                             console.log('recordUpdated', endpoint, message);
@@ -63,8 +65,8 @@
                      * data on it. This object itself is returned from this service.
                      *
                      * @type    {{
-                     *              author: {},
-                     *              authors: Array,
+                     *              message: {},
+                     *              messages: Array,
                      *              count: Function,
                      *              load: Function,
                      *              fetch: Function,
@@ -74,11 +76,11 @@
                      *          }}
                      */
                     var model = {
-                        'author': {},
-                        'authors': [],
+                        'message': {},
+                        'messages': [],
 
                         /**
-                         * Service function to return count of authors with specified parameters.
+                         * Service function to return count of messages with specified parameters.
                          *
                          * @param   {{}}    [parameters]    Load parameters
                          *
@@ -95,52 +97,52 @@
                         },
 
                         /**
-                         * Service function to load author data from database and store those to current instance
+                         * Service function to load message data from database and store those to current instance
                          * of service.
                          *
                          * @param   {{}}    [parameters]    Load parameters
                          *
-                         * @returns {Promise|models.author[]}
+                         * @returns {Promise|models.message[]}
                          */
                         'load': function load(parameters) {
                             return DataService
                                 .collection(endpoint, parameters)
                                 .then(
                                     function(response) {
-                                        model.authors = response.data;
+                                        model.messages = response.data;
 
-                                        return model.authors;
+                                        return model.messages;
                                     }
                                 );
                         },
 
                         /**
-                         * Service function to load single author data from database and store it to current
+                         * Service function to load single message data from database and store it to current
                          * instance of service.
                          *
-                         * @param   {number}    identifier      Author id number
+                         * @param   {number}    identifier      Message id number
                          * @param   {{}}        [parameters]    Load parameters
                          *
-                         * @returns {Promise|models.author}
+                         * @returns {Promise|models.message}
                          */
                         'fetch': function fetchRecords(identifier, parameters) {
                             return DataService
                                 .fetch(endpoint, identifier, parameters)
                                 .then(
                                     function (response) {
-                                        model.author = response.data;
+                                        model.message = response.data;
 
-                                        return model.author;
+                                        return model.message;
                                     }
                                 );
                         },
 
                         /**
-                         * Service function to create new author to database.
+                         * Service function to create new message to database.
                          *
-                         * @param   {models.author} data   author data to create
+                         * @param   {models.message}    data   Message data to create
                          *
-                         * @returns {Promise|models.author}
+                         * @returns {Promise|models.message}
                          */
                         'create': function createRecord(data) {
                             return DataService
@@ -155,12 +157,12 @@
                         },
 
                         /**
-                         * Service function to update specified author in the database.
+                         * Service function to update specified message in the database.
                          *
-                         * @param   {number}        identifier  Author id number
-                         * @param   {models.author} data        Author data to update
+                         * @param   {number}            identifier  Message id number
+                         * @param   {models.message}    data        Message data to update
                          *
-                         * @returns {Promise|models.author}
+                         * @returns {Promise|models.message}
                          */
                         'update': function updateRecord(identifier, data) {
                             return DataService
@@ -175,11 +177,11 @@
                         },
 
                         /**
-                         * Service function to delete specified author from database.
+                         * Service function to delete specified message from database.
                          *
-                         * @param   {number}    identifier  Author id number
+                         * @param   {number}    identifier  Message id number
                          *
-                         * @returns {Promise|models.author}
+                         * @returns {Promise|models.message}
                          */
                         'delete': function deleteRecord(identifier) {
                             return DataService

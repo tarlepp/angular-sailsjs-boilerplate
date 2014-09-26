@@ -48,13 +48,13 @@
                      */
                     var handlers = {
                         'created': function recordCreated(message) {
-                            console.log('recordCreated', message);
+                            console.log('recordCreated', endpoint, message);
                         },
                         'updated': function recordUpdated(message) {
-                            console.log('recordUpdated', message);
+                            console.log('recordUpdated', endpoint, message);
                         },
                         'deleted': function recordDeleted(message) {
-                            console.log('recordDeleted', message);
+                            console.log('recordDeleted', endpoint, message);
                         }
                     };
 

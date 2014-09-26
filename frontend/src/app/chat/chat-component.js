@@ -40,74 +40,18 @@
         );
 
     /**
-     * Message factory for chat messages. This will handle subscribe to message collection, add
-     * of new messages and updating actual collection of messages that are shown in GUI.
-     */
-    angular.module('frontend.example.chat')
-        .factory('Messages',
-            [
-                '$sailsSocket', '$timeout', 'BackendConfig',
-                function($sailsSocket, $timeout, BackendConfig) {
-                    var messages = [];
-                    var handlers = {};
-
-                    // Add handler for 'created' event
-                    handlers.created = function(message) {
-                        messages.push(message.data);
-
-                        $timeout(function() {
-                            document.getElementById('messages').scrollTop = messages.length * 50;
-                        });
-                    };
-
-                    // Subscribe to messages and attach 'created' event to 'message' room
-                    $sailsSocket
-                        .subscribe('message', function(message) {
-                            handlers[message.verb](message);
-                        });
-
-                    // Load messages from server
-                    function loadMessages() {
-                        return $sailsSocket
-                            .get(BackendConfig.url + '/message')
-                            .success(
-                                function(response) {
-                                    messages = response;
-
-                                    return response;
-                                }
-                            );
-                    }
-
-                    // Create a new message
-                    function sendMessage(message) {
-                        return $sailsSocket
-                            .post(BackendConfig.url + '/message', message)
-                            .success(
-                                function(response) {
-                                    messages.push(response);
-
-                                    return response;
-                                }
-                            );
-                    }
-
-                    return {
-                        load: loadMessages,
-                        send: sendMessage
-                    };
-                }
-            ]
-        );
-
-    /**
      * Chat controller that handles all the view logic.
      */
     angular.module('frontend.example.chat')
         .controller('ChatController',
             [
-                '$scope', '$timeout', '$modal', 'Messages', 'Storage',
-                function($scope, $timeout, $modal, Messages, Storage) {
+                '$scope', '$timeout', '$modal',
+                'Storage',
+                'MessageModel',
+                function($scope, $timeout, $modal,
+                         Storage,
+                         MessageModel
+                ) {
                     $scope.nick = Storage.get('chat.nick');
                     $scope.message = {
                         nick: $scope.nick,
@@ -125,12 +69,12 @@
                         if (valueNew) {
                             scrollBottom();
                         }
-                    });
+                    }, true);
 
                     // Load messages from server
-                    Messages
+                    MessageModel
                         .load()
-                        .success(
+                        .then(
                             function(messages) {
                                 $scope.messages = messages;
 
@@ -151,9 +95,9 @@
                     // Function to post a new message
                     $scope.postMessage = function() {
                         if ($scope.message.message !== '') {
-                            Messages
-                                .send($scope.message)
-                                .success(
+                            MessageModel
+                                .create($scope.message)
+                                .then(
                                     function() {
                                         $scope.message.message = '';
 
