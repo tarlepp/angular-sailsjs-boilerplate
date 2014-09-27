@@ -55,7 +55,7 @@
                                 } else if (response.statusText) {
                                     message = response.statusText;
                                 } else {
-                                    // Todo make some message text according to status code
+                                    message = $injector.get('HttpStatus').getStatusCodeText(response.status);
                                 }
 
                                 message = message + ' <span class="text-small">(HTTP status ' + response.status + ')</span>';
