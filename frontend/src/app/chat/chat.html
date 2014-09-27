@@ -6,7 +6,7 @@
     <h4>Enter a nick</h4>
 
     <div class="input-group col-md-4">
-        <input id="message" name="message" class="form-control" type="text" placeholder="Enter a nickname"
+        <input id="nick" name="nick" class="form-control" type="text" placeholder="Enter a nickname"
            data-key-press="enterToChat()"
            data-key-code="13"
            data-ng-model="nick"
@@ -42,20 +42,31 @@
     </div>
 
     <div class="row">
-        <div class="input-group col-md-12">
-            <span class="input-group-addon">
+        <div class="col-md-12 input-group">
+            <div class="input-group-addon">
                 {{message.nick}}
-            </span>
-            <input id="message" name="message" class="form-control" type="text"
+            </div>
+
+            <input id="message" name="message" class="form-control" type="text" placeholder="enter chat message"
                 data-key-press="postMessage()"
                 data-key-code="13"
                 data-ng-model="message.message"
             />
-            <span class="input-group-btn">
+
+            <div class="input-group-btn">
                 <button class="btn btn-primary" type="button"
                     data-ng-click="postMessage()"
-                >Send message</button>
-            </span>
+                >
+                    Send message
+                </button>
+
+                <button class="btn btn-warning" type="button"
+                    data-tooltip="Leave chat"
+                    data-ng-click="leaveChat()"
+                >
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
         </div>
     </div>
 </div>

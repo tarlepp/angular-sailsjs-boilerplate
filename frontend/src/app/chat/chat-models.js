@@ -1,13 +1,18 @@
 /**
- * Model for Message API, this is used to wrap all Message objects specified actions and
- * data change actions.
+ * This file contains all chat specified models that are used on chat example
  *
- * @todo about 99% of this code is same for all models, figure out to avoid this
+ * Note that this file should only contain models and nothing else.
  */
 (function() {
     'use strict';
 
-    angular.module('frontend.models')
+    /**
+     * Model for Message API, this is used to wrap all Message objects specified
+     * actions and data change actions.
+     *
+     * @todo about 99% of this code is same for all models, figure out to avoid this
+     */
+    angular.module('frontend.example.chat')
         .factory('MessageModel',
             [
                 '$sailsSocket',
