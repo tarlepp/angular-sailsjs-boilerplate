@@ -19,6 +19,7 @@
                     $scope.modalHelp.set('Information about "Messages" GUI', 'messages');
 
                     // Initialize used scope variables
+                    $scope.title = '';
                     $scope.message = '';
                     $scope.type = 'info';
                     $scope.messageTypes = [
@@ -33,7 +34,7 @@
 
                     // Scope function to show specified message
                     $scope.showMessage = function showMessage() {
-                        Message[$scope.type]($scope.message);
+                        Message[$scope.type]($scope.message, $scope.title);
                     };
 
                     // Function to make invalid HTTP request

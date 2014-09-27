@@ -12,11 +12,19 @@
         <h5 class="col-md-offset-3">Message trigger from form data</h5>
         <form name="customMessage" class="form-horizontal" role="form">
             <div class="form-group">
+                <label for="title" class="col-md-3 control-label">Title</label>
+                <div class="col-md-9">
+                    <input id="title" name="title" type="text" class="form-control" placeholder="Enter title" required="required"
+                        data-ng-model="title"
+                    />
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="message" class="col-md-3 control-label">Message</label>
                 <div class="col-md-9">
-                    <input id="message" name="message" type="text" class="form-control" placeholder="Enter message" required="required"
+                    <textarea id="message" name="message" class="form-control"
                         data-ng-model="message"
-                    />
+                    ></textarea>
                 </div>
             </div>
             <div class="form-group">
