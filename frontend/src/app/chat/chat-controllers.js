@@ -28,13 +28,19 @@
     angular.module('frontend.example.chat')
         .controller('ChatController',
             [
-                '$scope', '$timeout', '$modal',
+                '$scope', '$timeout',
                 'Storage', 'Message',
+                'ModalHelp',
                 'MessageModel',
-                function($scope, $timeout, $modal,
+                function($scope, $timeout,
                          Storage, Message,
+                         ModalHelp,
                          MessageModel
                 ) {
+                    // Initialize modal help service
+                    $scope.modalHelp = ModalHelp;
+                    $scope.modalHelp.set('Information about "Chat" GUI', 'chat');
+
                     // Get current nick of user
                     $scope.nick = Storage.get('chat.nick');
 
@@ -65,7 +71,7 @@
                     }
 
                     // We have nick set, so load messages
-                    if ($scope.nick) {
+                    if ($scope.nick.trim()) {
                         loadMessages();
                     }
 
@@ -78,7 +84,7 @@
 
                     // Enter to chat function
                     $scope.enterToChat = function enterChat() {
-                        if ($scope.nick !== '') {
+                        if ($scope.nick.trim() !== '') {
                             $scope.message.nick = $scope.nick;
 
                             Storage.set('chat.nick', $scope.nick);
@@ -97,7 +103,7 @@
                         Storage.unset('chat.nick');
                     };
 
-                    // Function to post a new message
+                    // Function to post a new message to server
                     $scope.postMessage = function() {
                         if ($scope.message.message.trim() !== '') {
                             MessageModel
@@ -112,23 +118,6 @@
                         } else {
                             Message.error('Please enter some text to chat.');
                         }
-                    };
-
-                    // Help function for this controller
-                    $scope.showHelp = function() {
-                        $modal.open({
-                            templateUrl: '/frontend/info/help.html',
-                            controller: 'InfoController',
-                            size: 'lg',
-                            resolve: {
-                                title: function() {
-                                    return 'Information about "Chat" GUI';
-                                },
-                                section: function() {
-                                    return 'chat';
-                                }
-                            }
-                        });
                     };
                 }
             ]

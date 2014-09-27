@@ -7,50 +7,43 @@
     angular.module('frontend.example.messages')
         .controller('MessagesController',
             [
-                '$scope', '$http', '$sailsSocket', '$modal',
+                '$scope', '$http', '$sailsSocket',
+                'ModalHelp',
                 'Message', 'BackendConfig',
-                function($scope, $http, $sailsSocket, $modal,
+                function($scope, $http, $sailsSocket,
+                         ModalHelp,
                          Message, BackendConfig
                 ) {
+                    // Initialize modal help service
+                    $scope.modalHelp = ModalHelp;
+                    $scope.modalHelp.set('Information about "Messages" GUI', 'messages');
+
+                    // Initialize used scope variables
                     $scope.message = '';
                     $scope.type = 'info';
                     $scope.messageTypes = [
                         'info', 'success', 'warning', 'error'
                     ];
 
-                    // Scope function to show specified message
-                    $scope.showMessage = function() {
-                        Message[$scope.type]($scope.message);
-                    };
-
+                    // Specify invalid urls
                     var urls = [
                         BackendConfig.url + '/Basdfasdf',
                         BackendConfig.url + '/Book/123123123'
                     ];
 
-                    $scope.makeInvalidHttpRequest = function(type) {
+                    // Scope function to show specified message
+                    $scope.showMessage = function showMessage() {
+                        Message[$scope.type]($scope.message);
+                    };
+
+                    // Function to make invalid HTTP request
+                    $scope.makeInvalidHttpRequest = function makeInvalidHttpRequest(type) {
                         $http.get(urls[type]);
                     };
 
-                    $scope.makeInvalidSailsSocketRequest = function(type) {
+                    // Function to make invalid sockect request
+                    $scope.makeInvalidSailsSocketRequest = function makeInvalidSailsSocketRequest(type) {
                         $sailsSocket.get(urls[type]);
-                    };
-
-                    // Help function for this controller
-                    $scope.showHelp = function() {
-                        $modal.open({
-                            templateUrl: '/frontend/info/help.html',
-                            controller: 'InfoController',
-                            size: 'lg',
-                            resolve: {
-                                title: function() {
-                                    return 'Information about "Messages" GUI';
-                                },
-                                section: function() {
-                                    return 'messages';
-                                }
-                            }
-                        });
                     };
                 }
             ]

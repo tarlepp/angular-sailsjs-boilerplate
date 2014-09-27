@@ -7,13 +7,19 @@
     angular.module('frontend.example.authors')
         .controller('AuthorsController',
             [
-                '$scope', '$q', '$modal',
+                '$scope', '$q',
+                'ModalHelp',
                 'ListConfig',
                 'AuthorModel',
-                function($scope, $q, $modal,
+                function($scope, $q,
+                         ModalHelp,
                          ListConfig,
                          AuthorModel
                 ) {
+                    // Initialize modal help service
+                    $scope.modalHelp = ModalHelp;
+                    $scope.modalHelp.set('Information about "Authors" GUI', 'authors');
+
                     // Initialize data
                     $scope.endPoint = 'author';
 
@@ -61,45 +67,34 @@
                         // Fetch data count
                         var count = AuthorModel
                             .count()
-                            .then(function(response) {
-                                $scope.itemCount = response.count;
-                            });
+                            .then(
+                                function countSuccess(response) {
+                                    $scope.itemCount = response.count;
+                                }
+                            );
 
                         // Fetch actual data
-                        var collection = AuthorModel
+                        var load = AuthorModel
                             .load(parameters)
-                            .then(function(response) {
-                                $scope.items = response;
-                            });
+                            .then(
+                                function loadSuccess(response) {
+                                    $scope.items = response;
+                                }
+                            );
 
+                        // And wrap those all to promise loading
                         $q
-                            .all([count, collection])
-                            .finally(function() {
+                            .all([count, load])
+                            .finally(function allIsDone() {
                                 $scope.loaded = true;
                                 $scope.loading = false;
                             });
                     };
 
+                    // Watcher for current page attribute, whenever this changes we need to fetch data from server
                     $scope.$watch('currentPage', function() {
                         $scope.fetchData();
                     });
-
-                    // Help function for this controller
-                    $scope.showHelp = function() {
-                        $modal.open({
-                            templateUrl: '/frontend/info/help.html',
-                            controller: 'InfoController',
-                            size: 'lg',
-                            resolve: {
-                                title: function() {
-                                    return 'Information about "Authors" GUI';
-                                },
-                                section: function() {
-                                    return 'authors';
-                                }
-                            }
-                        });
-                    };
                 }
             ]
         );

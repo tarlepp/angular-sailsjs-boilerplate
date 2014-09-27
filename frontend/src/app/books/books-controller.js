@@ -7,13 +7,19 @@
     angular.module('frontend.example.books')
         .controller('BooksController',
             [
-                '$scope', '$q', '$modal',
+                '$scope', '$q',
+                'ModalHelp',
                 'ListConfig',
                 'BookModel',
-                function($scope, $q, $modal,
+                function($scope, $q,
+                         ModalHelp,
                          ListConfig,
                          BookModel
                 ) {
+                    // Initialize modal help service
+                    $scope.modalHelp = ModalHelp;
+                    $scope.modalHelp.set('Information about "Books" GUI', 'books');
+
                     // Initialize data
                     $scope.endPoint = 'book';
 
@@ -80,26 +86,10 @@
                             });
                     };
 
+                    // Watcher for current page attribute, whenever this changes we need to fetch data from server
                     $scope.$watch('currentPage', function() {
                         $scope.fetchData();
                     });
-
-                    // Help function for this controller
-                    $scope.showHelp = function() {
-                        $modal.open({
-                            templateUrl: '/frontend/info/help.html',
-                            controller: 'InfoController',
-                            size: 'lg',
-                            resolve: {
-                                title: function() {
-                                    return 'Information about "Books" GUI';
-                                },
-                                section: function() {
-                                    return 'books';
-                                }
-                            }
-                        });
-                    };
                 }
             ]
         );
