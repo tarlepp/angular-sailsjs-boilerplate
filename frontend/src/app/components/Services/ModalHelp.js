@@ -14,16 +14,19 @@
                         // Current title and section string store
                         'title': '',
                         'section': '',
+                        'subSection': '',
 
                         /**
                          * Setter method for title and section.
                          *
-                         * @param   {String}    title   Title of the modal
-                         * @param   {String}    section Modal 'section' which to show
+                         * @param   {String}    title           Title of the modal
+                         * @param   {String}    section         Modal 'section' which to show
+                         * @param   {String}    [subSection]    Modal 'subSection' which to show
                          */
-                        'set': function set(title, section) {
+                        'set': function set(title, section, subSection) {
                             service.title = title;
                             service.section = section;
+                            service.subSection = subSection;
                         },
 
                         /**
@@ -36,11 +39,14 @@
                                 controller: 'InfoController',
                                 size: 'lg',
                                 resolve: {
-                                    title: function() {
+                                    '_title': function resolveTitle() {
                                         return service.title;
                                     },
-                                    section: function() {
+                                    '_section': function resolveSection() {
                                         return service.section;
+                                    },
+                                    '_subSection': function resolveSubSection() {
+                                        return service.subSection;
                                     }
                                 }
                             });

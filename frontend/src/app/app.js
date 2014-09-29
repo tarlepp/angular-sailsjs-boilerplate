@@ -39,7 +39,6 @@
     angular.module('frontend.models', []);
     angular.module('frontend.example', [
         'frontend.example.book',
-        'frontend.example.books',
         'frontend.example.authors',
         'frontend.example.messages',
         'frontend.example.chat'
@@ -120,18 +119,22 @@
                         })
                         .state('example.books', {
                             url: '/books',
-                            templateUrl: '/frontend/books/books.html',
-                            controller: 'BooksController'
+                            templateUrl: '/frontend/book/books.html',
+                            controller: 'BookListController'
                         })
                         .state('example.book', {
-                            url: '/book/:bookTitle',
+                            url: '/book/:id/:title',
                             templateUrl: '/frontend/book/book.html',
                             controller: 'BookController',
                             resolve: {
-                                book: [
-                                    '$stateParams','DataService',
-                                    function($stateParams, DataService) {
-                                        return DataService.getOne('book', {title: $stateParams.bookTitle});
+                                '_book': [
+                                    '$stateParams',
+                                    'BookModel',
+                                    function($stateParams,
+                                             BookModel
+                                    ) {
+                                        return BookModel
+                                            .fetch($stateParams.id);
                                     }
                                 ]
                             }
