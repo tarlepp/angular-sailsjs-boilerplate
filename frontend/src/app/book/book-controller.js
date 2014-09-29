@@ -19,8 +19,6 @@
                 ) {
                     $scope.activeTab = 'example.books';
                     $scope.book = _book;
-
-                    console.log('asdf');
                 }
             ]
         );
@@ -92,6 +90,7 @@
 
                         // Data query specified parameters
                         var parameters = {
+                            populate: 'author',
                             limit: $scope.itemsPerPage,
                             skip: ($scope.currentPage - 1) * $scope.itemsPerPage,
                             sort: $scope.sort.column + ' ' + ($scope.sort.direction ? 'ASC' : 'DESC')

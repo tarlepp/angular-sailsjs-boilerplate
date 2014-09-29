@@ -1,8 +1,16 @@
 <ul class="nav nav-tabs" >
-    <li data-ui-sref-active="active"><a href="#" data-ui-sref="example.books">Books</a></li>
-    <li data-ui-sref-active="active"><a href="#" data-ui-sref="example.authors">Authors</a></li>
-    <li data-ui-sref-active="active"><a href="#" data-ui-sref="example.messages">Messages</a></li>
-    <li data-ui-sref-active="active"><a href="#" data-ui-sref="example.chat">Chat</a></li>
+    <li data-ui-sref-active="active" data-ng-class="{active: activeTab == 'example.books'}">
+        <a href="#" data-ui-sref="example.books">Books</a>
+    </li>
+    <li data-ui-sref-active="active" data-ng-class="{active: activeTab == 'example.authors'}">
+        <a href="#" data-ui-sref="example.authors" >Authors</a>
+    </li>
+    <li data-ui-sref-active="active" data-ng-class="{active: activeTab == 'example.messages'}">
+        <a href="#" data-ui-sref="example.messages">Messages</a>
+    </li>
+    <li data-ui-sref-active="active" data-ng-class="{active: activeTab == 'example.chat'}">
+        <a href="#" data-ui-sref="example.chat">Chat</a>
+    </li>
 
     <li class="pull-right"
         data-ng-if="modalHelp"

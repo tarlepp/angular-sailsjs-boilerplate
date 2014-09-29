@@ -38,7 +38,9 @@
     </thead>
     <tbody>
         <tr data-ng-repeat="author in items">
-            <td class="col-md-11">{{author.name}}</td>
+            <td class="col-md-11">
+                <a data-ui-sref="example.author({id: author.id})">{{author.name}}</a>
+            </td>
             <td class="col-md-1 text-right">{{author.books.length}}</td>
         </tr>
     </tbody>

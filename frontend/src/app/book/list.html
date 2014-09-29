@@ -39,9 +39,11 @@
     <tbody>
         <tr data-ng-repeat="book in items">
             <td class="col-md-9">
-                <a data-ui-sref="example.book({id: book.id, title: book.title})">{{book.title}}</a>
+                <a data-ui-sref="example.book({id: book.id})">{{book.title}}</a>
             </td>
-            <td class="col-md-2">{{book.author.name}}</td>
+            <td class="col-md-2">
+                <a data-ui-sref="example.author({id: book.author.id})">{{book.author.name}}</a>
+            </td>
             <td class="col-md-1 text-right">{{book.releaseDate | amDateFormat: 'YYYY'}}</td>
         </tr>
     </tbody>

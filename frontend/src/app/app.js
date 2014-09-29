@@ -39,7 +39,7 @@
     angular.module('frontend.models', []);
     angular.module('frontend.example', [
         'frontend.example.book',
-        'frontend.example.authors',
+        'frontend.example.author',
         'frontend.example.messages',
         'frontend.example.chat'
     ]);
@@ -117,13 +117,17 @@
                                 access: AccessLevels.user
                             }
                         })
+
+                        // Books list
                         .state('example.books', {
                             url: '/books',
-                            templateUrl: '/frontend/book/books.html',
+                            templateUrl: '/frontend/book/list.html',
                             controller: 'BookListController'
                         })
+
+                        // Single book
                         .state('example.book', {
-                            url: '/book/:id/:title',
+                            url: '/book/:id',
                             templateUrl: '/frontend/book/book.html',
                             controller: 'BookController',
                             resolve: {
@@ -134,21 +138,46 @@
                                              BookModel
                                     ) {
                                         return BookModel
-                                            .fetch($stateParams.id);
+                                            .fetch($stateParams.id, {populate: 'author'});
                                     }
                                 ]
                             }
                         })
+
+                        // Authors list
                         .state('example.authors', {
                             url: '/authors',
-                            templateUrl: '/frontend/authors/authors.html',
-                            controller: 'AuthorsController'
+                            templateUrl: '/frontend/author/list.html',
+                            controller: 'AuthorListController'
                         })
+
+                        // Single author
+                        .state('example.author', {
+                            url: '/author/:id',
+                            templateUrl: '/frontend/author/author.html',
+                            controller: 'AuthorController',
+                            resolve: {
+                                '_author': [
+                                    '$stateParams',
+                                    'AuthorModel',
+                                    function($stateParams,
+                                             AuthorModel
+                                    ) {
+                                        return AuthorModel
+                                            .fetch($stateParams.id, {populate: 'books'});
+                                    }
+                                ]
+                            }
+                        })
+
+                        // Messages
                         .state('example.messages', {
                             url: '/messages',
                             templateUrl: '/frontend/messages/messages.html',
                             controller: 'MessagesController'
                         })
+
+                        // Chat
                         .state('example.chat', {
                             url: '/chat',
                             templateUrl: '/frontend/chat/chat.html',

@@ -17,7 +17,9 @@
             <table class="table">
                 <tr>
                     <th>Author</th>
-                    <td>{{book.author.name}}</td>
+                    <td>
+                        <a data-ui-sref="example.author({id: book.author.id})">{{book.author.name}}</a>
+                    </td>
                 </tr>
                 <tr>
                     <th>Released</th>
