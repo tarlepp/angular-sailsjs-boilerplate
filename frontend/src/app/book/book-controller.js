@@ -1,5 +1,5 @@
 /**
- * This file contains all necessary Angular controller definitions for Book example.
+ * This file contains all necessary Angular controller definitions for 'frontend.example.book' module.
  *
  * Note that this file should only contain controllers and nothing else.
  */
@@ -17,32 +17,24 @@
                 function($scope,
                          _book
                 ) {
-                    $scope.activeTab = 'example.books';
                     $scope.book = _book;
                 }
             ]
         );
 
     /**
-     * Controller which contains all necessary logic for book list GUI on
-     * boilerplate application.
+     * Controller which contains all necessary logic for book list GUI on boilerplate application.
      */
     angular.module('frontend.example.book')
         .controller('BookListController',
             [
                 '$scope', '$q',
-                'ModalHelp',
                 'ListConfig',
                 'BookModel',
                 function($scope, $q,
-                         ModalHelp,
                          ListConfig,
                          BookModel
                 ) {
-                    // Initialize modal help service
-                    $scope.modalHelp = ModalHelp;
-                    $scope.modalHelp.set('Information about "Books" GUI', 'book', 'books');
-
                     // Initialize data
                     $scope.endPoint = 'book';
 

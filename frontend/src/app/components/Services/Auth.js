@@ -48,9 +48,9 @@
         .factory('Auth',
             [
                 '$http', '$state',
-                'Storage', 'AccessLevels', 'BackendConfig', 'Message',
+                'Storage', 'AccessLevels', 'BackendConfig', 'MessageService',
                 function($http, $state,
-                         Storage, AccessLevels, BackendConfig, Message
+                         Storage, AccessLevels, BackendConfig, MessageService
                 ) {
                     return {
                         /**
@@ -94,7 +94,7 @@
                             return $http
                                 .post(BackendConfig.url + '/login', credentials, {withCredentials: true})
                                 .then(function(response) {
-                                    Message.success('You have been logged in.');
+                                    MessageService.success('You have been logged in.');
 
                                     Storage.set('auth_token', JSON.stringify(response.data));
                                 });
@@ -109,7 +109,7 @@
                         'logout': function logout() {
                             Storage.unset('auth_token');
 
-                            Message.success('You have been logged out.');
+                            MessageService.success('You have been logged out.');
 
                             $state.go('anon.login');
                         }

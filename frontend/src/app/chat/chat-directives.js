@@ -1,5 +1,5 @@
 /**
- * This file contains all chat specified directives that are used on chat example
+ * This file contains all necessary Angular directive definitions for 'frontend.example.chat' module.
  *
  * Note that this file should only contain directives and nothing else.
  */
@@ -7,8 +7,8 @@
     'use strict';
 
     /**
-     * Directive to resize "chat" screen to take all "possible" space on browser screen.
-     * This is just crude thing to do, but it works.
+     * Directive to resize "chat" screen to take all "possible" space on browser screen. This is just cruel thing to
+     * do, but it works like a charm.
      */
     angular.module('frontend.example.chat')
         .directive('chatScreen',

@@ -15,7 +15,7 @@
     'use strict';
 
     angular.module('frontend.services')
-        .factory('Message',
+        .factory('MessageService',
             [
                 'toastr', '_',
                 function(toastr, _) {

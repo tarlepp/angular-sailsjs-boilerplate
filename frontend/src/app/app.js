@@ -39,6 +39,7 @@
     angular.module('frontend.models', []);
     angular.module('frontend.example', [
         'frontend.example.book',
+        'frontend.example.navigation',
         'frontend.example.author',
         'frontend.example.messages',
         'frontend.example.chat'

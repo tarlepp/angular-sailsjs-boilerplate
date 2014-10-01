@@ -1,0 +1,24 @@
+<ul class="nav nav-tabs">
+    <li
+        data-ng-repeat="item in navigationItems"
+        data-ng-class="{active: activeTab == item.url}"
+        data-ui-sref-active="active"
+    >
+        <a href="#"
+            data-ui-sref="{{item.url}}"
+        >
+            {{item.title}}
+        </a>
+    </li>
+
+    <li class="pull-right"
+        data-ng-if="modalService"
+    >
+        <a href="#" class="help"
+            data-ng-click="modalService.open()"
+        >
+            More information about this GUI
+            <i class="fa fa-info-circle"></i>
+        </a>
+    </li>
+</ul>

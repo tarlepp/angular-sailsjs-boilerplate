@@ -62,7 +62,7 @@
                             }
 
                             if (message) {
-                                $injector.get('Message').error(message);
+                                $injector.get('MessageService').error(message);
                             }
 
                             return $q.reject(response);

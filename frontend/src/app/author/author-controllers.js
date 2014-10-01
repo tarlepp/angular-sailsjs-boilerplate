@@ -1,5 +1,5 @@
 /**
- * This file contains all necessary Angular controller definitions for Author example.
+ * This file contains all necessary Angular controller definitions for 'frontend.example.author' module.
  *
  * Note that this file should only contain controllers and nothing else.
  */
@@ -13,16 +13,10 @@
         .controller('AuthorController',
             [
                 '$scope',
-                'ModalHelp',
                 '_author',
                 function($scope,
-                        ModalHelp,
                          _author
                 ) {
-                    // Initialize modal help service
-                    $scope.modalHelp = ModalHelp;
-                    $scope.modalHelp.set('Information about "Author" GUI', 'author', 'author');
-
                     $scope.activeTab = 'example.authors';
                     $scope.author = _author;
                 }
@@ -30,25 +24,18 @@
         );
 
     /**
-     * Controller which contains all necessary logic for book list GUI on
-     * boilerplate application.
+     * Controller which contains all necessary logic for book list GUI on boilerplate application.
      */
     angular.module('frontend.example.author')
         .controller('AuthorListController',
             [
                 '$scope', '$q',
-                'ModalHelp',
                 'ListConfig',
                 'AuthorModel',
                 function($scope, $q,
-                         ModalHelp,
                          ListConfig,
                          AuthorModel
                 ) {
-                    // Initialize modal help service
-                    $scope.modalHelp = ModalHelp;
-                    $scope.modalHelp.set('Information about "Authors" GUI', 'author', 'list');
-
                     // Initialize data
                     $scope.endPoint = 'author';
 

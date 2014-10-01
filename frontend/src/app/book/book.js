@@ -1,6 +1,5 @@
 /**
- * Book component to wrap all book specified stuff together. This component is divided
- * to two different logical components:
+ * Book component to wrap all book specified stuff together. This component is divided to following logical components:
  *
  *  Controllers
  *  Models

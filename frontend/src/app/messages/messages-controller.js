@@ -1,23 +1,25 @@
 /**
- * Just an example controller to demonstrate message service
+ * This file contains all necessary Angular controller definitions for 'frontend.example.messages' module.
+ *
+ * Note that this file should only contain controllers and nothing else.
  */
 (function() {
     'use strict';
 
+    /**
+     * Message controller that demonstrates boilerplate error handling and usage of MessageService.
+     *
+     * @todo
+     *  1) Make example about $http / $sailsSocket usage where automatic message is disabled.
+     */
     angular.module('frontend.example.messages')
         .controller('MessagesController',
             [
                 '$scope', '$http', '$sailsSocket',
-                'ModalHelp',
-                'Message', 'BackendConfig',
+                'MessageService', 'BackendConfig',
                 function($scope, $http, $sailsSocket,
-                         ModalHelp,
-                         Message, BackendConfig
+                         MessageService, BackendConfig
                 ) {
-                    // Initialize modal help service
-                    $scope.modalHelp = ModalHelp;
-                    $scope.modalHelp.set('Information about "Messages" GUI', 'messages');
-
                     // Initialize used scope variables
                     $scope.title = '';
                     $scope.message = '';
@@ -34,7 +36,7 @@
 
                     // Scope function to show specified message
                     $scope.showMessage = function showMessage() {
-                        Message[$scope.type]($scope.message, $scope.title);
+                        MessageService[$scope.type]($scope.message, $scope.title);
                     };
 
                     // Function to make invalid HTTP request

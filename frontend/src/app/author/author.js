@@ -1,6 +1,6 @@
 /**
- * Author component to wrap all author specified stuff together. This component is divided
- * to two different logical components:
+ * Author component to wrap all author specified stuff together. This component is divided to following logical
+ * components:
  *
  *  Controllers
  *  Models

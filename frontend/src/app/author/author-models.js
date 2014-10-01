@@ -1,13 +1,18 @@
 /**
- * Model for Author API, this is used to wrap all Author objects specified actions and
- * data change actions.
+ * This file contains all necessary Angular model definitions for 'frontend.example.author' module.
  *
- * @todo about 99% of this code is same for all models, figure out to avoid this
+ * Note that this file should only contain models and nothing else. Also note that these "models" are just basically
+ * services that wraps all things together.
  */
 (function() {
     'use strict';
 
-    angular.module('frontend.models')
+    /**
+     * Model for Author API, this is used to wrap all Author objects specified actions and data change actions.
+     *
+     * @todo about 99% of this code is same for all models, figure out to avoid this
+     */
+    angular.module('frontend.example.author')
         .factory('AuthorModel',
             [
                 '$sailsSocket',
@@ -31,14 +36,12 @@
                         });
 
                     /**
-                     * Sails socket action handlers. These are called whenever following event
-                     * happens on current model:
+                     * Sails socket action handlers. These are called whenever following event happens on current model:
                      *  - record is created
                      *  - record is updated
                      *  - record is deleted
                      *
-                     * Purpose of these handlers is to "update" current model data according to
-                     * event that has fired.
+                     * Purpose of these handlers is to "update" current model data according to event that has fired.
                      *
                      * @type    {{
                      *              created: Function,
@@ -59,8 +62,8 @@
                     };
 
                     /**
-                     * Actual model service, that contains all necessary CRUD functions and actual
-                     * data on it. This object itself is returned from this service.
+                     * Actual model service, that contains all necessary CRUD functions and actual data on it. This
+                     * object itself is returned from this service.
                      *
                      * @type    {{
                      *              author: {},
@@ -95,8 +98,8 @@
                         },
 
                         /**
-                         * Service function to load author data from database and store those to current instance
-                         * of service.
+                         * Service function to load author data from database and store those to current instance of
+                         * service.
                          *
                          * @param   {{}}    [parameters]    Load parameters
                          *
@@ -115,8 +118,8 @@
                         },
 
                         /**
-                         * Service function to load single author data from database and store it to current
-                         * instance of service.
+                         * Service function to load single author data from database and store it to current instance
+                         * of service.
                          *
                          * @param   {number}    identifier      Author id number
                          * @param   {{}}        [parameters]    Load parameters

@@ -1,6 +1,5 @@
 /**
- * Chat component to demonstrate power of sails.js and web sockets. Chat example is divided
- * to three different logical components:
+ * Chat component to wrap all book specified stuff together. This component is divided to following logical components:
  *
  *  Controllers
  *  Directives

@@ -1,46 +1,40 @@
 /**
- * This file contains all necessary Angular controller definitions for Chat
- * example.
+ * This file contains all necessary Angular controller definitions for 'frontend.example.chat' module.
  *
  * Note that this file should only contain controllers and nothing else.
- *
- * @todo
- *  1) implement 'enter' and 'leave' status messages to chat
- *  2) private messages to another user
  */
 (function() {
     'use strict';
 
     /**
-     * Main Chat controller which handles the actions on this Chat example page.
-     * This controller is fired up whenever user enters to following url:
+     * Main Chat controller which handles the actions on this Chat example page. This controller is fired up whenever
+     * user enters to following url:
      *
      *  http://{YourServer}:{YourPort}/chat
      *
      * where
-     *  YourServer  = Usually 'localhost', this depends on your setup
-     *  YourPort    = By default 3000 for production and 3001 for development
-     *               or something else depending on your setup
+     *  YourServer  =   Usually 'localhost', this depends on your setup.
+     *  YourPort    =   By default 3000 for production and 3001 for development or something else depending on your
+     *                  setup.
      *
-     * Controller handles message loading and creating of new messages to backend
-     * side. Basically really simple stuff.
+     * Controller handles message loading and creating of new messages to backend side. Basically really simple stuff.
+     *
+     * @todo
+     *  1) implement 'enter' and 'leave' status messages to chat
+     *  2) private messages to another user
+     *  3) do not load all messages when user enters to chat
+     *  4) add notification about new chat messages, if user is elsewhere on app
      */
     angular.module('frontend.example.chat')
         .controller('ChatController',
             [
                 '$scope', '$timeout',
-                'Storage', 'Message',
-                'ModalHelp',
+                'Storage', 'MessageService',
                 'MessageModel',
                 function($scope, $timeout,
-                         Storage, Message,
-                         ModalHelp,
+                         Storage, MessageService,
                          MessageModel
                 ) {
-                    // Initialize modal help service
-                    $scope.modalHelp = ModalHelp;
-                    $scope.modalHelp.set('Information about "Chat" GUI', 'chat');
-
                     // Get current nick of user
                     $scope.nick = Storage.get('chat.nick');
 
@@ -91,7 +85,7 @@
 
                             loadMessages();
                         } else {
-                            Message.error('Please provide some nick.');
+                            MessageService.error('Please provide some nick.');
                         }
                     };
 
@@ -116,7 +110,7 @@
                                     }
                                 );
                         } else {
-                            Message.error('Please enter some text to chat.');
+                            MessageService.error('Please enter some text to chat.');
                         }
                     };
                 }
