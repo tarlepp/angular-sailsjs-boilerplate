@@ -65,7 +65,7 @@
                     }
 
                     // We have nick set, so load messages
-                    if ($scope.nick.trim()) {
+                    if ($scope.nick && $scope.nick.trim()) {
                         loadMessages();
                     }
 
