@@ -38,11 +38,12 @@
     angular.module('frontend.services', []);
     angular.module('frontend.models', []);
     angular.module('frontend.example', [
-        'frontend.example.book',
-        'frontend.example.navigation',
         'frontend.example.author',
-        'frontend.example.messages',
-        'frontend.example.chat'
+        'frontend.example.book',
+        'frontend.example.chat',
+        'frontend.example.login',
+        'frontend.example.navigation',
+        'frontend.example.messages'
     ]);
 
     /**
