@@ -128,7 +128,7 @@
                          */
                         'delete': function(endPoint, identifier) {
                             return $sailsSocket
-                                .delete(parseEndPointUrl(endPoint, identifier))
+                                .delete(parseEndPointUrl(endPoint, identifier));
                         }
                     };
                 }

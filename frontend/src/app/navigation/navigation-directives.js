@@ -13,7 +13,7 @@
                 replace: true,
                 scope: {
                     'title': '@',
-                    "directory": '@',
+                    'directory': '@',
                     'template': '@',
                     'activeTab': '@'
                 },

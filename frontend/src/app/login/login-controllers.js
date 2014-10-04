@@ -51,7 +51,7 @@
                      * @private
                      */
                     function _reset() {
-                        FocusOnService('username');
+                        FocusOnService.focus('username');
 
                         // Initialize credentials
                         $scope.credentials = {

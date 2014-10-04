@@ -63,11 +63,13 @@
                      *
                      * @param   {string}    identifier  Identifier for 'data-focus-on' attribute
                      */
-                    return function service(identifier) {
-                        $timeout(function timeout() {
-                            $rootScope.$broadcast('focusOn', identifier);
-                        });
-                    }
+                    return {
+                        'focus': function focus(identifier){
+                            $timeout(function timeout() {
+                                $rootScope.$broadcast('focusOn', identifier);
+                            });
+                        }
+                    };
                 }
             ]
         );
