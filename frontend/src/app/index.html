@@ -52,7 +52,7 @@
         <!-- TODO: Add here your backend API URL without trailing slashes -->
         <script>
             io.sails.useCORSRouteToGetCookie = false;
-            io.sails.url = 'http://wunder.sytes.net:1339';
+            io.sails.url = 'http://10.1.1.177:1339';
         </script>
 
         <!-- inject:js -->
@@ -60,6 +60,7 @@
         <script src="/author/author.js"></script>
         <script src="/book/book.js"></script>
         <script src="/chat/chat.js"></script>
+        <script src="/components/Models/models.js"></script>
         <script src="/frontend-templates.js"></script>
         <script src="/login/login.js"></script>
         <script src="/messages/messages.js"></script>
@@ -82,6 +83,7 @@
         <script src="/components/Interceptors/AuthInterceptor.js"></script>
         <script src="/components/Interceptors/ErrorInterceptor.js"></script>
         <script src="/components/Libraries/LoDash.js"></script>
+        <script src="/components/Models/factory.js"></script>
         <script src="/components/Services/Auth.js"></script>
         <script src="/components/Services/CurrentUser.js"></script>
         <script src="/components/Services/DataService.js"></script>

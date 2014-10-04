@@ -36,7 +36,6 @@
     angular.module('frontend.filters', []);
     angular.module('frontend.interceptors', []);
     angular.module('frontend.services', []);
-    angular.module('frontend.models', []);
     angular.module('frontend.example', [
         'frontend.example.author',
         'frontend.example.book',
