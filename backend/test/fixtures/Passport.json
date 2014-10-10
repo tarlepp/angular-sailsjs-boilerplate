@@ -1,7 +1,10 @@
 [
     {
         "protocol": "local",
-        "password": "demodemodemo",
-        "user": 1
+        "password": "adminadminadmin"
+    },
+    {
+        "protocol": "local",
+        "password": "demodemodemo"
     }
 ]

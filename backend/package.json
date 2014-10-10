@@ -28,7 +28,7 @@
     "bcrypt": "0.8.0",
     "validator": "3.19.0",
     "jsonwebtoken": "1.1.2",
-    "barrels": "1.0.1",
+    "barrels": "1.1.1",
     "lodash": "2.4.1",
     "ua-parser": "0.3.3"
   },

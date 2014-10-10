@@ -1,8 +1,22 @@
 [
     {
+        "username": "admin",
+        "email": "admin@some.domain",
+        "firstName": "Arnold",
+        "lastName": "Administrator",
+        "admin": true,
+        "passports": [
+            1
+        ]
+    },
+    {
         "username": "demo",
         "email": "demo@some.domain",
         "firstName": "John",
-        "lastName": "Doe"
+        "lastName": "Doe",
+        "admin": false,
+        "passports": [
+            2
+        ]
     }
 ]

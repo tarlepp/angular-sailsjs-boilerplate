@@ -71,8 +71,7 @@ var Passport = {
         // For more information on associations in Waterline, check out:
         // https://github.com/balderdashy/waterline
         user: {
-            model: 'User',
-            required: true
+            model: 'User'
         },
 
         /**

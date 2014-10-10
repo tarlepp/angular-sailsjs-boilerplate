@@ -26,6 +26,10 @@ module.exports = {
             type: 'string',
             required: true
         },
+        admin: {
+            type: 'boolean',
+            defaultsTo: false
+        },
 
         // Below is all specification for relations to another models
 
