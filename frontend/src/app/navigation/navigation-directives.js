@@ -6,8 +6,20 @@
 (function() {
     'use strict';
 
+    /**
+     * Common page navigation directive, which is used on every example page on this boilerplate application. Usage
+     * example:
+     *
+     *  <page-navigation
+     *      data-title='Information about "Books" GUI'
+     *      data-directory='book'
+     *      data-template='list'
+     *  ></page-navigation>
+     *
+     * This will render navigation items to page.
+     */
     angular.module('frontend.example.navigation')
-        .directive('pageNavigation', function() {
+        .directive('pageNavigation', function pageNavigation() {
             return {
                 restrict: 'E',
                 replace: true,
@@ -21,11 +33,11 @@
                 controller: [
                     '$scope',
                     'NavigationInfoModalService',
-                    function($scope,
-                             NavigationInfoModalService
+                    function controller(
+                        $scope,
+                        NavigationInfoModalService
                     ) {
                         $scope.modalService = NavigationInfoModalService;
-
                         $scope.modalService.set($scope.title, $scope.directory, $scope.template);
 
                         $scope.navigationItems = [
@@ -46,6 +58,36 @@
                                 title: 'Chat'
                             }
                         ];
+                    }
+                ]
+            };
+        });
+
+    /**
+     * Directive to show used files on specified example page.
+     */
+    angular.module('frontend.example.navigation')
+        .directive('pageInfoFiles', function pageInfoFiles() {
+            return {
+                restrict: 'E',
+                replace: true,
+                scope: {
+                    'directory': '@',
+                    'template': '@'
+                },
+                templateUrl: '/frontend/navigation/files.html',
+                controller: [
+                    '$scope',
+                    'NavigationInfoModalFiles',
+                    function controller(
+                        $scope,
+                        NavigationInfoModalFiles
+                    ) {
+                        $scope.files = NavigationInfoModalFiles.get($scope.directory, $scope.template);
+
+                        $scope.getTooltip = function getTooltip(item) {
+                            return '<h5>' + item.title + '</h5>' + item.info;
+                        };
                     }
                 ]
             };

@@ -57,9 +57,11 @@
         .config(
             [
                 '$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider', '$sailsSocketProvider',
+                '$tooltipProvider',
                 'toastrConfig',
                 'AccessLevels',
                 function($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider, $sailsSocketProvider,
+                         $tooltipProvider,
                          toastrConfig,
                          AccessLevels
                 ) {
@@ -72,6 +74,11 @@
                     $httpProvider.interceptors.push('ErrorInterceptor');
                     $sailsSocketProvider.interceptors.push('AuthInterceptor');
                     $sailsSocketProvider.interceptors.push('ErrorInterceptor');
+
+                    // Set tooltip options
+                    $tooltipProvider.options({
+                        appendToBody: true
+                    });
 
                     // Extend default toastr configuration with application specified configuration
                     angular.extend(

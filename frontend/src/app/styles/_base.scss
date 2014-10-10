@@ -90,3 +90,16 @@ footer {
     margin: 0 0 0 5px;
   }
 }
+
+.tooltip {
+  h1, h2, h3, h4, h5, h6 {
+    color: #ffffff;
+    border-bottom: 1px solid #9b9b9b;
+    margin: 3px 0 5px 0;
+    padding: 0;
+  }
+
+  .tooltip-inner {
+    text-align: left;
+  }
+}

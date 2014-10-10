@@ -11,6 +11,7 @@
      *
      * @todo
      *  1) Make example about $http / $sailsSocket usage where automatic message is disabled.
+     *  2) Make example about invalid JWT
      */
     angular.module('frontend.example.messages')
         .controller('MessagesController',

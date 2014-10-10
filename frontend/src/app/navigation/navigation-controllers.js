@@ -14,21 +14,25 @@
         .controller('NavigationModalController',
             [
                 '$scope', '$modalInstance',
+                'BackendConfig',
                 '_title', '_directory', '_template',
-                function($scope, $modalInstance,
-                         _title, _directory, _template
+                function(
+                    $scope, $modalInstance,
+                    BackendConfig,
+                    _title, _directory, _template
                 ) {
                     $scope.title = _title;
                     $scope.directory = _directory;
                     $scope.template = _template;
+                    $scope.backendConfig = BackendConfig;
 
                     // Dismiss function for modal
-                    $scope.dismiss = function() {
+                    $scope.dismiss = function dismiss() {
                         $modalInstance.dismiss();
                     };
 
                     // Getter function for content template
-                    $scope.getContentTemplate = function() {
+                    $scope.getContentTemplate = function getContentTemplate() {
                         return '/frontend/' + $scope.directory + '/' + $scope.template + '-info.html';
                     };
                 }

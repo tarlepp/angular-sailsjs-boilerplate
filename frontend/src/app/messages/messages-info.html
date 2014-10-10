@@ -1,40 +1,34 @@
 <h4>General info</h4>
 
 <p>
-    This GUI demonstrates how this boilerplate is handling errors with <code>$http</code> and <code>$sailsSocket</code>
-    responses. Note that this <em>magic</em> is done automatic, so you don't have to do anything extra for this
-    functionality. Actual functionality is done via <code>angular interceptor</code>, so all of this is attached
-    automatically to all <code>$http</code> and <code>$sailsSocket</code> communications.
+    Example page to demonstrate how this boilerplate is handling errors with <em>$http</em> and <em>$sailsSocket</em>
+    requests. Note that this <em>magic</em> is done automatic via error interceptor, so you don't have to do anything
+    extra for error handling. Actual error handling is done via error interceptor that is attached to <em>$http</em>
+    and <em>$sailsSocket</em> services.
 </p>
 
 <p>
-    This will intercept <em>all</em> errors from <code>$http</code> and <code>$sailsSocket</code> requests. Note that
-    shown message depends about actual error <code>response</code> from server. Errors are shown to user via
-    <code>Message</code> service which uses <code>noty2</code> library. You can also use this <code>Message</code>
-    service to show desired messaged to users if you like to.
+    This interceptor will catch <em>all</em> errors from <em>$http</em> and <em>$sailsSocket</em> request and show
+    those to user via message service. Note that shown message depends on actual error response from backend.
 </p>
 
-<h4>Frontend</h4>
+<h4>Functions in this example</h4>
 
-<ul class="list-unstyled">
-    <li>
-        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/frontend/src/app/messages/messages.js" target="_blank">messages.js</a>
-        <span class="text-muted">(module configuration)</span>
-    </li>
-    <li>
-        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/frontend/src/app/messages/messages-controller.js" target="_blank">messages-controller.js</a>
-        <span class="text-muted">(controller)</span>
-    </li>
-    <li>
-        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/frontend/src/app/partials/messages/messages.html" target="_blank">messages.html</a>
-        <span class="text-muted">(template)</span>
-    </li>
-    <li>
-        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/frontend/src/app/angular/Interceptors/ErrorInterceptor.js" target="_blank">ErrorInterceptor.js</a>
-        <span class="text-muted">(error interceptor)</span>
-    </li>
-    <li>
-        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/frontend/src/app/angular/Services/Message.js" target="_blank">Message.js</a>
-        <span class="text-muted">(message service)</span>
-    </li>
-</ul>
+<dl class="dl-horizontal">
+    <dt>
+        Custom messages
+    </dt>
+    <dd>
+        Simple example to trigger different types of messages; <em>info, success, warning</em> and <em>error</em> with
+        specified <em>title</em> and actual <em>message</em>.
+    </dd>
+
+    <dt>
+        $http / $sailsSocket
+    </dt>
+    <dd>
+        Examples to demonstrate invalid URL and not found record. These are handled automatic by <em>ErrorInterceptor</em>.
+    </dd>
+</dl>
+
+<page-info-files data-directory="{{directory}}" data-template="{{template}}"></page-info-files>

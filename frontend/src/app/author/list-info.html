@@ -1,64 +1,65 @@
 <h4>General info</h4>
 
 <p>
-    This GUI demonstrates how you can use <code>$sailsSocket</code> service to fetch data from backend for
-    your GUI and how you can use <code>ui.bootstrap.pagination</code> component for that data. Also this will
-    demonstrate how you can sort that data by simply click table header.
+    This page demonstrates simple data fetch from backend via WebSockets and how to show that data in simple list.
+    Within this example application fetches <em>authors</em> data with related <em>book</em> data populated to each
+    one. Example also covers data pagination, sort and search functions. Actual data is fetched from following backend
+    endpoint.
 </p>
+
+<pre>GET {{backendConfig.url}}/author <a ng-href="{{backendConfig.url}}/author" target="_blank" data-tooltip="Open endpoint url"><i class="fa fa-external-link"></i></a></pre>
 
 <p>
-    This GUI has following basic actions attached to it.
+    Note that all data communications to backend requires JSON Web Token <em>JWT</em>. This JWT is used to authenticate
+    current request to make sure that user is allowed to access that data.
 </p>
 
-<ul>
-    <li>Data fetch from server via WebSocket communications</li>
-    <li>Data pagination</li>
-    <li>Data sort by column</li>
-</ul>
+<h4>Functions in this example</h4>
 
-<p>
-    Every time when user changes <em>page</em> or <em>sort order</em> data is been fetched from server via
-    <code>$sailsSocket</code>. Used codes for this GUI is listed below.
-</p>
+<dl class="dl-horizontal">
+    <dt>
+        Data fetch
+    </dt>
+    <dd>
+        From backend via WebSockets using <em>$sailsSocket</em> service.
+    </dd>
 
-<h4>Backend</h4>
+    <dt>
+        Search
+    </dt>
+    <dd>
+        Specify which columns are used in search and type your search words to see results while you're typing.
+    </dd>
 
-<ul class="list-unstyled">
-    <li>
-        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/backend/api/models/Author.js" target="_blank">Author.js</a>
-        <span class="text-muted">(model)</span>
-    </li>
-    <li>
-        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/backend/api/controllers/AuthorController.js" target="_blank">AuthorController.js</a>
-        <span class="text-muted">(controller)</span>
-    </li>
-    <li>
-        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/backend/api/base/controller.js" target="_blank">controller.js</a>
-        <span class="text-muted">(base controller)</span>
-    </li>
-    <li>
-        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/backend/test/fixtures/Author.json" target="_blank">Author.json</a>
-        <span class="text-muted">(initial data)</span>
-    </li>
-</ul>
+    <dt>
+        Pagination
+    </dt>
+    <dd>
+        By default, the page displays an example of ten books per page. And you can change the number to be
+        displayed per page.
+    </dd>
 
-<h4>Frontend</h4>
+    <dt>
+        Sorting data
+    </dt>
+    <dd>
+        Simple by clicking of column header. This will fetch data from backend again. <em>Unfortunately not from
+        relation columns... yet.</em>
+    </dd>
 
-<ul class="list-unstyled">
-    <li>
-        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/frontend/src/app/authors/authors.js" target="_blank">authors.js</a>
-        <span class="text-muted">(module configuration)</span>
-    </li>
-    <li>
-        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/frontend/src/app/authors/authors-controller.js" target="_blank">authors-controller.js</a>
-        <span class="text-muted">(controller)</span>
-    </li>
-    <li>
-        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/frontend/src/app/partials/authors/authors.html" target="_blank">authors.html</a>
-        <span class="text-muted">(template)</span>
-    </li>
-    <li>
-        <a href="https://github.com/tarlepp/angular-sailsjs-boilerplate/blob/master/frontend/src/app/angular/Services/DataService.js" target="_blank">DataService.js</a>
-        <span class="text-muted">(data service)</span>
-    </li>
-</ul>
+    <dt>
+        Live updates
+    </dt>
+    <dd>
+        Data is updated automatic to GUI if someone changes data that is shown currently.
+    </dd>
+
+    <dt>
+        Navigation
+    </dt>
+    <dd>
+        Access to single author and book pages simply by click author or book name.
+    </dd>
+</dl>
+
+<page-info-files data-directory="{{directory}}" data-template="{{template}}"></page-info-files>
