@@ -104,7 +104,6 @@ function index() {
     return gulp.src('./src/app/index.html')
         .pipe(g.inject(g.bowerFiles(opt), {ignorePath: 'bower_components', starttag: '<!-- inject:vendor:{{ext}} -->'}))
         .pipe(g.inject(es.merge(appFiles(), cssFiles(opt)), {ignorePath: ['.tmp', 'src/app']}))
-        .pipe(gulp.dest('./src/app/'))
         .pipe(g.embedlr())
         .pipe(gulp.dest('./.tmp/'))
         .pipe(livereload());
