@@ -30,7 +30,7 @@ module.exports = function(request, response, next) {
         } else {
             sails.log.verbose('     ERROR - Format is Authorization: Bearer [token]');
 
-            return response.json(401, {message: 'Format is Authorization: Bearer [token]'});
+            return response.json(401, {message: 'Invalid authorization header format. Format is Authorization: Bearer [token]'});
         }
     } else if (request.param('token')) { // JWT token sent by parameter
         token = request.param('token');
@@ -41,7 +41,7 @@ module.exports = function(request, response, next) {
     } else { // Otherwise request didn't contain required JWT token
         sails.log.verbose('     ERROR - No Authorization header was found');
 
-        return response.json(401, {message: 'No Authorization header was found'});
+        return response.json(401, {message: 'No authorization header was found'});
     }
 
     // Verify JWT token via service
@@ -49,7 +49,7 @@ module.exports = function(request, response, next) {
         if (error) {
             sails.log.verbose('     ERROR - The token is not valid');
 
-            return response.json(401, {message: 'The token is not valid'});
+            return response.json(401, {message: 'Given authorization token is not valid'});
         } else {
             sails.log.verbose('     OK');
 
