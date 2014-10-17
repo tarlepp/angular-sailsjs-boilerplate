@@ -5,7 +5,7 @@ var expect = require('chai').expect;
 var login = require("./../../helpers/login");
 var _ = require('lodash');
 
-describe('Generic controller test', function AuthorController() {
+describe('Generic controller test', function controllerTest() {
     [
         {
             controller: 'AuthorController',
