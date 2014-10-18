@@ -1,4 +1,4 @@
-# Boilerplate for AngularJS + Sails.js
+# Boilerplate for AngularJS + Sails.js [![Build Status](https://travis-ci.org/tarlepp/angular-sailsjs-boilerplate.png?branch=master)](https://travis-ci.org/tarlepp/angular-sailsjs-boilerplate)
 ### Why?
 Modern web applications has separated front- and backend sides to use. This boilerplate present one way to make
 <em>your</em> application which have fully separated back- and frontend sides.
