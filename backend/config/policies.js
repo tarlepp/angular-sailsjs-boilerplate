@@ -22,6 +22,7 @@ module.exports.policies = {
     '*':        ['passport', 'authenticated'],
 
     AuthController: {
-        '*':    ['passport']
+        '*':                ['passport'],
+        'checkPassword':    ['passport', 'authenticated']
     }
 };
