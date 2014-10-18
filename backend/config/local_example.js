@@ -42,6 +42,9 @@ module.exports = {
     models: {
         connection: 'mysql' // Change this to be one of your connections key
     },
+    session: {
+        secret: '' // Add your own SECRET string here
+    },
     port: 1337,
     environment: 'development',
     log: {
