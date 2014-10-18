@@ -25,7 +25,7 @@ var AuthController = {
     logout: function(request, response) {
         request.logout();
 
-        response.json(200);
+        response.json(200, true);
     },
 
     /**
@@ -42,6 +42,9 @@ var AuthController = {
      * Simple action to check current auth status of user. Note that this will always send
      * HTTP status 200 and actual data will contain either user object or boolean false in
      * cases that user is not authenticated.
+     *
+     * @todo    Hmmm, I think that this will return always false, because of missing of
+     *          actual sessions here...
      *
      * @param   {Request}   request     Request object
      * @param   {Response}  response    Response object
@@ -76,8 +79,8 @@ var AuthController = {
                 // If an error was thrown, redirect the user to the login which should
                 // take care of rendering the error messages.
                 if (error) {
-                    sails.log.error('User authentication failed');
-                    sails.log.error(error);
+                    sails.log.verbose('User authentication failed');
+                    sails.log.verbose(error);
 
                     response.json(401, error);
                 } else { // Upon successful login, send back user data and JWT token
@@ -115,7 +118,17 @@ var AuthController = {
                         protocol: 'local'
                     };
 
-                    sails.services['data'].getPassport(where, callback);
+                    sails.models['passport']
+                        .findOne(where)
+                        .exec(function(error, passport) {
+                            if (error) {
+                                callback(error);
+                            } else if (!passport) {
+                                callback({message: 'Given authorization token is not valid'});
+                            } else {
+                                callback(null, passport);
+                            }
+                        });
                 },
                 /**
                  * Job to validate given password against user passport object.
@@ -126,7 +139,13 @@ var AuthController = {
                 function(passport, callback) {
                     var password = request.param('password');
 
-                    passport.validatePassword(password, callback);
+                    passport.validatePassword(password, function(error, matched) {
+                        if (error) {
+                            callback({message: 'Invalid password'});
+                        } else {
+                            callback(null, matched);
+                        }
+                    });
                 }
             ],
             /**
@@ -138,16 +157,11 @@ var AuthController = {
              */
             function(error, result) {
                 if (error) {
-                    response.json(500, error);
+                    response.json(401, error);
                 } else if (result) {
                     response.json(200, result);
                 } else {
-                    error = new Error();
-
-                    error.message = 'Given password does not match.';
-                    error.status = 400;
-
-                    response.json(400, error);
+                    response.json(400, {message: 'Given password does not match.'});
                 }
             }
         );
