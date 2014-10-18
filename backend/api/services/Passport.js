@@ -297,7 +297,11 @@ passport.loadStrategies = function(request) {
 passport.serializeUser(function(user, next) {
     sails.log.verbose(__filename + ':' + __line + ' [Service.Passport.serializeUser() called]');
 
-    next(null, user.id);
+    if (!user) {
+        next({message: 'Invalid user.'}, null);
+    } else {
+        next(null, user.id);
+    }
 });
 
 passport.deserializeUser(function(id, next) {
