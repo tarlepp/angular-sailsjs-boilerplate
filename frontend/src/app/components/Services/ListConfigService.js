@@ -18,17 +18,60 @@
                     /**
                      * List title item configuration.
                      *
-                     * @type {{book: *[]}}
+                     * @type {{
+                     *      author: *[],
+                     *      book: *[]
+                     *  }}
                      */
                     var titleItems = {
                         author: [
-                            {title: 'Author', column: 'name'},
-                            {title: 'Books', column: false, class: 'text-right'}
+                            {
+                                title: 'Author',
+                                column: 'name',
+                                class: 'col-xs-11',
+                                searchable: true,
+                                sortable: true,
+                                inSearch: true,
+                                inTitle: true
+                            },
+                            {
+                                title: 'Books',
+                                column: false,
+                                class: 'text-right col-xs-1',
+                                searchable: false,
+                                sortable: false,
+                                inSearch: false,
+                                inTitle: true
+                            }
                         ],
                         book: [
-                            {title: 'Title', column: 'title'},
-                            {title: 'Author', column: false},
-                            {title: 'Year', column: 'releaseDate', 'class': 'text-right'}
+                            {
+                                title: 'Title',
+                                column: 'title',
+                                class: 'col-xs-8',
+                                searchable: true,
+                                sortable: true,
+                                inSearch: true,
+                                inTitle: true
+                            },
+                            {
+                                title: 'Author',
+                                column: false,
+                                class: 'col-xs-3',
+                                searchable: false,
+                                sortable: false,
+                                inSearch: false,
+                                inTitle: true
+                            },
+                            {
+                                title: 'Year',
+                                column: 'releaseDate',
+                                class: 'col-xs-1 text-right',
+                                searchable: true,
+                                sortable: true,
+                                inSearch: true,
+                                inTitle: true
+                            }
                         ]
                     };
 
@@ -37,13 +80,14 @@
                          * Getter method for list default settings.
                          *
                          * @returns {{
-                         *              itemCount:      number,
-                         *              items:          Array,
-                         *              itemsPerPage:   number,
-                         *              currentPage:    number,
-                         *              where:          {},
-                         *              loading:        boolean,
-                         *              loaded:         boolean
+                         *              itemCount:              Number,
+                         *              items:                  Array,
+                         *              itemsPerPage:           Number,
+                         *              itemsPerPageOptions:    Array,
+                         *              currentPage:            Number,
+                         *              where:                  {},
+                         *              loading:                Boolean,
+                         *              loaded:                 Boolean
                          *          }}
                          */
                         getConfig: function getDefault() {
@@ -51,6 +95,7 @@
                                 itemCount: 0,
                                 items: [],
                                 itemsPerPage: 10,
+                                itemsPerPageOptions: [10,25,50,100],
                                 currentPage: 1,
                                 where: {},
                                 loading: true,
