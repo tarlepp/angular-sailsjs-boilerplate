@@ -4,6 +4,9 @@ var request = require('supertest');
 var expect = require('chai').expect;
 var login = require("./../../helpers/login");
 var _ = require('lodash');
+var Barrels = require('barrels');
+var barrels = new Barrels();
+var fixtures = barrels.data;
 
 describe('AuthController', function AuthController() {
     describe('action login', function loginTest() {
@@ -90,9 +93,7 @@ describe('AuthController', function AuthController() {
 
         describe('after successfully login', function successfullyLogin() {
             beforeEach(function beforeEach(done) {
-                sails.models['userlogin']
-                    .destroy({})
-                    .exec(done);
+                barrels.populate(['userlogin'], done);
             });
 
             [
