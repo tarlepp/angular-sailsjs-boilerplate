@@ -29,12 +29,13 @@
     angular.module('frontend.example.author')
         .controller('AuthorListController',
             [
-                '$scope', '$q',
+                '$scope', '$q', '$timeout',
                 'ListConfig',
-                'AuthorModel',
-                function($scope, $q,
-                         ListConfig,
-                         AuthorModel
+                'SocketWhereCondition', 'AuthorModel',
+                function(
+                    $scope, $q, $timeout,
+                    ListConfig,
+                    SocketWhereCondition, AuthorModel
                 ) {
                     // Initialize data
                     $scope.endPoint = 'author';
@@ -51,6 +52,12 @@
                         direction: true
                     };
 
+                    // Initialize filters
+                    $scope.filters = {
+                        searchWord: '',
+                        columns: $scope.titleItems
+                    };
+
                     // Function to change sort column / direction on list
                     $scope.changeSort = function changeSort(item) {
                         var sort = $scope.sort;
@@ -62,21 +69,86 @@
                             sort.direction = true;
                         }
 
+                        _triggerFetchData();
+                    };
+
+                    /**
+                     * Simple watcher for 'currentPage' scope variable. If this is changed we need to fetch author data
+                     * from server.
+                     */
+                    $scope.$watch('currentPage', function watcher() {
+                        _fetchData();
+                    });
+
+                    /**
+                     * Simple watcher for 'itemsPerPage' scope variable. If this is changed we need to fetch author data
+                     * from server.
+                     */
+                    $scope.$watch('itemsPerPage', function watcher(valueNew, valueOld) {
+                        if (valueNew !== valueOld) {
+                            _triggerFetchData();
+                        }
+                    });
+
+                    var searchWordTimer;
+
+                    /**
+                     * Watcher for 'filter' scope variable, which contains multiple values that we're interested
+                     * within actual GUI. This will trigger new data fetch query to server if following conditions
+                     * have been met:
+                     *
+                     *  1) Actual filter variable is different than old one
+                     *  2) Search word have not been changed in 400ms
+                     *
+                     * If those are ok, then watcher will call 'fetchData' function.
+                     */
+                    $scope.$watch('filters', function watcher(valueNew, valueOld) {
+                        if (valueNew !== valueOld) {
+                            if (searchWordTimer) {
+                                $timeout.cancel(searchWordTimer);
+                            }
+
+                            searchWordTimer = $timeout(_triggerFetchData, 400);
+                        }
+                    }, true);
+
+                    /**
+                     * Helper function to trigger actual data fetch from backend. This will just check current page
+                     * scope variable and if it is 1 call 'fetchData' function right away. Any other case just set
+                     * 'currentPage' scope variable to 1, which will trigger watcher to fetch data.
+                     *
+                     * @private
+                     */
+                    function _triggerFetchData() {
                         if ($scope.currentPage === 1) {
-                            fetchData();
+                            _fetchData();
                         } else {
                             $scope.currentPage = 1;
                         }
-                    };
+                    }
 
-                    // Watcher for current page attribute, whenever this changes we need to fetch data from server
-                    $scope.$watch('currentPage', function currentPageWatcher() {
-                        fetchData();
-                    });
-
-                    // Scope function to fetch data count and actual data
-                    function fetchData() {
+                    /**
+                     * Helper function to fetch actual data for GUI from backend server with current parameters:
+                     *  1) Current page
+                     *  2) Search word
+                     *  3) Sort order
+                     *  4) Items per page
+                     *
+                     * Actually this function is doing two request to backend:
+                     *  1) Data count by given filter parameters
+                     *  2) Actual data fetch for current page with filter parameters
+                     *
+                     * These are fetched via 'AuthorModel' service with promises.
+                     *
+                     * @private
+                     */
+                    function _fetchData() {
                         $scope.loading = true;
+
+                        // Common parameters for count and data query
+                        var commonParameters = {
+                            where: SocketWhereCondition.get($scope.filters)
+                        };
 
                         // Data query specified parameters
                         var parameters = {
@@ -88,18 +160,18 @@
 
                         // Fetch data count
                         var count = AuthorModel
-                            .count()
+                            .count(commonParameters)
                             .then(
-                                function successCallback(response) {
+                                function callback(response) {
                                     $scope.itemCount = response.count;
                                 }
                             );
 
                         // Fetch actual data
                         var load = AuthorModel
-                            .load(parameters)
+                            .load(_.merge({}, commonParameters, parameters))
                             .then(
-                                function successCallback(response) {
+                                function callback(response) {
                                     $scope.items = response;
                                 }
                             );

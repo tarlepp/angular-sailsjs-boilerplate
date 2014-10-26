@@ -16,7 +16,7 @@
     "async": "0.9.0",
     "sails": "0.10.5",
     "sails-disk": "0.10.4",
-    "sails-mysql": "0.10.6",
+    "sails-mysql": "0.10.7",
     "rc": "0.5.1",
     "include-all": "0.1.6",
     "passport": "0.2.1",
@@ -28,7 +28,7 @@
     "bcryptjs": "2.1.0",
     "validator": "3.19.0",
     "jsonwebtoken": "1.1.2",
-    "barrels": "1.1.1",
+    "barrels": "1.3.0",
     "lodash": "2.4.1",
     "ua-parser": "0.3.3"
   },
