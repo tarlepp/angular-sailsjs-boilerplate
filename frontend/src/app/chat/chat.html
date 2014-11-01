@@ -33,7 +33,7 @@
                     data-ng-repeat="message in messages | orderBy: 'createdAt'"
                 >
                     <span class="pull-left time text-muted">
-                        <code>[{{message.createdAt | amDateFormat:'HH:mm:ss'}}]</code>
+                        <code>[{{message.createdAt | amDateFormat:'YYYY-MM-DD HH:mm:ss'}}]</code>
                     </span>
 
                     <span class="pull-left message">

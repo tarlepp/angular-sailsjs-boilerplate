@@ -29,11 +29,14 @@
         .controller('ChatController',
             [
                 '$scope', '$timeout',
+                'Moment',
                 'Storage', 'MessageService',
                 'MessageModel',
-                function($scope, $timeout,
-                         Storage, MessageService,
-                         MessageModel
+                function(
+                    $scope, $timeout,
+                    Moment,
+                    Storage, MessageService,
+                    MessageModel
                 ) {
                     // Get current nick of user
                     $scope.nick = Storage.get('chat.nick');
@@ -46,17 +49,23 @@
 
                     // Helper function to scroll to bottom of the chat
                     function scrollBottom() {
-                        $timeout(function() {
+                        $timeout(function timeout() {
                             document.getElementById('messages').scrollTop = $scope.messages.length * 50;
                         });
                     }
 
                     // Helper function to load messages from database.
                     function loadMessages() {
+                        var parameters = {
+                            where: {
+                                createdAt: {'>': new Moment().format()}
+                            }
+                        };
+
                         MessageModel
-                            .load()
+                            .load(parameters)
                             .then(
-                                function(messages) {
+                                function success(messages) {
                                     $scope.messages = messages;
 
                                     scrollBottom();
@@ -98,12 +107,12 @@
                     };
 
                     // Function to post a new message to server
-                    $scope.postMessage = function() {
+                    $scope.postMessage = function postMessage() {
                         if ($scope.message.message.trim() !== '') {
                             MessageModel
                                 .create($scope.message)
                                 .then(
-                                    function() {
+                                    function success() {
                                         $scope.message.message = '';
 
                                         scrollBottom();
