@@ -30,33 +30,32 @@
                         get: function(filters, defaults) {
                             var output = defaults || {};
 
-                            // Get search columns
-                            var columns = _.filter(filters.columns, function(column) {
+                            // Determine search columns
+                            var columns = _.filter(filters.columns, function filterColumn(column) {
                                 return column.inSearch;
                             });
 
+                            // Determine search words
                             var words = _.filter(filters.searchWord.split(' '));
 
+                            // We have some search word(s) and column(s)
                             if (columns.length > 0 && words.length > 0) {
                                 var conditions = [];
 
-                                for (var i = 0; i < words.length; i++) {
-                                    (function (index) {
-                                        var conditionOr = _.map(columns, function (column) {
-                                            var condition = {};
+                                // Iterate each columns
+                                _.each(columns, function iteratorColumns(column) {
+                                    // Iterate each search word
+                                    _.each(words, function iteratorWords(word) {
+                                        var condition = {};
 
-                                            condition[column.column] = {
-                                                contains: words[index]
-                                            };
+                                        // Create actual condition and push that to main condition
+                                        condition[column.column] = {contains: word};
 
-                                            return condition;
-                                        });
+                                        conditions.push(condition);
+                                    });
+                                });
 
-                                        conditions.push({or: conditionOr});
-                                    })(i);
-                                }
-
-                                output = conditions;
+                                output = {or: conditions};
                             }
 
                             return output;
