@@ -17,23 +17,28 @@
      * This will attach 'focusOn' event with 'focusMe' parameter to trigger focus of this element.
      */
     angular.module('frontend.components')
-        .directive('focusOn', function focusOnDirective() {
-            /**
-             * Actual directive return function.
-             *
-             * @param   {angular.scope}     scope   Angular scope object.
-             * @param   {angular.element}   element jqLite-wrapped element that this directive matches.
-             */
-            return function focusOn(scope, element) {
-                scope.$on('focusOn', function focusOnEvent(event, identifier) {
-                    if (element.data('focusOn') && identifier === element.data('focusOn')) {
-                        setTimeout(function focusTimeout() {
-                            element.focus();
-                        }, 1);
+        .directive('focusOn',
+            [
+                '$timeout',
+                function focusOnDirective($timeout) {
+                    /**
+                     * Actual directive return function.
+                     *
+                     * @param   {angular.scope}     scope   Angular scope object.
+                     * @param   {angular.element}   element jqLite-wrapped element that this directive matches.
+                     */
+                    return function focusOn(scope, element) {
+                        scope.$on('focusOn', function focusOnEvent(event, identifier) {
+                            if (element.data('focusOn') && identifier === element.data('focusOn')) {
+                                $timeout(function timeout() {
+                                    element.focus();
+                                });
+                            }
+                        });
                     }
-                });
-            };
-        });
+                }
+            ]
+        );
 
     /**
      * Service for focus component. This is need for actual element focus events which can be activated from another
