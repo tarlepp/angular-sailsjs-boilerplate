@@ -23,12 +23,14 @@
     }
 
     ul {
-      li.title {
-        font-size: 12px;
-        padding: 3px 10px 0;
-        text-transform: uppercase;
-        white-space: nowrap;
-      }
+
+        .title {
+          font-size: 12px;
+          padding: 3px 10px 0;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+
     }
 
     .dropdown-menu > li > a {

@@ -86,7 +86,7 @@
                         $scope.files = NavigationInfoModalFiles.get($scope.directory, $scope.template);
 
                         $scope.getTooltip = function getTooltip(item) {
-                            return '<h5>' + item.title + '</h5>' + item.info;
+                            return '<h5 class="title">' + item.title + '</h5>' + item.info;
                         };
                     }
                 ]

@@ -30,10 +30,12 @@
         .controller('AuthorListController',
             [
                 '$scope', '$q', '$timeout',
+                '_',
                 'ListConfig',
                 'SocketWhereCondition', 'AuthorModel',
                 function(
                     $scope, $q, $timeout,
+                    _,
                     ListConfig,
                     SocketWhereCondition, AuthorModel
                 ) {
