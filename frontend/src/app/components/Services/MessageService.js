@@ -3,9 +3,9 @@
  * all $http and $socket queries uses this service to show specified errors to user.
  *
  * Service can be used as in following examples (assuming that you have inject this service to your controller):
- *  Message.success(message, [options]);
- *  Message.error(message, [options]);
- *  Message.message(message, [options]);
+ *  Message.success(message, [title], [options]);
+ *  Message.error(message, [title], [options]);
+ *  Message.message(message, [title], [options]);
  *
  * Feel free to be happy and code some awesome stuff!
  *
