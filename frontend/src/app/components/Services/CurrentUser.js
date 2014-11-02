@@ -30,11 +30,13 @@
         .factory('CurrentUser',
             [
                 'Storage',
-                function(Storage) {
+                function service(Storage) {
                     return {
-                        user: function() {
-                            if (Storage.get('auth_token')) {
-                                return angular.fromJson(Storage.get('auth_token')).user;
+                        user: function user() {
+                            var data = Storage.get('auth_token');
+
+                            if (data) {
+                                return angular.fromJson(data).user;
                             } else {
                                 return {};
                             }

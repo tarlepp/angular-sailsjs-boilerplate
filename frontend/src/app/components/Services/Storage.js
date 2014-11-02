@@ -11,7 +11,7 @@
     'use strict';
 
     angular.module('frontend.services')
-        .factory('Storage', function() {
+        .factory('Storage', function service() {
             return {
                 /**
                  * Storage service method to get specified key value from local storage.

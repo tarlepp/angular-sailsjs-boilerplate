@@ -14,9 +14,10 @@
                 '$sailsSocket',
                 '_',
                 'BackendConfig',
-                function($sailsSocket,
-                         _,
-                         BackendConfig
+                function(
+                    $sailsSocket,
+                    _,
+                    BackendConfig
                 ) {
                     /**
                      * Helper function to get "proper" end point url for sails backend API.
@@ -25,8 +26,9 @@
                      * @param   {number}    [identifier]    Identifier of endpoint object
                      *
                      * @returns {string}
+                     * @private
                      */
-                    function parseEndPointUrl(endPoint, identifier) {
+                    function _parseEndPointUrl(endPoint, identifier) {
                         if (!_.isUndefined(identifier)) {
                             endPoint = endPoint + '/' + identifier;
                         }
@@ -34,15 +36,15 @@
                         return BackendConfig.url + '/' + endPoint;
                     }
 
-
                     /**
                      * Helper function to parse used parameters in 'get' and 'count' methods.
                      *
                      * @param   {{}}    parameters  Used query parameters
                      *
                      * @returns {{params: {}}}
+                     * @private
                      */
-                    function parseParameters(parameters) {
+                    function _parseParameters(parameters) {
                         parameters = parameters || {};
 
                         return {params: parameters};
@@ -57,9 +59,9 @@
                          *
                          * @returns {Promise|*}
                          */
-                        'count': function(endPoint, parameters) {
+                        'count': function getCount(endPoint, parameters) {
                             return $sailsSocket
-                                .get(parseEndPointUrl(endPoint) + '/count/', parseParameters(parameters));
+                                .get(_parseEndPointUrl(endPoint) + '/count/', _parseParameters(parameters));
                         },
 
                         /**
@@ -71,9 +73,9 @@
                          *
                          * @returns {Promise|*}
                          */
-                        'collection': function(endPoint, parameters) {
+                        'collection': function getCollection(endPoint, parameters) {
                             return $sailsSocket
-                                .get(parseEndPointUrl(endPoint), parseParameters(parameters));
+                                .get(_parseEndPointUrl(endPoint), _parseParameters(parameters));
                         },
 
                         /**
@@ -86,9 +88,9 @@
                          *
                          * @returns {Promise|*}
                          */
-                        'fetch': function(endPoint, identifier, parameters) {
+                        'fetch': function fetchObject(endPoint, identifier, parameters) {
                             return $sailsSocket
-                                .get(parseEndPointUrl(endPoint, identifier), parseParameters(parameters));
+                                .get(_parseEndPointUrl(endPoint, identifier), _parseParameters(parameters));
                         },
 
                         /**
@@ -99,9 +101,9 @@
                          *
                          * @returns {Promise|*}
                          */
-                        'create': function(endPoint, data) {
+                        'create': function createObject(endPoint, data) {
                             return $sailsSocket
-                                .post(parseEndPointUrl(endPoint), data);
+                                .post(_parseEndPointUrl(endPoint), data);
                         },
 
                         /**
@@ -113,9 +115,9 @@
                          *
                          * @returns {Promise|*}
                          */
-                        'update': function(endPoint, identifier, data) {
+                        'update': function updateObject(endPoint, identifier, data) {
                             return $sailsSocket
-                                .put(parseEndPointUrl(endPoint, identifier), data);
+                                .put(_parseEndPointUrl(endPoint, identifier), data);
                         },
 
                         /**
@@ -126,9 +128,9 @@
                          *
                          * @returns {Promise|*}
                          */
-                        'delete': function(endPoint, identifier) {
+                        'delete': function deleteObject(endPoint, identifier) {
                             return $sailsSocket
-                                .delete(parseEndPointUrl(endPoint, identifier));
+                                .delete(_parseEndPointUrl(endPoint, identifier));
                         }
                     };
                 }

@@ -6,6 +6,7 @@
  * @todo
  *  1) add usage examples
  *  2) more documentation
+ *  3) better handling of events
  */
 (function() {
     'use strict';
@@ -58,51 +59,6 @@
 
                         // Subscribe to specified endpoint
                         self._subscribe();
-                    };
-
-                    /**
-                     * Service function to subscribe model socket events. This is needed to update model data according
-                     * to another users updates (create, update, delete, etc.) within this model. Basically this will
-                     * just trigger one of following service function calls:
-                     *
-                     *  - handlerCreated
-                     *  - handlerUpdated
-                     *  - handlerDeleted
-                     *
-                     * @private
-                     */
-                    model._subscribe = function subscribe() {
-                        var self = this;
-
-                        // Actual subscribe
-                        $sailsSocket
-                            .subscribe(self.endpoint, function modelEvent(message) {
-                                // Handle this event
-                                self._handleEvent(message);
-                            });
-                    };
-
-                    /**
-                     * Generic event handler for model events (created, updated, deleted, etc.). This function is 
-                     * called from model socket events and 'create', 'update' and 'delete' service function.
-                     *
-                     * @param   {{
-                     *              verb:   String,
-                     *              data:   {},
-                     *              id:     Number
-                     *          }}  message Message to handle
-                     *
-                     * @private
-                     */
-                    model._handleEvent = function handleEvent(message) {
-                        var self = this;
-                        var method = 'handler' + message.verb[0].toUpperCase() + message.verb.slice(1);
-
-                        if (_.isFunction(self[method])) {
-                            self[method](message);
-                        } else {
-                            console.log('Implement handling for \'' + message.verb + '\' socket messages');
-                        }
                     };
 
                     /**
@@ -186,7 +142,7 @@
                         return DataService
                             .collection(self.endpoint, parameters)
                             .then(
-                                function successCallback(response) {
+                                function success(response) {
                                     self.objects = response.data;
 
                                     return self.objects;
@@ -232,7 +188,7 @@
                         return DataService
                             .create(self.endpoint, data)
                             .then(
-                                function(response) {
+                                function success(response) {
                                     self._handleEvent({verb: 'created', data: response.data, id: response.data.id});
 
                                     return response.data;
@@ -256,7 +212,7 @@
                         return DataService
                             .update(self.endpoint, identifier, data)
                             .then(
-                                function(response) {
+                                function success(response) {
                                     self._handleEvent({verb: 'updated', data: response.data, id: response.data.id});
 
                                     return response.data;
@@ -279,12 +235,57 @@
                         return DataService
                             .delete(self.endpoint, identifier)
                             .then(
-                                function(response) {
+                                function success(response) {
                                     self._handleEvent({verb: 'deleted', data: response.data, id: response.data.id});
 
                                     return response.data;
                                 }
                             );
+                    };
+
+                    /**
+                     * Service function to subscribe model socket events. This is needed to update model data according
+                     * to another users updates (create, update, delete, etc.) within this model. Basically this will
+                     * just trigger one of following service function calls:
+                     *
+                     *  - handlerCreated
+                     *  - handlerUpdated
+                     *  - handlerDeleted
+                     *
+                     * @private
+                     */
+                    model._subscribe = function subscribe() {
+                        var self = this;
+
+                        // Actual subscribe
+                        $sailsSocket
+                            .subscribe(self.endpoint, function modelEvent(message) {
+                                // Handle this event
+                                self._handleEvent(message);
+                            });
+                    };
+
+                    /**
+                     * Generic event handler for model events (created, updated, deleted, etc.). This function is
+                     * called from model socket events and 'create', 'update' and 'delete' service function.
+                     *
+                     * @param   {{
+                     *              verb:   String,
+                     *              data:   {},
+                     *              id:     Number
+                     *          }}  message Message to handle
+                     *
+                     * @private
+                     */
+                    model._handleEvent = function handleEvent(message) {
+                        var self = this;
+                        var method = 'handler' + message.verb[0].toUpperCase() + message.verb.slice(1);
+
+                        if (_.isFunction(self[method])) {
+                            self[method](message);
+                        } else {
+                            console.log('Implement handling for \'' + message.verb + '\' socket messages');
+                        }
                     };
 
                     return model;

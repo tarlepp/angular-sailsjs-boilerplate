@@ -14,8 +14,9 @@
             [
                 '$q', '$injector',
                 'Storage',
-                function($q, $injector,
-                         Storage
+                function(
+                    $q, $injector,
+                    Storage
                 ) {
                     return {
                         /**
@@ -26,7 +27,7 @@
                          *
                          * @returns {*}
                          */
-                        request: function(config) {
+                        request: function request(config) {
                             var token;
 
                             // Yeah we have some user data on local storage
@@ -46,7 +47,7 @@
                                  * side policy (middleware).
                                  */
                                 config.data.token = token;
-                                config.headers.Authorization = 'Bearer ' + token;
+                                config.headers.authorization = 'Bearer ' + token;
                             }
 
                             return config;
@@ -59,7 +60,7 @@
                          *
                          * @returns {Promise}
                          */
-                        responseError: function(response) {
+                        responseError: function responseError(response) {
                             if (response.status === 401) {
                                 Storage.unset('auth_token');
 

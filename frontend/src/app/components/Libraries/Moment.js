@@ -23,7 +23,7 @@
         .factory('Moment',
             [
                 '$window',
-                function($window) {
+                function service($window) {
                     return $window.moment;
                 }
             ]

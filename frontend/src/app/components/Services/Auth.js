@@ -49,8 +49,9 @@
             [
                 '$http', '$state',
                 'Storage', 'AccessLevels', 'BackendConfig', 'MessageService',
-                function($http, $state,
-                         Storage, AccessLevels, BackendConfig, MessageService
+                function(
+                    $http, $state,
+                    Storage, AccessLevels, BackendConfig, MessageService
                 ) {
                     return {
                         /**

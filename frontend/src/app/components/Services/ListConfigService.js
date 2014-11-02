@@ -14,7 +14,7 @@
         .factory('ListConfig',
             [
                 '_',
-                function(_) {
+                function service(_) {
                     /**
                      * List title item configuration.
                      *
@@ -90,7 +90,7 @@
                          *              loaded:                 Boolean
                          *          }}
                          */
-                        getConfig: function getDefault() {
+                        getConfig: function getConfig() {
                             return {
                                 itemCount: 0,
                                 items: [],
@@ -111,7 +111,7 @@
                          *
                          * @returns {Array}
                          */
-                        getTitleItems: function getTitleItem(model) {
+                        getTitleItems: function getTitleItems(model) {
                             return _.isUndefined(titleItems[model]) ? [] : titleItems[model];
                         }
                     };
