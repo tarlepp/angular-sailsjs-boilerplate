@@ -36,8 +36,8 @@ module.exports = function(request, response, next) {
         token = request.param('token');
 
         // We delete the token from query and body to not mess with blueprints
-        delete request.query.token;
-        delete request.body.token;
+        request.query && delete request.query.token;
+        request.body && delete request.body.token;
     } else { // Otherwise request didn't contain required JWT token
         sails.log.verbose('     ERROR - No Authorization header was found');
 
