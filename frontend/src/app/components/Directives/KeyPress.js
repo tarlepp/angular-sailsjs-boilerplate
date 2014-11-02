@@ -21,9 +21,9 @@
         .directive('keyPress',
             [
                 '$timeout',
-                function($timeout) {
-                    return function(scope, element, attributes) {
-                        element.bind('keydown keypress', function(event) {
+                function directive($timeout) {
+                    return function keyPress(scope, element, attributes) {
+                        element.bind('keydown keypress', function event(event) {
                             if (event.which === parseInt(attributes.keyCode, 10)) {
                                 $timeout(function timeout() {
                                     scope.$apply(function apply() {

@@ -36,7 +36,7 @@
     'use strict';
 
     angular.module('frontend.directives')
-        .directive('listSearch', function listSearch() {
+        .directive('listSearch', function directive() {
             return {
                 restrict: 'E',
                 scope: {
@@ -48,10 +48,10 @@
                 templateUrl: '/frontend/partials/Directives/Components/ListSearch.html',
                 controller: [
                     '$scope',
-                    function($scope) {
+                    function controller($scope) {
                         $scope.id = Math.floor((Math.random() * 6) + 1);
 
-                        $scope.inSearch = function(item) {
+                        $scope.inSearch = function inSearch(item) {
                             return (!angular.isUndefined(item.searchable)) ? item.searchable : false;
                         };
                     }

@@ -8,7 +8,7 @@
     'use strict';
 
     angular.module('frontend.directives')
-        .directive('navigationHeader', function() {
+        .directive('navigationHeader', function directive() {
             return {
                 restrict: 'E',
                 replace: true,
@@ -17,13 +17,14 @@
                 controller: [
                     '$scope',
                     'CurrentUser', 'Auth',
-                    function($scope,
-                             CurrentUser, Auth
+                    function controller(
+                        $scope,
+                        CurrentUser, Auth
                     ) {
                         $scope.user = CurrentUser.user;
                         $scope.auth = Auth;
 
-                        $scope.logout = function() {
+                        $scope.logout = function logout() {
                             Auth.logout();
                         };
                     }

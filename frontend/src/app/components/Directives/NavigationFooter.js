@@ -9,7 +9,7 @@
     'use strict';
 
     angular.module('frontend.directives')
-        .directive('navigationFooter', function() {
+        .directive('navigationFooter', function directive() {
             return {
                 restrict: 'E',
                 replace: true,
