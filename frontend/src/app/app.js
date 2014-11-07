@@ -26,7 +26,8 @@
         'frontend.interceptors',
         'frontend.services',
         'frontend.models',
-        'frontend.example'
+        'frontend.example',
+        'frontend.admin'
     ]);
 
     // Initialize used frontend specified modules
@@ -60,10 +61,11 @@
                 '$tooltipProvider',
                 'toastrConfig',
                 'AccessLevels',
-                function($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider, $sailsSocketProvider,
-                         $tooltipProvider,
-                         toastrConfig,
-                         AccessLevels
+                function config(
+                    $stateProvider, $locationProvider, $urlRouterProvider, $httpProvider, $sailsSocketProvider,
+                    $tooltipProvider,
+                    toastrConfig,
+                    AccessLevels
                 ) {
                     $httpProvider.defaults.useXDomain = true;
 
@@ -224,8 +226,9 @@
             [
                 '$rootScope', '$state',
                 'Auth',
-                function($rootScope, $state,
-                         Auth
+                function run(
+                    $rootScope, $state,
+                    Auth
                 ) {
                     // And when ever route changes we must check authenticate status
                     $rootScope.$on('$stateChangeStart', function stateChangeStart(event, toState) {
