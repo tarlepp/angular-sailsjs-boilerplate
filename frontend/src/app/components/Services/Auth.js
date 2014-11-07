@@ -67,7 +67,7 @@
                             } else if (accessLevel === AccessLevels.admin) {
                                 return this.isAuthenticated() && Boolean(angular.fromJson(Storage.get('auth_token')).user.admin);
                             } else {
-                                return true;
+                                return accessLevel === AccessLevels.anon;
                             }
                         },
 
