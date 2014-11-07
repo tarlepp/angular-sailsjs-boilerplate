@@ -24,7 +24,33 @@
                         .state('examples.authors', {
                             url: '/examples/authors',
                             templateUrl: '/frontend/examples/author/list.html',
-                            controller: 'AuthorListController'
+                            controller: 'AuthorListController',
+                            resolve: {
+                                _items: [
+                                    'ListConfig',
+                                    'AuthorModel',
+                                    function resolve(
+                                        ListConfig,
+                                        AuthorModel
+                                    ) {
+                                        var config = ListConfig.getConfig();
+
+                                        var parameters = {
+                                            populate: 'books',
+                                            limit: config.itemsPerPage,
+                                            sort: 'name ASC'
+                                        };
+
+                                        return AuthorModel.load(parameters);
+                                    }
+                                ],
+                                _count: [
+                                    'AuthorModel',
+                                    function resolve(AuthorModel) {
+                                        return AuthorModel.count();
+                                    }
+                                ]
+                            }
                         })
 
                         // Single author
@@ -40,8 +66,7 @@
                                         $stateParams,
                                         AuthorModel
                                     ) {
-                                        return AuthorModel
-                                            .fetch($stateParams.id, {populate: 'books'});
+                                        return AuthorModel.fetch($stateParams.id, {populate: 'books'});
                                     }
                                 ]
                             }

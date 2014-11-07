@@ -23,7 +23,33 @@
                         .state('examples.books', {
                             url: '/examples/books',
                             templateUrl: '/frontend/examples/book/list.html',
-                            controller: 'BookListController'
+                            controller: 'BookListController',
+                            resolve: {
+                                _items: [
+                                    'ListConfig',
+                                    'BookModel',
+                                    function resolve(
+                                        ListConfig,
+                                        BookModel
+                                    ) {
+                                        var config = ListConfig.getConfig();
+
+                                        var parameters = {
+                                            populate: 'author',
+                                            limit: config.itemsPerPage,
+                                            sort: 'releaseDate DESC'
+                                        };
+
+                                        return BookModel.load(parameters);
+                                    }
+                                ],
+                                _count: [
+                                    'BookModel',
+                                    function resolve(BookModel) {
+                                        return BookModel.count();
+                                    }
+                                ]
+                            }
                         })
 
                         // Single book
@@ -39,8 +65,7 @@
                                         $stateParams,
                                         BookModel
                                     ) {
-                                        return BookModel
-                                            .fetch($stateParams.id, {populate: 'author'});
+                                        return BookModel.fetch($stateParams.id, {populate: 'author'});
                                     }
                                 ]
                             }

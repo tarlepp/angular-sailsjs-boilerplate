@@ -33,17 +33,23 @@
                 '_',
                 'ListConfig',
                 'SocketWhereCondition', 'AuthorModel',
+                '_items', '_count',
                 function(
                     $scope, $q, $timeout,
                     _,
                     ListConfig,
-                    SocketWhereCondition, AuthorModel
+                    SocketWhereCondition, AuthorModel,
+                    _items, _count
                 ) {
                     // Initialize data
                     $scope.endPoint = 'author';
 
                     // Add default list configuration variable to current scope
                     $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
+
+                    // Set initial data
+                    $scope.items = _items;
+                    $scope.itemCount = _count.count;
 
                     // Initialize used title items
                     $scope.titleItems = ListConfig.getTitleItems($scope.endPoint);
@@ -78,8 +84,10 @@
                      * Simple watcher for 'currentPage' scope variable. If this is changed we need to fetch author data
                      * from server.
                      */
-                    $scope.$watch('currentPage', function watcher() {
-                        _fetchData();
+                    $scope.$watch('currentPage', function watcher(valueNew, valueOld) {
+                        if (valueNew !== valueOld) {
+                            _fetchData();
+                        }
                     });
 
                     /**

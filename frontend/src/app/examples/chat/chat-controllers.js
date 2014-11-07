@@ -29,15 +29,18 @@
         .controller('ChatController',
             [
                 '$scope', '$timeout',
-                'Moment',
                 'Storage', 'MessageService',
                 'MessageModel',
+                '_messages',
                 function(
                     $scope, $timeout,
-                    Moment,
                     Storage, MessageService,
-                    MessageModel
+                    MessageModel,
+                    _messages
                 ) {
+                    // Add loaded messages to scope
+                    $scope.messages = _messages;
+
                     // Get current nick of user
                     $scope.nick = Storage.get('chat.nick');
 
@@ -47,41 +50,15 @@
                         message: ''
                     };
 
-                    // Helper function to scroll to bottom of the chat
-                    function scrollBottom() {
-                        $timeout(function timeout() {
-                            document.getElementById('messages').scrollTop = $scope.messages.length * 50;
-                        });
-                    }
-
-                    // Helper function to load messages from database.
-                    function loadMessages() {
-                        var parameters = {
-                            where: {
-                                createdAt: {'>': new Moment().format()}
-                            }
-                        };
-
-                        MessageModel
-                            .load(parameters)
-                            .then(
-                                function success(messages) {
-                                    $scope.messages = messages;
-
-                                    scrollBottom();
-                                }
-                            );
-                    }
-
                     // We have nick set, so load messages
                     if ($scope.nick && $scope.nick.trim()) {
-                        loadMessages();
+                        _scrollBottom();
                     }
 
                     // Watcher for actual messages, whenever this is changed we need to scroll chat to bottom
                     $scope.$watch('messages', function messagesWatcher(valueNew) {
                         if (valueNew) {
-                            scrollBottom();
+                            _scrollBottom();
                         }
                     }, true);
 
@@ -92,7 +69,7 @@
 
                             Storage.set('chat.nick', $scope.nick);
 
-                            loadMessages();
+                            _scrollBottom();
                         } else {
                             MessageService.error('Please provide some nick.');
                         }
@@ -115,13 +92,24 @@
                                     function success() {
                                         $scope.message.message = '';
 
-                                        scrollBottom();
+                                        _scrollBottom();
                                     }
                                 );
                         } else {
                             MessageService.error('Please enter some text to chat.');
                         }
                     };
+
+                    /**
+                     * Helper function to scroll to bottom of the chat
+                     *
+                     * @private
+                     */
+                    function _scrollBottom() {
+                        $timeout(function timeout() {
+                            document.getElementById('messages').scrollTop = $scope.messages.length * 50;
+                        });
+                    }
                 }
             ]
         );
