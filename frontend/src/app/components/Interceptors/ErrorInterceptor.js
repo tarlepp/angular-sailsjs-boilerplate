@@ -24,7 +24,7 @@
                          *
                          * @returns {Promise}
                          */
-                        response: function response(response) {
+                        response: function responseCallback(response) {
                             if (response.data.error &&
                                 response.data.status &&
                                 response.data.status !== 200
@@ -42,7 +42,7 @@
                          *
                          * @returns {Promise}
                          */
-                        responseError: function responseError(response) {
+                        responseError: function responseErrorCallback(response) {
                             var message = '';
 
                             if (response.data.error) {

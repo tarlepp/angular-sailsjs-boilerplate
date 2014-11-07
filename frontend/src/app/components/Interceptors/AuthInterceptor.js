@@ -27,7 +27,7 @@
                          *
                          * @returns {*}
                          */
-                        request: function request(config) {
+                        request: function requestCallback(config) {
                             var token;
 
                             // Yeah we have some user data on local storage
@@ -60,7 +60,7 @@
                          *
                          * @returns {Promise}
                          */
-                        responseError: function responseError(response) {
+                        responseError: function responseErrorCallback(response) {
                             if (response.status === 401) {
                                 Storage.unset('auth_token');
 

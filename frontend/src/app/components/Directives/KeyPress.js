@@ -23,7 +23,7 @@
                 '$timeout',
                 function directive($timeout) {
                     return function keyPress(scope, element, attributes) {
-                        element.bind('keydown keypress', function event(event) {
+                        element.bind('keydown keypress', function bind(event) {
                             if (event.which === parseInt(attributes.keyCode, 10)) {
                                 $timeout(function timeout() {
                                     scope.$apply(function apply() {
