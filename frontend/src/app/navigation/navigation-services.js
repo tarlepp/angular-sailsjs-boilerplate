@@ -7,6 +7,45 @@
     'use strict';
 
     /**
+     * Generic service to return all available menu items for navigation.
+     */
+    angular.module('frontend.example.navigation')
+        .factory('NavigationItemService',
+            [
+                function service() {
+                    return [
+                        {
+                            state: 'example.books',
+                            title: 'Books'
+                        },
+                        {
+                            state: 'example.authors',
+                            title: 'Authors'
+                        },
+                        {
+                            state: 'example.messages',
+                            title: 'Messages'
+                        },
+                        {
+                            state: 'example.chat',
+                            title: 'Chat'
+                        },
+                        {
+                            title: 'Admin',
+                            admin: true,
+                            items: [
+                                {
+                                    state: 'admin.login-history',
+                                    title: 'Login history'
+                                }
+                            ]
+                        }
+                    ];
+                }
+            ]
+        );
+
+    /**
      * Generic info modal service, that contains necessary functionality to configure and open specified info modal.
      * These info modals are just for generic documentation for each GUI that is implemented to application.
      */

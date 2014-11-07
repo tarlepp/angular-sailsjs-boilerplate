@@ -26,38 +26,60 @@
                 scope: {
                     'title': '@',
                     'directory': '@',
-                    'template': '@',
-                    'activeTab': '@'
+                    'template': '@'
                 },
                 templateUrl: '/frontend/navigation/navigation.html',
                 controller: [
-                    '$scope',
-                    'NavigationInfoModalService',
+                    '$scope', '$state',
+                    '_',
+                    'CurrentUser',
+                    'NavigationInfoModalService', 'NavigationItemService',
                     function controller(
-                        $scope,
-                        NavigationInfoModalService
+                        $scope, $state,
+                        _,
+                        CurrentUser,
+                        NavigationInfoModalService, NavigationItemService
                     ) {
                         $scope.modalService = NavigationInfoModalService;
                         $scope.modalService.set($scope.title, $scope.directory, $scope.template);
+                        $scope.navigationItems = NavigationItemService;
 
-                        $scope.navigationItems = [
-                            {
-                                url: 'example.books',
-                                title: 'Books'
-                            },
-                            {
-                                url: 'example.authors',
-                                title: 'Authors'
-                            },
-                            {
-                                url: 'example.messages',
-                                title: 'Messages'
-                            },
-                            {
-                                url: 'example.chat',
-                                title: 'Chat'
+                        /**
+                         * Helper function to check if menu item is active or not. This is used to activate menu item
+                         * that has dropdown menu defined.
+                         *
+                         * @param   {layout.menuItem}   item
+                         *
+                         * @returns {boolean}
+                         */
+                        $scope.isActive = function isActive(item) {
+                            if (!item.items) {
+                                return false;
                             }
-                        ];
+
+                            var found = _.find(item.items, function iterator(/** layout.menuItem */ item) {
+                                return $state.current.name === item.state;
+                            });
+
+                            return !!found;
+                        };
+
+                        /**
+                         * Helper function to check if given menu item is valid for current user or not.
+                         *
+                         * @param   {layout.menuItem}   item
+                         *
+                         * @returns {boolean}
+                         */
+                        $scope.isValid = function isValid(item) {
+                            var output = true;
+
+                            if (item.admin && CurrentUser.user().admin !== true) {
+                                output = false;
+                            }
+
+                            return output;
+                        };
                     }
                 ]
             };
