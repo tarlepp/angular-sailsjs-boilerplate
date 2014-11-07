@@ -17,7 +17,7 @@
 (function() {
     'use strict';
 
-    angular.module('frontend.directives')
+    angular.module('frontend.components.directives')
         .directive('keyPress',
             [
                 '$timeout',

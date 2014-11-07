@@ -8,7 +8,7 @@
 (function() {
     'use strict';
 
-    angular.module('frontend.services')
+    angular.module('frontend.components.services')
         .factory('DataService',
             [
                 '$sailsSocket',

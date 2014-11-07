@@ -8,7 +8,7 @@
 (function() {
     'use strict';
 
-    angular.module('frontend.filters')
+    angular.module('frontend.components.filters')
         .filter('newLines', function filter() {
             return function newLines(text) {
                 return text.toString().replace(/\n/g, '<br/>');

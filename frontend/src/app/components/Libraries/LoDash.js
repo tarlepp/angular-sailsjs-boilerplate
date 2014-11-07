@@ -19,7 +19,7 @@
 (function() {
     'use strict';
 
-    angular.module('frontend.components')
+    angular.module('frontend.components.libraries')
         .factory('_',
             [
                 '$window',

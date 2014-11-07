@@ -20,30 +20,11 @@
         'toastr',
         'frontend-templates',
         'frontend.components',
-        'frontend.controllers',
-        'frontend.directives',
-        'frontend.filters',
-        'frontend.interceptors',
-        'frontend.services',
-        'frontend.models',
-        'frontend.example',
-        'frontend.admin'
-    ]);
-
-    // Initialize used frontend specified modules
-    angular.module('frontend.components', []);
-    angular.module('frontend.controllers', []);
-    angular.module('frontend.directives', []);
-    angular.module('frontend.filters', []);
-    angular.module('frontend.interceptors', []);
-    angular.module('frontend.services', []);
-    angular.module('frontend.example', [
-        'frontend.example.author',
-        'frontend.example.book',
-        'frontend.example.chat',
-        'frontend.example.login',
-        'frontend.example.navigation',
-        'frontend.example.messages'
+        'frontend.examples',
+        'frontend.public',
+        'frontend.admin',
+        'frontend.auth',
+        'frontend.example.navigation'
     ]);
 
     /**
@@ -98,103 +79,6 @@
                         .hashPrefix('!')
                     ;
 
-                    // Routes that are accessible by anyone
-                    $stateProvider
-                        .state('anon', {
-                            abstract: true,
-                            template: '<ui-view/>',
-                            data: {
-                                access: AccessLevels.anon
-                            }
-                        })
-                        .state('anon.about', {
-                            url: '/about',
-                            templateUrl: '/frontend/about/about.html'
-                        })
-                        .state('anon.login', {
-                            url: '/login',
-                            templateUrl: '/frontend/login/login.html',
-                            controller: 'LoginController'
-                        })
-                    ;
-
-                    // Routes that needs authenticated user
-                    $stateProvider
-                        .state('example', {
-                            abstract: true,
-                            template: '<ui-view/>',
-                            data: {
-                                access: AccessLevels.user
-                            }
-                        })
-
-                        // Books list
-                        .state('example.books', {
-                            url: '/books',
-                            templateUrl: '/frontend/book/list.html',
-                            controller: 'BookListController'
-                        })
-
-                        // Single book
-                        .state('example.book', {
-                            url: '/book/:id',
-                            templateUrl: '/frontend/book/book.html',
-                            controller: 'BookController',
-                            resolve: {
-                                '_book': [
-                                    '$stateParams',
-                                    'BookModel',
-                                    function($stateParams,
-                                             BookModel
-                                    ) {
-                                        return BookModel
-                                            .fetch($stateParams.id, {populate: 'author'});
-                                    }
-                                ]
-                            }
-                        })
-
-                        // Authors list
-                        .state('example.authors', {
-                            url: '/authors',
-                            templateUrl: '/frontend/author/list.html',
-                            controller: 'AuthorListController'
-                        })
-
-                        // Single author
-                        .state('example.author', {
-                            url: '/author/:id',
-                            templateUrl: '/frontend/author/author.html',
-                            controller: 'AuthorController',
-                            resolve: {
-                                '_author': [
-                                    '$stateParams',
-                                    'AuthorModel',
-                                    function($stateParams,
-                                             AuthorModel
-                                    ) {
-                                        return AuthorModel
-                                            .fetch($stateParams.id, {populate: 'books'});
-                                    }
-                                ]
-                            }
-                        })
-
-                        // Messages
-                        .state('example.messages', {
-                            url: '/messages',
-                            templateUrl: '/frontend/messages/messages.html',
-                            controller: 'MessagesController'
-                        })
-
-                        // Chat
-                        .state('example.chat', {
-                            url: '/chat',
-                            templateUrl: '/frontend/chat/chat.html',
-                            controller: 'ChatController'
-                        })
-                    ;
-
                     // Routes that needs authenticated user
                     $stateProvider
                         .state('profile', {
@@ -235,7 +119,7 @@
                         if (!Auth.authorize(toState.data.access)) {
                             event.preventDefault();
 
-                            $state.go('anon.login');
+                            $state.go('auth.login');
                         }
                     });
                 }

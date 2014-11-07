@@ -35,7 +35,7 @@
 (function() {
     'use strict';
 
-    angular.module('frontend.directives')
+    angular.module('frontend.components.directives')
         .directive('listSearch', function directive() {
             return {
                 restrict: 'E',

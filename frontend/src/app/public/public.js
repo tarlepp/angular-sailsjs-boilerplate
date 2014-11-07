@@ -1,30 +1,30 @@
 /**
- * Angular module for admin component. This component is divided to following logical components:
+ * Angular module for public component. This component is divided to following logical components:
  *
- *  frontend.admin.login-history
+ *  frontend.public.about
  *
- * All of these are wrapped to 'frontend.admin.login-history' angular module.
+ * Each component has it own configuration for ui-router.
  */
 (function() {
     'use strict';
 
-    // Define frontend.admin module
-    angular.module('frontend.admin', [
-        'frontend.admin.login-history'
+    // Define frontend.public module
+    angular.module('frontend.public', [
+        'frontend.public.about'
     ]);
 
     // Module configuration
-    angular.module('frontend.admin')
+    angular.module('frontend.public')
         .config(
             [
                 '$stateProvider',
                 function($stateProvider) {
                     $stateProvider
-                        .state('admin', {
+                        .state('public', {
                             abstract: true,
                             template: '<ui-view/>',
                             data: {
-                                access: 2
+                                access: 0
                             }
                         })
                     ;

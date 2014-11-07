@@ -15,19 +15,19 @@
                 function service() {
                     return [
                         {
-                            state: 'example.books',
+                            state: 'examples.books',
                             title: 'Books'
                         },
                         {
-                            state: 'example.authors',
+                            state: 'examples.authors',
                             title: 'Authors'
                         },
                         {
-                            state: 'example.messages',
+                            state: 'examples.messages',
                             title: 'Messages'
                         },
                         {
-                            state: 'example.chat',
+                            state: 'examples.chat',
                             title: 'Chat'
                         },
                         {

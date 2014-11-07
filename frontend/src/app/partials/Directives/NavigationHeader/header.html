@@ -14,11 +14,11 @@
                 data-ng-show="auth.isAuthenticated()"
             >
                 <li data-ui-sref-active="active">
-                    <a href="#" data-ui-sref="anon.about">About</a>
+                    <a href="#" data-ui-sref="public.about">About</a>
                 </li>
 
                 <li data-ui-sref-active="active">
-                    <a href="#" data-ui-sref="example.books">Examples</a>
+                    <a href="#" data-ui-sref="examples.books">Examples</a>
                 </li>
 
                 <li class="pull-right">
@@ -36,13 +36,13 @@
                 data-ng-show="!auth.isAuthenticated()"
             >
                 <li data-ui-sref-active="active">
-                    <a href="#" data-ui-sref="anon.about">About</a>
+                    <a href="#" data-ui-sref="public.about">About</a>
                 </li>
 
                 <li class="pull-right"
                     data-ui-sref-active="active"
                 >
-                    <a href="#" data-ui-sref="anon.login">Login</a>
+                    <a href="#" data-ui-sref="auth.login">Login</a>
                 </li>
             </ul>
         </div>

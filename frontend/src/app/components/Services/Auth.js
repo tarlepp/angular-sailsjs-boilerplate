@@ -44,7 +44,7 @@
 (function() {
     'use strict';
 
-    angular.module('frontend.services')
+    angular.module('frontend.components.services')
         .factory('Auth',
             [
                 '$http', '$state',
@@ -112,7 +112,7 @@
 
                             MessageService.success('You have been logged out.');
 
-                            $state.go('anon.login');
+                            $state.go('auth.login');
                         }
                     };
                 }

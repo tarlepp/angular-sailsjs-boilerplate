@@ -1,0 +1,35 @@
+<page-navigation
+    data-title='Information about "Book" GUI'
+    data-directory='book'
+    data-template='book'
+></page-navigation>
+
+<div data-ng-show="!book">
+    <h3>Requested book not found</h3>
+</div>
+
+<div data-ng-show="book">
+    <div class="row">
+        <div class="col-md-8">
+            <h3>{{book.title}}</h3>
+
+            <p data-ng-bind-html="book.description | newLines"></p>
+        </div>
+
+        <div class="col-md-4">
+            <h4 class="text-muted">Information</h4>
+            <table class="table">
+                <tr>
+                    <th>Author</th>
+                    <td>
+                        <a data-ui-sref="examples.author({id: book.author.id})">{{book.author.name}}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Released</th>
+                    <td>{{book.releaseDate | amDateFormat: 'YYYY'}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

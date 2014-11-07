@@ -9,7 +9,7 @@
 (function() {
     'use strict';
 
-    angular.module('frontend.interceptors')
+    angular.module('frontend.components.interceptors')
         .factory('AuthInterceptor',
             [
                 '$q', '$injector',
@@ -64,7 +64,7 @@
                             if (response.status === 401) {
                                 Storage.unset('auth_token');
 
-                                $injector.get('$state').go('anon.login');
+                                $injector.get('$state').go('auth.login');
                             }
 
                             return $q.reject(response);

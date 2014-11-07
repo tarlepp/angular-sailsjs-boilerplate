@@ -4,5 +4,5 @@
 (function() {
     'use strict';
 
-    angular.module('frontend.components.models', []);
+    angular.module('frontend.components.interceptors', []);
 }());

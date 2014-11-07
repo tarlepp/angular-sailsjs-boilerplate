@@ -11,7 +11,7 @@
 (function() {
     'use strict';
 
-    angular.module('frontend.models')
+    angular.module('frontend.components.models')
         .factory('ModelFactory',
             [
                 '$sailsSocket',

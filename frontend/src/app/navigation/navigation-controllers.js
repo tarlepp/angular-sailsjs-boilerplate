@@ -1,5 +1,5 @@
 /**
- * This file contains all necessary Angular controller definitions for 'frontend.example.navigation' module.
+ * This file contains all necessary Angular controller definitions for 'frontend.examples.navigation' module.
  *
  * Note that this file should only contain controllers and nothing else.
  */
