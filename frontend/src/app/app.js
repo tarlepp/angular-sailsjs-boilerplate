@@ -14,6 +14,7 @@
         'ui.router',
         'ui.bootstrap',
         'ui.bootstrap.showErrors',
+        'ui.utils',
         'angularMoment',
         'linkify',
         'sails.io',

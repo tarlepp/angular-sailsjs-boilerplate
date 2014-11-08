@@ -11,9 +11,8 @@
 
     <div class="input-group col-md-4">
         <input id="nick" name="nick" class="form-control" type="text" placeholder="Enter a nickname"
-           data-key-press="enterToChat()"
-           data-key-code="13"
            data-ng-model="nick"
+           data-ui-keypress="{'enter': 'enterToChat($event)'}"
         />
         <span class="input-group-btn">
             <button class="btn btn-primary" type="button"
@@ -52,9 +51,8 @@
             </div>
 
             <input id="message" name="message" class="form-control" type="text" placeholder="enter chat message"
-                data-key-press="postMessage()"
-                data-key-code="13"
                 data-ng-model="message.message"
+                data-ui-keypress="{'enter': 'postMessage($event)'}"
             />
 
             <div class="input-group-btn">

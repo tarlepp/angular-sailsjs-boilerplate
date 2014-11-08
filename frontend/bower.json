@@ -29,6 +29,7 @@
     "angular": "1.2.24",
     "angular-ui-router": "0.2.11",
     "angular-ui-bootstrap-bower": "0.11.0",
+    "angular-ui-utils": "~0.1.1",
     "angular-moment": "0.8.2",
     "angular-bootstrap-show-errors": "1.0.2",
     "angular-sanitize": "1.2.24",
