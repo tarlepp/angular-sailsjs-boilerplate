@@ -32,7 +32,7 @@
                             if (element.data('focusOn') && identifier === element.data('focusOn')) {
                                 $timeout(function timeout() {
                                     element.focus();
-                                });
+                                }, 0, false);
                             }
                         });
                     };
@@ -72,7 +72,7 @@
                         'focus': function focus(identifier){
                             $timeout(function timeout() {
                                 $rootScope.$broadcast('focusOn', identifier);
-                            });
+                            }, 0, false);
                         }
                     };
                 }
