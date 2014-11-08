@@ -20,9 +20,8 @@
         'sails.io',
         'toastr',
         'frontend-templates',
-        'frontend.components',
+        'frontend.core',
         'frontend.examples',
-        'frontend.public',
         'frontend.admin',
         'frontend.auth',
         'frontend.example.navigation'

@@ -13,6 +13,7 @@
 
     // Define frontend.admin module
     angular.module('frontend.examples', [
+        'frontend.examples.about',
         'frontend.examples.author',
         'frontend.examples.book',
         'frontend.examples.chat',
