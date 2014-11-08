@@ -45,7 +45,7 @@
                     options: '='
                 },
                 replace: true,
-                templateUrl: '/frontend/partials/Directives/Components/ListSearch.html',
+                templateUrl: '/frontend/components/Directives/Partials/ListSearch.html',
                 controller: [
                     '$scope',
                     function controller($scope) {

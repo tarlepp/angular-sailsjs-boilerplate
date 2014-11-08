@@ -14,7 +14,7 @@
                 restrict: 'E',
                 replace: true,
                 scope: {},
-                templateUrl: '/frontend/partials/Directives/NavigationFooter/footer.html'
+                templateUrl: '/frontend/components/Directives/Partials/footer.html'
             };
         });
 }());
