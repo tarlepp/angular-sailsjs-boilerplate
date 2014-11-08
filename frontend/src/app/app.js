@@ -10,6 +10,7 @@
 
     // Create frontend module and specify dependencies for that
     angular.module('frontend', [
+        'angular-loading-bar',
         'ngSanitize',
         'ui.router',
         'ui.bootstrap',
@@ -39,12 +40,12 @@
         .config(
             [
                 '$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider', '$sailsSocketProvider',
-                '$tooltipProvider',
+                '$tooltipProvider', 'cfpLoadingBarProvider',
                 'toastrConfig',
                 'AccessLevels',
                 function config(
                     $stateProvider, $locationProvider, $urlRouterProvider, $httpProvider, $sailsSocketProvider,
-                    $tooltipProvider,
+                    $tooltipProvider, cfpLoadingBarProvider,
                     toastrConfig,
                     AccessLevels
                 ) {
@@ -62,6 +63,8 @@
                     $tooltipProvider.options({
                         appendToBody: true
                     });
+
+                    cfpLoadingBarProvider.includeSpinner = false;
 
                     // Extend default toastr configuration with application specified configuration
                     angular.extend(
@@ -109,18 +112,38 @@
         .run(
             [
                 '$rootScope', '$state',
+                'cfpLoadingBar',
                 'Auth',
                 function run(
                     $rootScope, $state,
+                    cfpLoadingBar,
                     Auth
                 ) {
-                    // And when ever route changes we must check authenticate status
+                    /**
+                     * Route state change start event, this is needed for following:
+                     *  1) Loading bar start
+                     *  2) Check if user is authenticated to see page
+                     */
                     $rootScope.$on('$stateChangeStart', function stateChangeStart(event, toState) {
+                        if (toState.resolve) {
+                            cfpLoadingBar.start();
+                        } else {
+                            cfpLoadingBar.complete();
+                        }
+
                         if (!Auth.authorize(toState.data.access)) {
                             event.preventDefault();
 
                             $state.go('auth.login');
                         }
+                    });
+
+                    /**
+                     * Route state state success event, this is needed for following:
+                     *  1) Loading bar complete event
+                     */
+                    $rootScope.$on('$stateChangeSuccess', function(event, toState) {
+                        cfpLoadingBar.complete();
                     });
                 }
             ]
