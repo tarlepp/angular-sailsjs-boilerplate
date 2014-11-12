@@ -86,9 +86,7 @@
                     };
 
                     // Function to post a new message to server
-                    $scope.postMessage = function postMessage(event) {
-                        event.preventDefault();
-
+                    $scope.postMessage = function postMessage() {
                         if ($scope.message.message.trim() !== '') {
                             MessageModel
                                 .create($scope.message)
