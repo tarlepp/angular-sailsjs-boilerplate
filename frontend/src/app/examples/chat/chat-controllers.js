@@ -63,9 +63,7 @@
                     }, true);
 
                     // Enter to chat function
-                    $scope.enterToChat = function enterChat(event) {
-                        event.preventDefault();
-
+                    $scope.enterToChat = function enterChat() {
                         if ($scope.nick.trim() !== '') {
                             $scope.message.nick = $scope.nick;
 
