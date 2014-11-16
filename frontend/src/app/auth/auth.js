@@ -22,7 +22,7 @@
                 $stateProvider
                     .state('auth', {
                         abstract: true,
-                        template: '<ui-view/>',
+                        parent: 'frontend',
                         data: {
                             access: 1
                         }

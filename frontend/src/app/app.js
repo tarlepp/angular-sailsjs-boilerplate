@@ -24,8 +24,7 @@
         'frontend.core',
         'frontend.examples',
         'frontend.admin',
-        'frontend.auth',
-        'frontend.example.navigation'
+        'frontend.auth'
     ]);
 
     /**
@@ -98,6 +97,23 @@
                         })
                     ;
 
+                    // Main state provider for frontend application
+                    $stateProvider
+                        .state('frontend', {
+                            abstract: true,
+                            views: {
+                                header: {
+                                    templateUrl: '/frontend/core/layout/partials/header.html',
+                                    controller: 'HeaderController'
+                                },
+                                footer: {
+                                    templateUrl: '/frontend/core/layout/partials/footer.html',
+                                    controller: 'FooterController'
+                                }
+                            }
+                        })
+                    ;
+
                     // For any unmatched url, redirect to /about
                     $urlRouterProvider.otherwise('/about');
                 }
@@ -142,7 +158,7 @@
                      * Route state state success event, this is needed for following:
                      *  1) Loading bar complete event
                      */
-                    $rootScope.$on('$stateChangeSuccess', function(event, toState) {
+                    $rootScope.$on('$stateChangeSuccess', function stateChangeSuccess() {
                         cfpLoadingBar.complete();
                     });
                 }

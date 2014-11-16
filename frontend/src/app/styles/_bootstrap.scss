@@ -31,3 +31,11 @@
   left: inherit;
   right: 10px;
 }
+
+.navbar-default .navbar-nav > .active.not-active > a {
+  color: #777777;
+
+  &:hover {
+    color: #3399f3;
+  }
+}

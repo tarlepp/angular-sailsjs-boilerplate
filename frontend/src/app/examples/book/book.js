@@ -22,52 +22,60 @@
                         // Book list
                         .state('examples.books', {
                             url: '/examples/books',
-                            templateUrl: '/frontend/examples/book/list.html',
-                            controller: 'BookListController',
-                            resolve: {
-                                _items: [
-                                    'ListConfig',
-                                    'BookModel',
-                                    function resolve(
-                                        ListConfig,
-                                        BookModel
-                                    ) {
-                                        var config = ListConfig.getConfig();
+                            views: {
+                                'content@': {
+                                    templateUrl: '/frontend/examples/book/list.html',
+                                    controller: 'BookListController',
+                                    resolve: {
+                                        _items: [
+                                            'ListConfig',
+                                            'BookModel',
+                                            function resolve(
+                                                ListConfig,
+                                                BookModel
+                                                ) {
+                                                var config = ListConfig.getConfig();
 
-                                        var parameters = {
-                                            populate: 'author',
-                                            limit: config.itemsPerPage,
-                                            sort: 'releaseDate DESC'
-                                        };
+                                                var parameters = {
+                                                    populate: 'author',
+                                                    limit: config.itemsPerPage,
+                                                    sort: 'releaseDate DESC'
+                                                };
 
-                                        return BookModel.load(parameters);
+                                                return BookModel.load(parameters);
+                                            }
+                                        ],
+                                        _count: [
+                                            'BookModel',
+                                            function resolve(BookModel) {
+                                                return BookModel.count();
+                                            }
+                                        ]
                                     }
-                                ],
-                                _count: [
-                                    'BookModel',
-                                    function resolve(BookModel) {
-                                        return BookModel.count();
-                                    }
-                                ]
+                                }
                             }
                         })
 
                         // Single book
                         .state('examples.book', {
                             url: '/examples/book/:id',
-                            templateUrl: '/frontend/examples/book/book.html',
-                            controller: 'BookController',
-                            resolve: {
-                                _book: [
-                                    '$stateParams',
-                                    'BookModel',
-                                    function resolve(
-                                        $stateParams,
-                                        BookModel
-                                    ) {
-                                        return BookModel.fetch($stateParams.id, {populate: 'author'});
+                            views: {
+                                '@': {
+                                    templateUrl: '/frontend/examples/book/book.html',
+                                    controller: 'BookController',
+                                    resolve: {
+                                        _book: [
+                                            '$stateParams',
+                                            'BookModel',
+                                            function resolve(
+                                                $stateParams,
+                                                BookModel
+                                            ) {
+                                                return BookModel.fetch($stateParams.id, {populate: 'author'});
+                                            }
+                                        ]
                                     }
-                                ]
+                                }
                             }
                         })
                     ;

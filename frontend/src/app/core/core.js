@@ -5,6 +5,7 @@
  *  frontend.core.directives
  *  frontend.core.filters
  *  frontend.core.interceptors
+ *  frontend.core.layout
  *  frontend.core.libraries
  *  frontend.core.models
  *  frontend.core.services
@@ -20,6 +21,7 @@
         'frontend.core.directives',
         'frontend.core.filters',
         'frontend.core.interceptors',
+        'frontend.core.layout',
         'frontend.core.libraries',
         'frontend.core.models',
         'frontend.core.services'

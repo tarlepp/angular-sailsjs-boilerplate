@@ -17,6 +17,7 @@
                 function($scope,
                          _book
                 ) {
+                    console.log('asdfasdf');
                     $scope.book = _book;
                 }
             ]

@@ -1,5 +1,5 @@
 /**
- * This file contains all necessary Angular service definitions for 'frontend.example.navigation' module.
+ * This file contains all necessary Angular service definitions for 'frontend.core.layout' module.
  *
  * Note that this file should only contain services and nothing else.
  */
@@ -7,38 +7,28 @@
     'use strict';
 
     /**
-     * Generic service to return all available menu items for navigation.
+     * Generic service to return all available menu items for main level navigation.
      */
-    angular.module('frontend.example.navigation')
-        .factory('NavigationItemService',
+    angular.module('frontend.core.layout')
+        .factory('HeaderNavigationItems',
             [
-                function service() {
+                'AccessLevels',
+                function service(AccessLevels) {
                     return [
                         {
-                            state: 'examples.books',
-                            title: 'Books'
+                            state:'examples.about',
+                            title:'About',
+                            access: AccessLevels.anon
                         },
                         {
-                            state: 'examples.authors',
-                            title: 'Authors'
+                            state:'examples',
+                            title:'Examples',
+                            access: AccessLevels.user
                         },
                         {
-                            state: 'examples.messages',
-                            title: 'Messages'
-                        },
-                        {
-                            state: 'examples.chat',
-                            title: 'Chat'
-                        },
-                        {
+                            state: 'admin',
                             title: 'Admin',
-                            admin: true,
-                            items: [
-                                {
-                                    state: 'admin.login-history',
-                                    title: 'Login history'
-                                }
-                            ]
+                            access: AccessLevels.admin
                         }
                     ];
                 }
@@ -46,62 +36,60 @@
         );
 
     /**
-     * Generic info modal service, that contains necessary functionality to configure and open specified info modal.
-     * These info modals are just for generic documentation for each GUI that is implemented to application.
+     * Generic service to return all available menu items for specified sub level navigation.
      */
-    angular.module('frontend.example.navigation')
-        .factory('NavigationInfoModalService',
+    angular.module('frontend.core.layout')
+        .factory('ContentNavigationItems',
             [
-                '$modal',
-                function($modal) {
-                    var service = {
-                        /**
-                         * Current title, directory and template values that are used on service.open() function.
-                         *
-                         * @private
-                         */
-                        '_title': '',
-                        '_directory': '',
-                        '_template': '',
-
-                        /**
-                         * Setter method for title and section.
-                         *
-                         * @param   {String}    title       Title of the modal
-                         * @param   {String}    directory   Directory where to find info template
-                         * @param   {String}    template    Template prefix to use
-                         */
-                        'set': function set(title, directory, template) {
-                            service._title = title;
-                            service._directory = directory;
-                            service._template = template;
-                        },
-
-                        /**
-                         * Service function to open specified information modal of specified GUI in boilerplate
-                         * application.
-                         */
-                        'open': function open() {
-                            $modal.open({
-                                templateUrl: '/frontend/navigation/help.html',
-                                controller: 'NavigationModalController',
-                                size: 'lg',
-                                resolve: {
-                                    '_title': function resolveTitle() {
-                                        return service._title;
-                                    },
-                                    '_directory': function resolveDirectory() {
-                                        return service._directory;
-                                    },
-                                    '_template': function resolveTemplate() {
-                                        return service._template;
-                                    }
-                                }
-                            });
-                        }
+                'AccessLevels',
+                function service(AccessLevels) {
+                    var items = {
+                        'examples': [
+                            {
+                                state: 'examples.books',
+                                title: 'Books',
+                                access: AccessLevels.user
+                            },
+                            {
+                                state: 'examples.authors',
+                                title: 'Authors',
+                                access: AccessLevels.user
+                            },
+                            {
+                                state: 'examples.messages',
+                                title: 'Messages',
+                                access: AccessLevels.user
+                            },
+                            {
+                                state: 'examples.chat',
+                                title: 'Chat',
+                                access: AccessLevels.user
+                            }
+                        ],
+                        'admin': [
+                            {
+                                state: '',
+                                title: 'Users',
+                                access: AccessLevels.admin
+                            },
+                            {
+                                state: '',
+                                title: 'Request log',
+                                access: AccessLevels.admin
+                            },
+                            {
+                                state: 'admin.login-history',
+                                title: 'Login history',
+                                access: AccessLevels.admin
+                            }
+                        ]
                     };
 
-                    return service;
+                    return {
+                        getItems: function getItems(section) {
+                            return items[section];
+                        }
+                    };
                 }
             ]
         );
@@ -111,13 +99,11 @@
      * These files are shown in example page info modal, so that users can easily see what current example page is
      * using to do things.
      */
-    angular.module('frontend.example.navigation')
+    angular.module('frontend.core.layout')
         .factory('NavigationInfoModalFiles',
             [
                 '_',
-                function(
-                    _
-                ) {
+                function(_) {
                     /**
                      * Base url for code repository.
                      *
@@ -205,32 +191,32 @@
                         'frontend': {
                             'Frontend <span class="text-muted">generic</span>': [
                                 {
-                                    url: repository + 'frontend/src/app/components/Services/ListConfigService.js',
+                                    url: repository + 'frontend/src/app/core/services/ListConfigService.js',
                                     title: 'ListConfigService.js',
                                     info: types.frontend.listConfig
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/components/Models/factory.js',
+                                    url: repository + 'frontend/src/app/core/models/factory.js',
                                     title: 'factory.js',
                                     info: types.frontend.modelFactory
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/components/Services/DataService.js',
+                                    url: repository + 'frontend/src/app/core/services/DataService.js',
                                     title: 'DataService.js',
                                     info: types.frontend.dataService
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/components/Constants/BackendConfig.js',
+                                    url: repository + 'frontend/src/app/core/constants/BackendConfig.js',
                                     title: 'BackendConfig.js',
                                     info: types.frontend.backendConfig
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/components/Interceptors/AuthInterceptor.js',
+                                    url: repository + 'frontend/src/app/core/interceptors/AuthInterceptor.js',
                                     title: 'AuthInterceptor.js',
                                     info: types.frontend.authInterceptor
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/components/Interceptors/ErrorInterceptor.js',
+                                    url: repository + 'frontend/src/app/core/interceptors/ErrorInterceptor.js',
                                     title: 'ErrorInterceptor.js',
                                     info: types.frontend.errorInterceptor
                                 }
@@ -249,7 +235,7 @@
                      * @type    {{}}
                      */
                     var data = {
-                        'book.list': {
+                        'examples.books': {
                             'Backend': [
                                 {
                                     url: repository + 'backend/api/models/Book.js',
@@ -269,28 +255,28 @@
                             ],
                             'Frontend': [
                                 {
-                                    url: repository + 'frontend/src/app/book/book.js',
+                                    url: repository + 'frontend/src/app/examples/book/book.js',
                                     title: 'book.js',
                                     info: types.frontend.module
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/book/book-controllers.js',
+                                    url: repository + 'frontend/src/app/examples/book/book-controllers.js',
                                     title: 'book-controllers.js',
                                     info: types.generic.controller
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/book/book-models.js',
+                                    url: repository + 'frontend/src/app/examples/book/book-models.js',
                                     title: 'book-models.js',
                                     info: types.generic.model
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/book/list.html',
+                                    url: repository + 'frontend/src/app/examples/book/list.html',
                                     title: 'list.html',
                                     info: types.generic.template
                                 }
                             ]
                         },
-                        'author.list': {
+                        'examples.authors': {
                             'Backend': [
                                 {
                                     url: repository + 'backend/api/models/Author.js',
@@ -310,64 +296,64 @@
                             ],
                             'Frontend': [
                                 {
-                                    url: repository + 'frontend/src/app/author/author.js',
+                                    url: repository + 'frontend/src/app/examples/author/author.js',
                                     title: 'author.js',
                                     info: types.frontend.module
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/author/author-controllers.js',
+                                    url: repository + 'frontend/src/app/examples/author/author-controllers.js',
                                     title: 'author-controllers.js',
                                     info: types.generic.controller
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/author/author-models.js',
+                                    url: repository + 'frontend/src/app/examples/author/author-models.js',
                                     title: 'author-models.js',
                                     info: types.generic.model
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/author/list.html',
+                                    url: repository + 'frontend/src/app/examples/author/list.html',
                                     title: 'list.html',
                                     info: types.generic.template
                                 }
                             ]
                         },
-                        'messages.messages': {
+                        'examples.messages': {
                             'Frontend': [
                                 {
-                                    url: repository + 'frontend/src/app/messages/messages.js',
+                                    url: repository + 'frontend/src/app/examples/messages/messages.js',
                                     title: 'messages.js',
                                     info: types.frontend.module
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/messages/messages-controllers.js',
+                                    url: repository + 'frontend/src/app/examples/messages/messages-controllers.js',
                                     title: 'messages-controllers.js',
                                     info: types.generic.controller
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/messages/messages.html',
+                                    url: repository + 'frontend/src/app/examples/messages/messages.html',
                                     title: 'messages.html',
                                     info: types.generic.template
                                 }
                             ],
                             'Frontend <span class="text-muted">generic</span>': [
                                 {
-                                    url: repository + 'frontend/src/app/components/Interceptors/ErrorInterceptor.js',
+                                    url: repository + 'frontend/src/app/core/interceptors/ErrorInterceptor.js',
                                     title: 'ErrorInterceptor.js',
                                     info: types.frontend.errorInterceptor
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/components/Services/MessageService.js',
+                                    url: repository + 'frontend/src/app/core/services/MessageService.js',
                                     title: 'MessageService.js',
                                     info: 'Service to show messages to users via <em>toastr</em> service.'
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/components/Services/HttpStatus.js',
+                                    url: repository + 'frontend/src/app/core/services/HttpStatus.js',
                                     title: 'HttpStatus.js',
                                     info: 'Generic HTTP status service that contains helper methods for HTTP status code handling.'
                                 }
                             ]
                         },
-                        'chat.chat': {
+                        'examples.chat': {
                             'Backend': [
                                 {
                                     url: repository + 'backend/api/models/Message.js',
@@ -382,34 +368,29 @@
                             ],
                             'Frontend': [
                                 {
-                                    url: repository + 'frontend/src/app/chat/chat.js',
+                                    url: repository + 'frontend/src/app/examples/chat/chat.js',
                                     title: 'chat.js',
                                     info: types.frontend.module
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/chat/chat-controllers.js',
+                                    url: repository + 'frontend/src/app/examples/chat/chat-controllers.js',
                                     title: 'chat-controllers.js',
                                     info: types.generic.controller
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/chat/chat-models.js',
-                                    title: 'chat-models.js',
-                                    info: types.generic.model
-                                },
-                                {
-                                    url: repository + 'frontend/src/app/chat/chat-directives.js',
+                                    url: repository + 'frontend/src/app/examples/chat/chat-directives.js',
                                     title: 'chat-directives.js',
                                     info: types.frontend.directive
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/chat/chat.html',
-                                    title: 'chat.html',
-                                    info: types.generic.template
+                                    url: repository + 'frontend/src/app/examples/chat/chat-models.js',
+                                    title: 'chat-models.js',
+                                    info: types.generic.model
                                 },
                                 {
-                                    url: repository + 'frontend/src/app/components/Directives/KeyPress.js',
-                                    title: 'KeyPress.js',
-                                    info: 'Key press directive.'
+                                    url: repository + 'frontend/src/app/examples/chat/chat.html',
+                                    title: 'chat.html',
+                                    info: types.generic.template
                                 }
                             ]
                         }
@@ -427,18 +408,17 @@
                         /**
                          * Service function to fetch specified GUI used backend and frontend used files.
                          *
-                         * @param   {string}    directory
-                         * @param   {string}    template
+                         * @param   {string}    state
                          *
                          * @returns {{}}
                          */
-                        'get': function(directory, template) {
-                            var files = data[directory + '.' + template];
+                        'get': function get(state) {
+                            var files = data[state];
 
-                            switch (directory + '.' + template) {
-                                case 'book.list':
-                                case 'author.list':
-                                case 'chat.chat':
+                            switch (state) {
+                                case 'examples.books':
+                                case 'examples.authors':
+                                case 'examples.chat':
                                     files = _.merge(files, generic.backend, generic.frontend);
                                     break;
                                 default:

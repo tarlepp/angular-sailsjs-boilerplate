@@ -23,25 +23,29 @@
                         // Chat
                         .state('examples.chat', {
                             url: '/examples/chat',
-                            templateUrl: '/frontend/examples/chat/chat.html',
-                            controller: 'ChatController',
-                            resolve: {
-                                _messages: [
-                                    'Moment',
-                                    'MessageModel',
-                                    function resolve(
-                                        Moment,
-                                        MessageModel
-                                    ) {
-                                        var parameters = {
-                                            where: {
-                                                createdAt: {'>': new Moment().format()}
-                                            }
-                                        };
+                            views: {
+                                'content@': {
+                                    templateUrl: '/frontend/examples/chat/chat.html',
+                                    controller: 'ChatController',
+                                    resolve: {
+                                        _messages: [
+                                            'Moment',
+                                            'MessageModel',
+                                            function resolve(
+                                                Moment,
+                                                MessageModel
+                                            ) {
+                                                var parameters = {
+                                                    where: {
+                                                        createdAt: {'>': new Moment().format()}
+                                                    }
+                                                };
 
-                                        return MessageModel.load(parameters);
+                                                return MessageModel.load(parameters);
+                                            }
+                                        ]
                                     }
-                                ]
+                                }
                             }
                         })
                     ;
