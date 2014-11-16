@@ -60,7 +60,7 @@
                         .state('examples.book', {
                             url: '/examples/book/:id',
                             views: {
-                                '@': {
+                                'content@': {
                                     templateUrl: '/frontend/examples/book/book.html',
                                     controller: 'BookController',
                                     resolve: {
