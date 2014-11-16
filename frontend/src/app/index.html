@@ -13,22 +13,53 @@
         <!-- endinject -->
     </head>
     <body>
-        <navigation-header></navigation-header>
+        <div data-ui-view="header"></div>
+
 
         <div id="container" class="container main-container">
-            <div data-ui-view></div>
+            <div data-ui-view="pageNavigation"></div>
+
+            <div data-ui-view="content"></div>
         </div>
 
-        <navigation-footer></navigation-footer>
+        <div data-ui-view="footer"></div>
+
+        <script>
+            (function () {
+                var io;
+
+                Object.defineProperty(window, 'io', {
+                    get: function get() {
+                        return io;
+                    },
+                    set: function set(value) {
+                        var sails;
+
+                        io = value;
+
+                        Object.defineProperty(io, 'sails', {
+                            get: function get() {
+                                return sails;
+                            },
+                            set: function set(value) {
+                                sails = value;
+
+                                <!-- TODO: Add here your backend API URL without trailing slashes -->
+                                sails.url = 'http://localhost:1337';
+                            }
+                        });
+                    }
+                });
+            })();
+        </script>
 
         <!-- inject:vendor:js -->
         <!-- endinject -->
 
-        <!-- TODO: Add here your backend API URL without trailing slashes -->
         <script>
-            io.sails.url = 'http://localhost:1337';
             io.sails.useCORSRouteToGetCookie = false;
         </script>
+
 
         <!-- inject:js -->
         <!-- endinject -->
