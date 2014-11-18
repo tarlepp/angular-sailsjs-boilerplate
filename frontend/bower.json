@@ -35,6 +35,7 @@
     "angular-bootstrap-show-errors": "1.0.2",
     "angular-sanitize": "1.2.24",
     "angular-linkify": "0.4.0",
+    "angular-xeditable": "~0.1.8",
     "angular-toastr": "0.4.0",
     "textAngular": "1.2.2",
     "sails.io.js": "0.10.3",

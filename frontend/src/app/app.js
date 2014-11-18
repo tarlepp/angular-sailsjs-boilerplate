@@ -18,8 +18,9 @@
         'ui.utils',
         'angularMoment',
         'linkify',
-        'sails.io',
         'toastr',
+        'xeditable',
+        'sails.io',
         'frontend-templates',
         'frontend.core',
         'frontend.examples',
@@ -57,12 +58,14 @@
                     $httpProvider.interceptors.push('ErrorInterceptor');
                     $sailsSocketProvider.interceptors.push('AuthInterceptor');
                     $sailsSocketProvider.interceptors.push('ErrorInterceptor');
+                    $sailsSocketProvider.interceptors.push('LoaderInterceptor');
 
                     // Set tooltip options
                     $tooltipProvider.options({
                         appendToBody: true
                     });
 
+                    // Disable spinner from cfpLoadingBar
                     cfpLoadingBarProvider.includeSpinner = false;
 
                     // Extend default toastr configuration with application specified configuration
@@ -128,38 +131,27 @@
         .run(
             [
                 '$rootScope', '$state',
-                'cfpLoadingBar',
+                'editableOptions',
                 'Auth',
                 function run(
                     $rootScope, $state,
-                    cfpLoadingBar,
+                    editableOptions,
                     Auth
                 ) {
+                    // Set usage of Bootstrap 3 CSS with angular-xeditable
+                    editableOptions.theme = 'bs3';
+
                     /**
                      * Route state change start event, this is needed for following:
                      *  1) Loading bar start
                      *  2) Check if user is authenticated to see page
                      */
                     $rootScope.$on('$stateChangeStart', function stateChangeStart(event, toState) {
-                        if (toState.resolve) {
-                            cfpLoadingBar.start();
-                        } else {
-                            cfpLoadingBar.complete();
-                        }
-
                         if (!Auth.authorize(toState.data.access)) {
                             event.preventDefault();
 
                             $state.go('auth.login');
                         }
-                    });
-
-                    /**
-                     * Route state state success event, this is needed for following:
-                     *  1) Loading bar complete event
-                     */
-                    $rootScope.$on('$stateChangeSuccess', function stateChangeSuccess() {
-                        cfpLoadingBar.complete();
                     });
                 }
             ]
