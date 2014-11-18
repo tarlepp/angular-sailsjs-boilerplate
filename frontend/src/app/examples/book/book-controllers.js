@@ -13,12 +13,61 @@
         .controller('BookController',
             [
                 '$scope',
+                'cfpLoadingBar',
+                '_',
+                'Auth', 'CurrentUser',
+                'BookModel', 'AuthorModel',
                 '_book',
                 function(
                     $scope,
+                    cfpLoadingBar,
+                    _,
+                    Auth, CurrentUser,
+                    BookModel, AuthorModel,
                     _book
                 ) {
+                    $scope.user = CurrentUser.user();
                     $scope.book = _book;
+                    $scope.authors = [];
+                    $scope.selectAuthor = _book.author ? _book.author.id : null;
+
+                    /**
+                     * Scope function to save actual modified book. Basically this will send a socket request to
+                     * backend server with modified object.
+                     */
+                    $scope.saveBook = function saveBook() {
+                        var data = angular.copy($scope.book);
+
+                        // Set author id to update data
+                        data.author = $scope.selectAuthor;
+
+                        // Make actual data update
+                        BookModel.update(data.id, data);
+                    };
+
+                    /**
+                     * Scope function to fetch author data when needed, this is triggered whenever user starts to edit
+                     * current book.
+                     *
+                     * @returns {null|promise}
+                     */
+                    $scope.loadAuthors = function loadAuthors() {
+                        return $scope.authors.length ? null : AuthorModel.load().then(function onSuccess(data) {
+                            $scope.authors = data;
+                        });
+                    };
+
+                    /**
+                     * Watcher for 'selectAuthor' $scope attribute, this is needed to update current user view to show
+                     * correct author data on GUI.
+                     */
+                    $scope.$watch('selectAuthor', function watcher(valueNew, valueOld) {
+                        if (valueNew !== valueOld) {
+                            $scope.book.author = _.find($scope.authors, function iterator(author) {
+                                return author.id === valueNew;
+                            });
+                        }
+                    });
                 }
             ]
         );
@@ -31,14 +80,12 @@
             [
                 '$scope', '$q', '$timeout',
                 '_',
-                'ListConfig',
-                'SocketWhereCondition', 'BookModel',
+                'ListConfig', 'SocketWhereCondition', 'BookModel',
                 '_items', '_count',
                 function(
                     $scope, $q, $timeout,
                     _,
-                    ListConfig,
-                    SocketWhereCondition, BookModel,
+                    ListConfig, SocketWhereCondition, BookModel,
                     _items, _count
                 ) {
                     // Initialize data
