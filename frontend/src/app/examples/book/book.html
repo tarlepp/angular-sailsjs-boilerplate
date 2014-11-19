@@ -8,7 +8,7 @@
         data-onaftersave="saveBook()"
     >
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-lg-8">
                 <h3>
                     <span style="width: 100%;"
                         data-editable-text="book.title"
@@ -23,6 +23,7 @@
                     >
                         <a href="#"
                            data-ng-click="editableForm.$show()"
+                           data-tooltip="Toggle edit mode"
                         >
                             <i class="fa fa-wrench"></i>
                         </a>
@@ -37,26 +38,28 @@
                     {{book.description}}
                 </p>
 
-                <div data-ng-show="editableForm.$visible">
-                    <button type="submit" class="btn btn-primary"
-                        data-ng-disabled="editableForm.$waiting"
-                    >
-                        Save
-                    </button>
-                    <button type="button" class="btn btn-default"
-                        data-ng-disabled="editableForm.$waiting"
-                        data-ng-click="editableForm.$cancel()"
-                    >
-                        Cancel
-                    </button>
+                <div class="visible-lg">
+                    <div data-ng-show="editableForm.$visible">
+                        <button type="submit" class="btn btn-primary"
+                            data-ng-disabled="editableForm.$waiting"
+                        >
+                            Save
+                        </button>
+                        <button type="button" class="btn btn-default"
+                            data-ng-disabled="editableForm.$waiting"
+                            data-ng-click="editableForm.$cancel()"
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <h4 class="text-muted">Information</h4>
                 <table class="table">
                     <tr>
-                        <th>Author</th>
+                        <th style="vertical-align: middle;">Author</th>
                         <td>
                             <a
                                 data-ui-sref="examples.author({id: book.author.id})"
@@ -87,6 +90,22 @@
                         </td>
                     </tr>
                 </table>
+
+                <div class="hidden-lg">
+                    <div data-ng-show="editableForm.$visible">
+                        <button type="submit" class="btn btn-primary"
+                            data-ng-disabled="editableForm.$waiting"
+                        >
+                            Save
+                        </button>
+                        <button type="button" class="btn btn-default"
+                            data-ng-disabled="editableForm.$waiting"
+                            data-ng-click="editableForm.$cancel()"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
