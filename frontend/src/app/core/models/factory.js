@@ -46,6 +46,22 @@
                     model.endpoint = '';
 
                     /**
+                     * Cache for model 'count', 'fetch' and 'load' parameters. These are needed to determine model data
+                     * after some event.
+                     *
+                     * @type    {{
+                     *              count: {},
+                     *              fetch: {},
+                     *              load: {}
+                     *          }}
+                     */
+                    model.cache = {
+                        count: {},
+                        fetch: {},
+                        load: {}
+                    };
+
+                    /**
                      * Service function to set used model endpoint. Note that this will also trigger subscribe for
                      * this endpoint actions (created, updated, deleted, etc.).
                      *
@@ -66,9 +82,10 @@
                      * for your model, just overwrite this function on your model.
                      *
                      * @param   {{
-                     *              verb:   String,
-                     *              data:   {},
-                     *              id:     Number
+                     *              verb:       String,
+                     *              data:       {},
+                     *              id:         Number,
+                     *              [previous]: {}
                      *          }}  message
                      */
                     model.handlerCreated = function handlerCreated(message) {
@@ -82,9 +99,10 @@
                      * for your model, just overwrite this function on your model.
                      *
                      * @param   {{
-                     *              verb:   String,
-                     *              data:   {},
-                     *              id:     Number
+                     *              verb:       String,
+                     *              data:       {},
+                     *              id:         Number,
+                     *              [previous]: {}
                      *          }}  message
                      */
                     model.handlerUpdated = function handlerUpdated(message) {
@@ -98,15 +116,50 @@
                      * for your model, just overwrite this function on your model.
                      *
                      * @param   {{
-                     *              verb:   String,
-                     *              data:   {},
-                     *              id:     Number
+                     *              verb:       String,
+                     *              data:       {},
+                     *              id:         Number,
+                     *              [previous]: {}
                      *          }}  message
                      */
                     model.handlerDeleted = function handlerDeleted(message) {
                         var self = this;
 
                         console.log('Object deleted', self.endpoint, message);
+                    };
+
+                    /**
+                     * Default behaviour for addedTo events for specified endpoint. If you need some custom logic for
+                     * your model, just overwrite this function on your model.
+                     *
+                     * @param   {{
+                     *              verb:       String,
+                     *              data:       {},
+                     *              id:         Number,
+                     *              [previous]: {}
+                     *          }}  message
+                     */
+                    model.handlerAddedTo = function handlerAddedTo(message) {
+                        var self = this;
+
+                        console.log('AddedTo', self.endpoint, message);
+                    };
+
+                    /**
+                     * Default behaviour for removedFrom events for specified endpoint. If you need some custom logic
+                     * for your model, just overwrite this function on your model.
+                     *
+                     * @param   {{
+                     *              verb:       String,
+                     *              data:       {},
+                     *              id:         Number,
+                     *              [previous]: {}
+                     *          }}  message
+                     */
+                    model.handlerRemovedFrom = function handlerRemovedFrom(message) {
+                        var self = this;
+
+                        console.log('RemovedFrom', self.endpoint, message);
                     };
 
                     /**
@@ -119,10 +172,15 @@
                     model.count = function count(parameters) {
                         var self = this;
 
+                        // Store used parameters
+                        self.cache.count = {
+                            parameters: parameters
+                        };
+
                         return DataService
                             .count(self.endpoint, parameters)
                             .then(
-                                function successCallback(response) {
+                                function onSuccess(response) {
                                     return response.data;
                                 }
                             );
@@ -139,10 +197,15 @@
                     model.load = function loadObjects(parameters) {
                         var self = this;
 
+                        // Store used parameters
+                        self.cache.load = {
+                            parameters: parameters
+                        };
+
                         return DataService
                             .collection(self.endpoint, parameters)
                             .then(
-                                function success(response) {
+                                function onSuccess(response) {
                                     self.objects = response.data;
 
                                     return self.objects;
@@ -162,10 +225,16 @@
                     model.fetch = function fetchObject(identifier, parameters) {
                         var self = this;
 
+                        // Store identifier and used parameters to cache
+                        self.cache.fetch = {
+                            identifier: identifier,
+                            parameters: parameters
+                        };
+
                         return DataService
                             .fetch(self.endpoint, identifier, parameters)
                             .then(
-                                function (response) {
+                                function onSuccess(response) {
                                     self.object = response.data;
 
                                     return self.object;
@@ -185,15 +254,7 @@
                     model.create = function createObject(data) {
                         var self = this;
 
-                        return DataService
-                            .create(self.endpoint, data)
-                            .then(
-                                function success(response) {
-                                    self._handleEvent({verb: 'created', data: response.data, id: response.data.id});
-
-                                    return response.data;
-                                }
-                            );
+                        return DataService.create(self.endpoint, data);
                     };
 
                     /**
@@ -209,15 +270,7 @@
                     model.update = function updateObject(identifier, data) {
                         var self = this;
 
-                        return DataService
-                            .update(self.endpoint, identifier, data)
-                            .then(
-                                function success(response) {
-                                    self._handleEvent({verb: 'updated', data: response.data, id: response.data.id});
-
-                                    return response.data;
-                                }
-                            );
+                        return DataService.update(self.endpoint, identifier, data);
                     };
 
                     /**
@@ -232,15 +285,7 @@
                     model.delete = function deleteObject(identifier) {
                         var self = this;
 
-                        return DataService
-                            .delete(self.endpoint, identifier)
-                            .then(
-                                function success(response) {
-                                    self._handleEvent({verb: 'deleted', data: response.data, id: response.data.id});
-
-                                    return response.data;
-                                }
-                            );
+                        return DataService.delete(self.endpoint, identifier);
                     };
 
                     /**
@@ -251,6 +296,8 @@
                      *  - handlerCreated
                      *  - handlerUpdated
                      *  - handlerDeleted
+                     *  - handlerAddedTo
+                     *  - handlerRemovedFrom
                      *
                      * @private
                      */

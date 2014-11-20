@@ -24,6 +24,13 @@
                     // Initialize model
                     model.setEndpoint(endpoint);
 
+                    // Custom handler for 'updated' socket event
+                    model.handlerUpdated = function handlerUpdated(message) {
+                        if (parseInt(message.id, 10) === parseInt(model.object.id, 10)) {
+                            model.fetch(model.cache.fetch.identifier, model.cache.fetch.parameters);
+                        }
+                    };
+
                     return model;
                 }
             ]

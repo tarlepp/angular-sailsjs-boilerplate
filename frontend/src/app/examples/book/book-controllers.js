@@ -13,20 +13,19 @@
         .controller('BookController',
             [
                 '$scope',
-                'cfpLoadingBar',
                 '_',
                 'Auth', 'CurrentUser',
                 'BookModel', 'AuthorModel',
                 '_book',
                 function(
                     $scope,
-                    cfpLoadingBar,
                     _,
                     Auth, CurrentUser,
                     BookModel, AuthorModel,
                     _book
                 ) {
                     $scope.user = CurrentUser.user();
+                    $scope.model = BookModel;
                     $scope.book = _book;
                     $scope.authors = [];
                     $scope.selectAuthor = _book.author ? _book.author.id : null;
@@ -58,14 +57,12 @@
                     };
 
                     /**
-                     * Watcher for 'selectAuthor' $scope attribute, this is needed to update current user view to show
-                     * correct author data on GUI.
+                     * Watcher for BookModel.object value this is needed to update scope data whenever another user
+                     * makes some modifications to current book object.
                      */
-                    $scope.$watch('selectAuthor', function watcher(valueNew, valueOld) {
+                    $scope.$watch('model.object', function watcher(valueNew, valueOld) {
                         if (valueNew !== valueOld) {
-                            $scope.book.author = _.find($scope.authors, function iterator(author) {
-                                return author.id === valueNew;
-                            });
+                            $scope.book = valueNew;
                         }
                     });
                 }
