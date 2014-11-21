@@ -62,6 +62,29 @@
                     };
 
                     /**
+                     * Current scope where this model is used, this is needed to update scope data on socket events.
+                     * By default this is set to false.
+                     *
+                     * @type {boolean|{}}
+                     */
+                    model.scope = false;
+
+                    /**
+                     * Used item names within specified scope
+                     *
+                     * @type    {{
+                     *              object: boolean|string,
+                     *              objects: boolean|string,
+                     *              count: boolean|string
+                     *          }}
+                     */
+                    model.itemNames = {
+                        object: false,
+                        objects: false,
+                        count: false
+                    };
+
+                    /**
                      * Service function to set used model endpoint. Note that this will also trigger subscribe for
                      * this endpoint actions (created, updated, deleted, etc.).
                      *
@@ -75,6 +98,26 @@
 
                         // Subscribe to specified endpoint
                         self._subscribe();
+                    };
+
+                    /**
+                     * Service function to set used model and 'item' names which are updated on specified scope when
+                     * socket events occurs.
+                     *
+                     * @param   {{}}        scope
+                     * @param   {string}    [nameObject]
+                     * @param   {string}    [nameObjects]
+                     * @param   {string}    [nameCount]
+                     */
+                    model.setScope = function setScope(scope, nameObject, nameObjects, nameCount) {
+                        var self = this;
+
+                        self.scope = scope;
+                        self.itemNames = {
+                            object: nameObject || false,
+                            objects: nameObjects || false,
+                            count: nameCount || false
+                        };
                     };
 
                     /**
@@ -109,6 +152,20 @@
                         var self = this;
 
                         console.log('Object updated', self.endpoint, message);
+
+                        if (self.scope) {
+                            if (self.itemNames.object && parseInt(message.id, 10) === parseInt(self.object.id, 10)) {
+                                self.fetch(null, null, true);
+                            }
+
+                            if (self.itemNames.objects) {
+                                self.load(null, true);
+                            }
+
+                            if (self.itemNames.count) {
+                                self.count(null, true);
+                            }
+                        }
                     };
 
                     /**
@@ -165,22 +222,31 @@
                     /**
                      * Service function to return count of objects with specified parameters.
                      *
-                     * @param   {{}}    [parameters]    Query parameters
+                     * @param   {{}}        [parameters]    Query parameters
+                     * @param   {Boolean}   [fromCache]     Fetch with cache parameters
                      *
                      * @returns {Promise|models.count}
                      */
-                    model.count = function count(parameters) {
+                    model.count = function count(parameters, fromCache) {
                         var self = this;
 
-                        // Store used parameters
-                        self.cache.count = {
-                            parameters: parameters
-                        };
+                        if (fromCache) {
+                            parameters = self.cache.count.parameters;
+                        } else {
+                            // Store used parameters
+                            self.cache.count = {
+                                parameters: parameters
+                            };
+                        }
 
                         return DataService
                             .count(self.endpoint, parameters)
                             .then(
                                 function onSuccess(response) {
+                                    if (fromCache && self.scope && self.itemNames.count) {
+                                        self.scope[self.itemNames.count] = response.data.count;
+                                    }
+
                                     return response.data;
                                 }
                             );
@@ -190,23 +256,32 @@
                      * Service function to load objects from specified endpoint with given parameters. Note that this
                      * function will also store those objects to current service instance.
                      *
-                     * @param   {{}}    [parameters]    Query parameters
+                     * @param   {{}}        [parameters]    Query parameters
+                     * @param   {Boolean}   [fromCache]     Fetch with cache parameters
                      *
                      * @returns {Promise|*}
                      */
-                    model.load = function loadObjects(parameters) {
+                    model.load = function load(parameters, fromCache) {
                         var self = this;
 
-                        // Store used parameters
-                        self.cache.load = {
-                            parameters: parameters
-                        };
+                        if (fromCache) {
+                            parameters = self.cache.load.parameters;
+                        } else {
+                            // Store used parameters
+                            self.cache.load = {
+                                parameters: parameters
+                            };
+                        }
 
                         return DataService
                             .collection(self.endpoint, parameters)
                             .then(
                                 function onSuccess(response) {
                                     self.objects = response.data;
+
+                                    if (fromCache && self.scope && self.itemNames.objects) {
+                                        self.scope[self.itemNames.objects] = self.objects;
+                                    }
 
                                     return self.objects;
                                 }
@@ -219,23 +294,33 @@
                      *
                      * @param   {Number}    identifier      Object identifier
                      * @param   {{}}        [parameters]    Query parameters
+                     * @param   {Boolean}   [fromCache]     Fetch with cache parameters
                      *
                      * @returns {Promise|*}
                      */
-                    model.fetch = function fetchObject(identifier, parameters) {
+                    model.fetch = function fetch(identifier, parameters, fromCache) {
                         var self = this;
 
-                        // Store identifier and used parameters to cache
-                        self.cache.fetch = {
-                            identifier: identifier,
-                            parameters: parameters
-                        };
+                        if (fromCache) {
+                            identifier = self.cache.fetch.identifier;
+                            parameters = self.cache.fetch.parameters;
+                        } else {
+                            // Store identifier and used parameters to cache
+                            self.cache.fetch = {
+                                identifier: identifier,
+                                parameters: parameters
+                            };
+                        }
 
                         return DataService
                             .fetch(self.endpoint, identifier, parameters)
                             .then(
                                 function onSuccess(response) {
                                     self.object = response.data;
+
+                                    if (fromCache && self.scope && self.itemNames.object) {
+                                        self.scope[self.itemNames.object] = self.object;
+                                    }
 
                                     return self.object;
                                 }
@@ -251,7 +336,7 @@
                      *
                      * @returns {Promise|*}
                      */
-                    model.create = function createObject(data) {
+                    model.create = function create(data) {
                         var self = this;
 
                         return DataService.create(self.endpoint, data);
@@ -267,7 +352,7 @@
                      *
                      * @returns {Promise|*}
                      */
-                    model.update = function updateObject(identifier, data) {
+                    model.update = function update(identifier, data) {
                         var self = this;
 
                         return DataService.update(self.endpoint, identifier, data);
@@ -307,7 +392,7 @@
                         // Actual subscribe
                         $sailsSocket
                             .subscribe(self.endpoint, function modelEvent(message) {
-                                // Handle this event
+                                // Handle socket event
                                 self._handleEvent(message);
                             });
                     };

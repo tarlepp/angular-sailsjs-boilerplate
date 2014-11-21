@@ -24,8 +24,10 @@
                     BookModel, AuthorModel,
                     _book
                 ) {
+                    // Set current scope reference to model
+                    BookModel.setScope($scope, 'book');
+
                     $scope.user = CurrentUser.user();
-                    $scope.model = BookModel;
                     $scope.book = _book;
                     $scope.authors = [];
                     $scope.selectAuthor = _book.author ? _book.author.id : null;
@@ -55,16 +57,6 @@
                             $scope.authors = data;
                         });
                     };
-
-                    /**
-                     * Watcher for BookModel.object value this is needed to update scope data whenever another user
-                     * makes some modifications to current book object.
-                     */
-                    $scope.$watch('model.object', function watcher(valueNew, valueOld) {
-                        if (valueNew !== valueOld) {
-                            $scope.book = valueNew;
-                        }
-                    });
                 }
             ]
         );
@@ -85,8 +77,8 @@
                     ListConfig, SocketWhereCondition, BookModel,
                     _items, _count
                 ) {
-                    // Initialize data
-                    $scope.endPoint = 'book';
+                    // Set current scope reference to model
+                    BookModel.setScope($scope, false, 'items', 'itemCount');
 
                     // Add default list configuration variable to current scope
                     $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
@@ -96,7 +88,7 @@
                     $scope.itemCount = _count.count;
 
                     // Initialize used title items
-                    $scope.titleItems = ListConfig.getTitleItems($scope.endPoint);
+                    $scope.titleItems = ListConfig.getTitleItems(BookModel.endpoint);
 
                     // Initialize default sort data
                     $scope.sort = {
@@ -216,7 +208,7 @@
                         var count = BookModel
                             .count(commonParameters)
                             .then(
-                                function callback(response) {
+                                function onSuccess(response) {
                                     $scope.itemCount = response.count;
                                 }
                             );
@@ -234,7 +226,7 @@
                         $q
                             .all([count, load])
                             .finally(
-                                function callback() {
+                                function onFinally() {
                                     $scope.loaded = true;
                                     $scope.loading = false;
                                 }
