@@ -33,11 +33,10 @@
                                             function resolve(
                                                 ListConfig,
                                                 BookModel
-                                                ) {
+                                            ) {
                                                 var config = ListConfig.getConfig();
 
                                                 var parameters = {
-                                                    populate: 'author',
                                                     limit: config.itemsPerPage,
                                                     sort: 'releaseDate DESC'
                                                 };
@@ -49,6 +48,12 @@
                                             'BookModel',
                                             function resolve(BookModel) {
                                                 return BookModel.count();
+                                            }
+                                        ],
+                                        _authors: [
+                                            'AuthorModel',
+                                            function resolve(AuthorModel) {
+                                                return AuthorModel.load();
                                             }
                                         ]
                                     }

@@ -13,14 +13,12 @@
         .controller('BookController',
             [
                 '$scope',
-                '_',
-                'Auth', 'CurrentUser',
+                'CurrentUser',
                 'BookModel', 'AuthorModel',
                 '_book',
                 function(
                     $scope,
-                    _,
-                    Auth, CurrentUser,
+                    CurrentUser,
                     BookModel, AuthorModel,
                     _book
                 ) {
@@ -69,16 +67,19 @@
             [
                 '$scope', '$q', '$timeout',
                 '_',
-                'ListConfig', 'SocketWhereCondition', 'BookModel',
-                '_items', '_count',
+                'ListConfig', 'SocketWhereCondition',
+                'BookModel', 'AuthorModel',
+                '_items', '_count', '_authors',
                 function(
                     $scope, $q, $timeout,
                     _,
-                    ListConfig, SocketWhereCondition, BookModel,
-                    _items, _count
+                    ListConfig, SocketWhereCondition,
+                    BookModel, AuthorModel,
+                    _items, _count, _authors
                 ) {
-                    // Set current scope reference to model
+                    // Set current scope reference to models
                     BookModel.setScope($scope, false, 'items', 'itemCount');
+                    AuthorModel.setScope($scope, false, 'authors');
 
                     // Add default list configuration variable to current scope
                     $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
@@ -86,6 +87,7 @@
                     // Set initial data
                     $scope.items = _items;
                     $scope.itemCount = _count.count;
+                    $scope.authors = _authors;
 
                     // Initialize used title items
                     $scope.titleItems = ListConfig.getTitleItems(BookModel.endpoint);
@@ -114,6 +116,22 @@
                         }
 
                         _triggerFetchData();
+                    };
+
+                    /**
+                     * Helper function to fetch specified author property.
+                     *
+                     * @param   {Number}    authorId
+                     * @param   {String}    property
+                     *
+                     * @returns {*}
+                     */
+                    $scope.getAuthor = function getAuthor(authorId, property) {
+                        var author =  _.find($scope.authors, function(author) {
+                            return author.id == authorId;
+                        });
+
+                        return author[property];
                     };
 
                     /**

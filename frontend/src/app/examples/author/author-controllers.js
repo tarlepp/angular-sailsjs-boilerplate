@@ -13,12 +13,32 @@
         .controller('AuthorController',
             [
                 '$scope',
-                '_author',
-                function($scope,
-                         _author
+                'CurrentUser',
+                'AuthorModel', 'BookModel',
+                '_author', '_books', '_booksCount',
+                function(
+                    $scope,
+                    CurrentUser,
+                    AuthorModel, BookModel,
+                    _author, _books, _booksCount
                 ) {
-                    $scope.activeTab = 'examples.authors';
+                    // Set current scope reference to models
+                    AuthorModel.setScope($scope, 'author');
+                    BookModel.setScope($scope, false, 'books', 'booksCount');
+
+                    // Expose necessary data
+                    $scope.user = CurrentUser.user();
                     $scope.author = _author;
+                    $scope.books = _books;
+                    $scope.booksCount = _booksCount.count;
+
+                    // Scope function to save modified author.
+                    $scope.saveAuthor = function saveAuthor() {
+                        var data = angular.copy($scope.author);
+
+                        // Make actual data update
+                        AuthorModel.update(data.id, data);
+                    };
                 }
             ]
         );
@@ -41,8 +61,8 @@
                     SocketWhereCondition, AuthorModel,
                     _items, _count
                 ) {
-                    // Initialize data
-                    $scope.endPoint = 'author';
+                    // Set current scope reference to model
+                    AuthorModel.setScope($scope, false, 'items', 'itemCount');
 
                     // Add default list configuration variable to current scope
                     $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
@@ -52,7 +72,7 @@
                     $scope.itemCount = _count.count;
 
                     // Initialize used title items
-                    $scope.titleItems = ListConfig.getTitleItems($scope.endPoint);
+                    $scope.titleItems = ListConfig.getTitleItems(AuthorModel.endpoint);
 
                     // Initialize default sort data
                     $scope.sort = {
@@ -172,7 +192,7 @@
                         var count = AuthorModel
                             .count(commonParameters)
                             .then(
-                                function callback(response) {
+                                function onSuccess(response) {
                                     $scope.itemCount = response.count;
                                 }
                             );
@@ -181,7 +201,7 @@
                         var load = AuthorModel
                             .load(_.merge({}, commonParameters, parameters))
                             .then(
-                                function callback(response) {
+                                function onSuccess(response) {
                                     $scope.items = response;
                                 }
                             );
@@ -190,7 +210,7 @@
                         $q
                             .all([count, load])
                             .finally(
-                                function callback() {
+                                function onFinally() {
                                     $scope.loaded = true;
                                     $scope.loading = false;
                                 }

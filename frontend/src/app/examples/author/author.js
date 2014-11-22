@@ -72,7 +72,27 @@
                                                 $stateParams,
                                                 AuthorModel
                                             ) {
-                                                return AuthorModel.fetch($stateParams.id, {populate: 'books'});
+                                                return AuthorModel.fetch($stateParams.id);
+                                            }
+                                        ],
+                                        _books: [
+                                            '$stateParams',
+                                            'BookModel',
+                                            function resolve(
+                                                $stateParams,
+                                                BookModel
+                                            ) {
+                                                return BookModel.load({author: $stateParams.id});
+                                            }
+                                        ],
+                                        _booksCount: [
+                                            '$stateParams',
+                                            'BookModel',
+                                            function resolve(
+                                                $stateParams,
+                                                BookModel
+                                            ) {
+                                                return BookModel.count({author: $stateParams.id});
                                             }
                                         ]
                                     }

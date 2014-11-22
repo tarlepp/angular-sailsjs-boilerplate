@@ -104,10 +104,10 @@
                      * Service function to set used model and 'item' names which are updated on specified scope when
                      * socket events occurs.
                      *
-                     * @param   {{}}        scope
-                     * @param   {string}    [nameObject]
-                     * @param   {string}    [nameObjects]
-                     * @param   {string}    [nameCount]
+                     * @param   {{}}                scope
+                     * @param   {string|boolean}    [nameObject]
+                     * @param   {string|boolean}    [nameObjects]
+                     * @param   {string|boolean}    [nameCount]
                      */
                     model.setScope = function setScope(scope, nameObject, nameObjects, nameCount) {
                         var self = this;

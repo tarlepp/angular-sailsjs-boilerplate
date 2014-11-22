@@ -48,7 +48,7 @@
                 <a data-ui-sref="examples.book({id: book.id})">{{book.title}}</a>
             </td>
             <td class="col-md-2">
-                <a data-ui-sref="examples.author({id: book.author.id})">{{book.author.name}}</a>
+                <a data-ui-sref="examples.author({id: getAuthor(book.author, 'id')})">{{getAuthor(book.author, 'name')}}</a>
             </td>
             <td class="col-md-1 text-right">{{book.releaseDate | amDateFormat: 'YYYY'}}</td>
         </tr>

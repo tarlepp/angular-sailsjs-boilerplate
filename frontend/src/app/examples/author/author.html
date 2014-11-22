@@ -3,37 +3,83 @@
 </div>
 
 <div data-ng-show="author">
-    <div class="row">
-        <div class="col-md-8">
-            <h3>{{author.name}}</h3>
+    <form class="form-vertical" role="form"
+        data-editable-form name="editableForm"
+        data-onaftersave="saveAuthor()"
+    >
+        <div class="row">
+            <div class="col-md-8">
+                <h3>
+                    <span style="width: 100%;"
+                        data-editable-text="author.name"
+                        data-e-name="author.name"
+                        data-e-required
+                    >
+                        {{author.name}}
+                    </span>
 
-            <p style="white-space: pre-line">{{author.description}}</p>
-        </div>
+                    <span class="pull-right"
+                        data-ng-show="!editableForm.$visible && user.admin"
+                    >
+                        <a href="#"
+                            data-ng-click="editableForm.$show()"
+                            data-tooltip="Toggle edit mode"
+                        >
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                    </span>
+                </h3>
 
-        <div class="col-md-4">
-            <h4 class="text-muted">Books</h4>
-            <table class="table table-condensed table-hover">
-                <thead>
-                    <tr>
-                        <th class="col-xs-11">
-                            Title
-                        </th>
-                        <th class="col-xs-1 text-nowrap">
-                            Release year
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr data-ng-repeat="book in author.books">
-                        <td>
-                            <a data-ui-sref="examples.book({id: book.id})">{{book.title}}</a>
-                        </td>
-                        <td class="text-right">
-                            {{book.releaseDate | amDateFormat: 'YYYY'}}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                <p style="white-space: pre-line"
+                    data-editable-textarea="author.description"
+                    data-e-name="author.description"
+                    data-e-required
+                >
+                    {{author.description}}
+                </p>
+
+                <div>
+                    <div data-ng-show="editableForm.$visible">
+                        <button type="submit" class="btn btn-primary"
+                            data-ng-disabled="editableForm.$waiting"
+                        >
+                            Save
+                        </button>
+                        <button type="button" class="btn btn-default"
+                            data-ng-disabled="editableForm.$waiting"
+                            data-ng-click="editableForm.$cancel()"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <h4>Books ({{booksCount}})</h4>
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-xs-11">
+                                Title
+                            </th>
+                            <th class="col-xs-1 text-nowrap">
+                                Release year
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="book in books">
+                            <td>
+                                <a data-ui-sref="examples.book({id: book.id})">{{book.title}}</a>
+                            </td>
+                            <td class="text-right">
+                                {{book.releaseDate | amDateFormat: 'YYYY'}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
