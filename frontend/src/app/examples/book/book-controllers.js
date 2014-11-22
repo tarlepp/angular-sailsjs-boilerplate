@@ -13,19 +13,20 @@
         .controller('BookController',
             [
                 '$scope',
-                'cfpLoadingBar',
                 '_',
                 'Auth', 'CurrentUser',
                 'BookModel', 'AuthorModel',
                 '_book',
                 function(
                     $scope,
-                    cfpLoadingBar,
                     _,
                     Auth, CurrentUser,
                     BookModel, AuthorModel,
                     _book
                 ) {
+                    // Set current scope reference to model
+                    BookModel.setScope($scope, 'book');
+
                     $scope.user = CurrentUser.user();
                     $scope.book = _book;
                     $scope.authors = [];
@@ -56,18 +57,6 @@
                             $scope.authors = data;
                         });
                     };
-
-                    /**
-                     * Watcher for 'selectAuthor' $scope attribute, this is needed to update current user view to show
-                     * correct author data on GUI.
-                     */
-                    $scope.$watch('selectAuthor', function watcher(valueNew, valueOld) {
-                        if (valueNew !== valueOld) {
-                            $scope.book.author = _.find($scope.authors, function iterator(author) {
-                                return author.id === valueNew;
-                            });
-                        }
-                    });
                 }
             ]
         );
@@ -88,8 +77,8 @@
                     ListConfig, SocketWhereCondition, BookModel,
                     _items, _count
                 ) {
-                    // Initialize data
-                    $scope.endPoint = 'book';
+                    // Set current scope reference to model
+                    BookModel.setScope($scope, false, 'items', 'itemCount');
 
                     // Add default list configuration variable to current scope
                     $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
@@ -99,7 +88,7 @@
                     $scope.itemCount = _count.count;
 
                     // Initialize used title items
-                    $scope.titleItems = ListConfig.getTitleItems($scope.endPoint);
+                    $scope.titleItems = ListConfig.getTitleItems(BookModel.endpoint);
 
                     // Initialize default sort data
                     $scope.sort = {
@@ -219,7 +208,7 @@
                         var count = BookModel
                             .count(commonParameters)
                             .then(
-                                function callback(response) {
+                                function onSuccess(response) {
                                     $scope.itemCount = response.count;
                                 }
                             );
@@ -237,7 +226,7 @@
                         $q
                             .all([count, load])
                             .finally(
-                                function callback() {
+                                function onFinally() {
                                     $scope.loaded = true;
                                     $scope.loading = false;
                                 }

@@ -130,6 +130,12 @@ module.exports.blueprints = {
      ****************************************************************************/
     autoWatch: true,
 
+    /**
+     * We want to mirror all socket events also to request maker itself, this simplifies some frontend side data
+     * handling logic.
+     */
+    mirror: true,
+
     /****************************************************************************
      *                                                                           *
      * The default number of records to show in the response from a "find"       *
