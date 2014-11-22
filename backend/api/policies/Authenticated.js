@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 /**
  * Policy to check that request is done via authenticated user. This policy uses existing
  * JWT tokens to validate that user is authenticated. If use is not authenticate policy
