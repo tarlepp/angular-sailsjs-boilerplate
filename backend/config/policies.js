@@ -19,10 +19,35 @@
  */
 module.exports.policies = {
     // Default policy for all controllers and actions
-    '*':        ['passport', 'authenticated'],
+    '*':         ['passport', 'authenticated'],
 
+    // Author controller
     AuthController: {
         '*':                ['passport'],
         'checkPassword':    ['passport', 'authenticated']
+    },
+
+    // Author controller
+    AuthorController: {
+        '*':                ['passport', 'authenticated'],
+        'find':             ['passport', 'authenticated'],
+        'findOne':          ['passport', 'authenticated'],
+        'create':           ['passport', 'authenticated', 'isAdmin'],
+        'update':           ['passport', 'authenticated', 'isAdmin'],
+        'destroy':          ['passport', 'authenticated', 'isAdmin'],
+        'add':              ['passport', 'authenticated', 'isAdmin'],
+        'remove':           ['passport', 'authenticated', 'isAdmin']
+    },
+
+    // Book controller
+    BookController: {
+        '*':                ['passport', 'authenticated'],
+        'find':             ['passport', 'authenticated'],
+        'findOne':          ['passport', 'authenticated'],
+        'create':           ['passport', 'authenticated', 'isAdmin'],
+        'update':           ['passport', 'authenticated', 'isAdmin'],
+        'destroy':          ['passport', 'authenticated', 'isAdmin'],
+        'add':              ['passport', 'authenticated', 'isAdmin'],
+        'remove':           ['passport', 'authenticated', 'isAdmin']
     }
 };
