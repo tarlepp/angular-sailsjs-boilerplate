@@ -22,6 +22,6 @@ module.exports.bootstrap = function(next) {
         sails.services['logger'].request(request);
     });
 
-    // Initialize backend database
-    sails.services['database'].init(next);
+    next();
+
 };
