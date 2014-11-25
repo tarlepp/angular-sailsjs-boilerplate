@@ -63,9 +63,7 @@
                     }, true);
 
                     // Enter to chat function
-                    $scope.enterToChat = function enterChat(event) {
-                        event.preventDefault();
-
+                    $scope.enterToChat = function enterChat() {
                         if ($scope.nick.trim() !== '') {
                             $scope.message.nick = $scope.nick;
 
@@ -86,9 +84,7 @@
                     };
 
                     // Function to post a new message to server
-                    $scope.postMessage = function postMessage(event) {
-                        event.preventDefault();
-
+                    $scope.postMessage = function postMessage() {
                         if ($scope.message.message.trim() !== '') {
                             MessageModel
                                 .create($scope.message)

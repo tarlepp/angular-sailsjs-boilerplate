@@ -10,7 +10,6 @@ var layout = {
     menuItem: {
         state: '{string}',
         title: '{string}',
-        admin: '{boolean}',
-        items: 'layout.menuItem[]'
+        access: '{number}'
     }
 };

@@ -1,5 +1,6 @@
 /**
- * Angular module for examples.about component. Basically this component contains only the route definition.
+ * Angular module for frontend.examples.about component. Basically this file contains actual angular module initialize
+ * and route definitions for this module.
  */
 (function() {
     'use strict';
@@ -16,9 +17,14 @@
                     $stateProvider
                         .state('examples.about', {
                             url: '/about',
-                            templateUrl: '/frontend/examples/about/about.html',
                             data: {
                                 access: 0
+                            },
+                            views: {
+                                'content@': {
+                                    templateUrl: '/frontend/examples/about/about.html'
+                                },
+                                'pageNavigation@': false
                             }
                         })
                     ;

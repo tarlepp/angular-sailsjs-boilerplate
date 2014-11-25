@@ -3,7 +3,7 @@
  *
  *  Controllers
  *
- * All of these are wrapped to 'frontend.login' angular module.
+ * All of these are wrapped to 'frontend.auth.login' angular module.
  */
 (function() {
     'use strict';
@@ -20,12 +20,16 @@
                     $stateProvider
                         // Login
                         .state('auth.login', {
+                            url: '/login',
                             data: {
                                 access: 0
                             },
-                            url: '/login',
-                            templateUrl: '/frontend/auth/login/login.html',
-                            controller: 'LoginController'
+                            views: {
+                                'content@': {
+                                    templateUrl: '/frontend/auth/login/login.html',
+                                    controller: 'LoginController'
+                                }
+                            }
                         })
                     ;
                 }

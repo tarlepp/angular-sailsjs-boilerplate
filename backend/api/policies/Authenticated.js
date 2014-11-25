@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 /**
  * Policy to check that request is done via authenticated user. This policy uses existing
  * JWT tokens to validate that user is authenticated. If use is not authenticate policy
@@ -46,17 +48,17 @@ module.exports = function(request, response, next) {
 
     // Verify JWT token via service
     sails.services['token'].verify(token, function(error, token) {
-        if (error) {
-            sails.log.verbose('     ERROR - The token is not valid');
-
-            return response.json(401, {message: 'Given authorization token is not valid'});
-        } else {
+        if (_.isEmpty(error)) {
             sails.log.verbose('     OK');
 
             // Store user id to request object
             request.token = token;
 
             return next();
+        } else {
+            sails.log.verbose('     ERROR - The token is not valid');
+
+            return response.json(401, {message: 'Given authorization token is not valid'});
         }
     });
 };

@@ -28,10 +28,31 @@
                 function($stateProvider) {
                     $stateProvider
                         .state('examples', {
-                            abstract: true,
-                            template: '<ui-view/>',
+                            parent: 'frontend',
                             data: {
                                 access: 1
+                            },
+                            views: {
+                                'content@': {
+                                    controller: [
+                                        '$state',
+                                        function($state) {
+                                            $state.go('examples.books');
+                                        }
+                                    ]
+                                },
+                                'pageNavigation@': {
+                                    templateUrl: '/frontend/core/layout/partials/navigation.html',
+                                    controller: 'NavigationController',
+                                    resolve: {
+                                        _items: [
+                                            'ContentNavigationItems',
+                                            function resolve(ContentNavigationItems) {
+                                                return ContentNavigationItems.getItems('examples');
+                                            }
+                                        ]
+                                    }
+                                }
                             }
                         })
                     ;

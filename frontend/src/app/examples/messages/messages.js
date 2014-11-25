@@ -21,8 +21,12 @@
                     // Messages
                     .state('examples.messages', {
                         url: '/examples/messages',
-                        templateUrl: '/frontend/examples/messages/messages.html',
-                        controller: 'MessagesController'
+                        views: {
+                            'content@': {
+                                templateUrl: '/frontend/examples/messages/messages.html',
+                                controller: 'MessagesController'
+                            }
+                        }
                     })
                 ;
             }

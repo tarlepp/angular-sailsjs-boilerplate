@@ -3,7 +3,8 @@
  *
  *  Controllers
  *
- * All of these are wrapped to 'frontend.admin.login-history' angular module.
+ * All of these are wrapped to 'frontend.admin.login-history' angular module. This also contains necessary route
+ * definitions for this module.
  */
 (function() {
     'use strict';
@@ -20,11 +21,15 @@
                     $stateProvider
                         .state('admin.login-history', {
                             url: '/admin/loginHistory',
-                            templateUrl: '/frontend/admin/loginHistory/index.html',
-                            controller: 'LoginHistoryController',
-                            resolve: {
-                                _historyData: function _historyData() {
-                                    return [];
+                            views: {
+                                'content@': {
+                                    templateUrl: '/frontend/admin/loginHistory/index.html',
+                                    controller: 'LoginHistoryController',
+                                    resolve: {
+                                        _historyData: function resolve() {
+                                            return [];
+                                        }
+                                    }
                                 }
                             }
                         })

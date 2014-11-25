@@ -18,14 +18,14 @@
         'ui.utils',
         'angularMoment',
         'linkify',
-        'sails.io',
         'toastr',
+        'xeditable',
+        'sails.io',
         'frontend-templates',
         'frontend.core',
         'frontend.examples',
         'frontend.admin',
-        'frontend.auth',
-        'frontend.example.navigation'
+        'frontend.auth'
     ]);
 
     /**
@@ -58,12 +58,14 @@
                     $httpProvider.interceptors.push('ErrorInterceptor');
                     $sailsSocketProvider.interceptors.push('AuthInterceptor');
                     $sailsSocketProvider.interceptors.push('ErrorInterceptor');
+                    $sailsSocketProvider.interceptors.push('LoaderInterceptor');
 
                     // Set tooltip options
                     $tooltipProvider.options({
                         appendToBody: true
                     });
 
+                    // Disable spinner from cfpLoadingBar
                     cfpLoadingBarProvider.includeSpinner = false;
 
                     // Extend default toastr configuration with application specified configuration
@@ -98,6 +100,23 @@
                         })
                     ;
 
+                    // Main state provider for frontend application
+                    $stateProvider
+                        .state('frontend', {
+                            abstract: true,
+                            views: {
+                                header: {
+                                    templateUrl: '/frontend/core/layout/partials/header.html',
+                                    controller: 'HeaderController'
+                                },
+                                footer: {
+                                    templateUrl: '/frontend/core/layout/partials/footer.html',
+                                    controller: 'FooterController'
+                                }
+                            }
+                        })
+                    ;
+
                     // For any unmatched url, redirect to /about
                     $urlRouterProvider.otherwise('/about');
                 }
@@ -112,38 +131,27 @@
         .run(
             [
                 '$rootScope', '$state',
-                'cfpLoadingBar',
+                'editableOptions',
                 'Auth',
                 function run(
                     $rootScope, $state,
-                    cfpLoadingBar,
+                    editableOptions,
                     Auth
                 ) {
+                    // Set usage of Bootstrap 3 CSS with angular-xeditable
+                    editableOptions.theme = 'bs3';
+
                     /**
                      * Route state change start event, this is needed for following:
                      *  1) Loading bar start
                      *  2) Check if user is authenticated to see page
                      */
                     $rootScope.$on('$stateChangeStart', function stateChangeStart(event, toState) {
-                        if (toState.resolve) {
-                            cfpLoadingBar.start();
-                        } else {
-                            cfpLoadingBar.complete();
-                        }
-
                         if (!Auth.authorize(toState.data.access)) {
                             event.preventDefault();
 
                             $state.go('auth.login');
                         }
-                    });
-
-                    /**
-                     * Route state state success event, this is needed for following:
-                     *  1) Loading bar complete event
-                     */
-                    $rootScope.$on('$stateChangeSuccess', function(event, toState) {
-                        cfpLoadingBar.complete();
                     });
                 }
             ]

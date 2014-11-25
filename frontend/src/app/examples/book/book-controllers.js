@@ -13,11 +13,48 @@
         .controller('BookController',
             [
                 '$scope',
+                'CurrentUser',
+                'BookModel', 'AuthorModel',
                 '_book',
-                function($scope,
-                         _book
+                function(
+                    $scope,
+                    CurrentUser,
+                    BookModel, AuthorModel,
+                    _book
                 ) {
+                    // Set current scope reference to model
+                    BookModel.setScope($scope, 'book');
+
+                    $scope.user = CurrentUser.user();
                     $scope.book = _book;
+                    $scope.authors = [];
+                    $scope.selectAuthor = _book.author ? _book.author.id : null;
+
+                    /**
+                     * Scope function to save actual modified book. Basically this will send a socket request to
+                     * backend server with modified object.
+                     */
+                    $scope.saveBook = function saveBook() {
+                        var data = angular.copy($scope.book);
+
+                        // Set author id to update data
+                        data.author = $scope.selectAuthor;
+
+                        // Make actual data update
+                        BookModel.update(data.id, data);
+                    };
+
+                    /**
+                     * Scope function to fetch author data when needed, this is triggered whenever user starts to edit
+                     * current book.
+                     *
+                     * @returns {null|promise}
+                     */
+                    $scope.loadAuthors = function loadAuthors() {
+                        return $scope.authors.length ? null : AuthorModel.load().then(function onSuccess(data) {
+                            $scope.authors = data;
+                        });
+                    };
                 }
             ]
         );
@@ -30,18 +67,19 @@
             [
                 '$scope', '$q', '$timeout',
                 '_',
-                'ListConfig',
-                'SocketWhereCondition', 'BookModel',
-                '_items', '_count',
+                'ListConfig', 'SocketWhereCondition',
+                'BookModel', 'AuthorModel',
+                '_items', '_count', '_authors',
                 function(
                     $scope, $q, $timeout,
                     _,
-                    ListConfig,
-                    SocketWhereCondition, BookModel,
-                    _items, _count
+                    ListConfig, SocketWhereCondition,
+                    BookModel, AuthorModel,
+                    _items, _count, _authors
                 ) {
-                    // Initialize data
-                    $scope.endPoint = 'book';
+                    // Set current scope reference to models
+                    BookModel.setScope($scope, false, 'items', 'itemCount');
+                    AuthorModel.setScope($scope, false, 'authors');
 
                     // Add default list configuration variable to current scope
                     $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
@@ -49,9 +87,10 @@
                     // Set initial data
                     $scope.items = _items;
                     $scope.itemCount = _count.count;
+                    $scope.authors = _authors;
 
                     // Initialize used title items
-                    $scope.titleItems = ListConfig.getTitleItems($scope.endPoint);
+                    $scope.titleItems = ListConfig.getTitleItems(BookModel.endpoint);
 
                     // Initialize default sort data
                     $scope.sort = {
@@ -77,6 +116,22 @@
                         }
 
                         _triggerFetchData();
+                    };
+
+                    /**
+                     * Helper function to fetch specified author property.
+                     *
+                     * @param   {Number}    authorId
+                     * @param   {String}    property
+                     *
+                     * @returns {*}
+                     */
+                    $scope.getAuthor = function getAuthor(authorId, property) {
+                        var author =  _.find($scope.authors, function(author) {
+                            return author.id == authorId;
+                        });
+
+                        return author[property];
                     };
 
                     /**
@@ -171,7 +226,7 @@
                         var count = BookModel
                             .count(commonParameters)
                             .then(
-                                function callback(response) {
+                                function onSuccess(response) {
                                     $scope.itemCount = response.count;
                                 }
                             );
@@ -189,7 +244,7 @@
                         $q
                             .all([count, load])
                             .finally(
-                                function callback() {
+                                function onFinally() {
                                     $scope.loaded = true;
                                     $scope.loading = false;
                                 }
