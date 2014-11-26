@@ -1,19 +1,52 @@
-module.exports = function ( sails ) {
+'use strict';
 
-  return {
+/**
+ * load-db.js
+ *
+ * This file contains a custom hook, that will be run after sails.js orm hook is loaded. Purpose of this hook is to
+ * check that database contains necessary initial data for application.
+ */
+module.exports = function hook(sails) {
+    return {
+        /**
+         * Private hook method to do actual database data population. Note that fixture data are only loaded if there
+         * isn't any users in current database.
+         *
+         * @param   {Function}  next    Callback function to call after all is done
+         */
+        checkDatabase: function checkDatabase(next) {
+            sails.models['user']
+                .find()
+                .exec(function onExec(error, users) {
+                    if (error) {
+                        next(error);
+                    } else if (users.length !== 0) {
+                        next();
+                    } else {
+                        sails.log.verbose(__filename + ':' + __line + ' [Hook.load-db] Populating database with fixture data...');
 
-//    configure:function () {
-//      // opportunity to do hook configuration here
-//      sails.log.info('load-db hook configuration done');
-//    },
+                        var Barrels = require('barrels');
+                        var barrels = new Barrels();
 
-    initialize:function ( cb ) {
+                        barrels.populate(function onPopulate(error) {
+                            next(error);
+                        });
+                    }
+                });
+        },
 
-      sails.after( 'hook:orm:loaded', function () {
-        sails.services['database'].init(cb);
-      } );
-      // sails.log.info('load-db hook initialized');
+        /**
+         * Method that runs automatically when the hook initializes itself.
+         *
+         * @param   {Function}  next    Callback function to call after all is done
+         */
+        initialize: function initialize(next) {
+            var hook = this;
+
+            // Wait for sails orm hook to be loaded
+            sails.after('hook:orm:loaded', function onAfter() {
+                hook.checkDatabase(next);
+            });
+        }
     }
-  }
-
-}
+};
