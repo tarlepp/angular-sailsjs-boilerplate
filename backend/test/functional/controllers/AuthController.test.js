@@ -13,64 +13,74 @@ describe('AuthController', function AuthController() {
         [
             {
                 payload: null,
-                status: 401
+                status: 401,
+                condition: 'null as login payload'
             },
             {
                 payload: '',
-                status: 401
+                status: 401,
+                condition: 'empty string "" as login payload'
             },
             {
                 payload: 'foobar',
-                status: 401
+                status: 401,
+                condition:'dummy string "foobar" as login payload'
             },
             {
                 payload: {},
-                status: 401
+                status: 401,
+                condition:'empty object {} as login payload'
             },
             {
                 payload: {
                     identifier: '',
                     password: ''
                 },
-                status: 401
+                status: 401,
+                condition: 'empty string "" identifier and empty string "" password as login payload'
             },
             {
                 payload: {
                     identifier: 'foo',
                     password: ''
                 },
-                status: 401
+                status: 401,
+                condition: 'dummy string "foo" identifier and empty string "" password as login payload'
             },
             {
                 payload: {
                     identifier: '',
                     password: 'bar'
                 },
-                status: 401
+                status: 401,
+                condition: 'empty string "" identifier and dummy string "bar" password as login payload'
             },
             {
                 payload: {
                     identifier: 'foo',
                     password: 'bar'
                 },
-                status: 401
+                status: 401,
+                condition: 'dummy string "foo" identifier and dummy string "bar" password as login payload'
             },
             {
                 payload: {
                     identifier: 'demo',
                     password: 'demodemodemo'
                 },
-                status: 200
+                status: 200,
+                condition: 'valid "demo" user username and password as login payload'
             },
             {
                 payload: {
                     identifier: 'admin',
                     password: 'adminadminadmin'
                 },
-                status: 200
+                status: 200,
+                condition: 'valid "admin" user username and password as login payload'
             }
         ].forEach(function testCase(testCase, index) {
-            describe('with testCase #' + (parseInt(index, 10) + 1), function loginTest() {
+            describe('TestCase #' + (parseInt(index, 10) + 1) + ' - ' + testCase.condition, function loginTest() {
                 it('should return expected HTTP status and object as response body', function it(done) {
                     request(sails.hooks.http.app)
                         .post('/login')
@@ -98,13 +108,15 @@ describe('AuthController', function AuthController() {
 
             [
                 {
-                    credential: 'demo'
+                    credential: 'demo',
+                    condition: 'using demo user credentials'
                 },
                 {
-                    credential: 'admin'
+                    credential: 'admin',
+                    condition: 'using admin user credentials'
                 }
             ].forEach(function testCase(testCase, index) {
-                describe('with testCase #' + (parseInt(index, 10) + 1), function loginTest() {
+                describe('TestCase #' + (parseInt(index, 10) + 1) + ' - ' + testCase.condition, function loginTest() {
                     it('should write user login information to database', function it(done) {
                         login.authenticate(testCase.credential, function callback(error) {
                             if (error) {
@@ -153,11 +165,13 @@ describe('AuthController', function AuthController() {
         [
             {
                 credential: 'demo',
-                password: 'demodemodemo'
+                password: 'demodemodemo',
+                condition: 'using demo user credentials'
             },
             {
                 credential: 'admin',
-                password: 'adminadminadmin'
+                password: 'adminadminadmin',
+                condition: 'using admin user credentials'
             }
         ].forEach(function testCase(testCase, index) {
             var token = '';
@@ -172,7 +186,7 @@ describe('AuthController', function AuthController() {
                 });
             });
 
-            describe('with testCase #' + (parseInt(index, 10) + 1), function loginTest() {
+            describe('TestCase #' + (parseInt(index, 10) + 1) + ' - ' + testCase.condition, function loginTest() {
                 describe('with invalid authorization header', function() {
                     it('should return HTTP status 401 with expected body', function it(done) {
                         request(sails.hooks.http.app)
