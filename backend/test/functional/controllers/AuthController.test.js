@@ -6,7 +6,6 @@ var login = require("./../../helpers/login");
 var _ = require('lodash');
 var Barrels = require('barrels');
 var barrels = new Barrels();
-var fixtures = barrels.data;
 
 describe('AuthController', function AuthController() {
     describe('action login', function loginTest() {

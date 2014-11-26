@@ -4,6 +4,7 @@ var request = require('supertest');
 var expect = require('chai').expect;
 var login = require("./../../helpers/login");
 var _ = require('lodash');
+var async = require('async');
 
 describe('Generic controller test', function controllerTest() {
     [
@@ -483,24 +484,38 @@ describe('Generic controller test', function controllerTest() {
             });
 
             describe('with valid headers', function withCorrectJwt() {
-                var token = '';
+                var tokenDemo = '';
+                var tokenAdmin = '';
                 var createdRecordId = 0;
 
                 before(function beforeTest(done) {
-                    login.authenticate('demo', function callback(error, result) {
-                        if (!error) {
-                            token = result.token;
-                        }
+                    async.parallel(
+                        {
+                            tokenDemo: function getTokenDemo(next) {
+                                login.authenticate('demo', function callback(error, result) {
+                                    next(error, result.token);
+                                });
+                            },
+                            tokenAdmin: function getTokenAdmin(next) {
+                                login.authenticate('admin', function callback(error, result) {
+                                    next(error, result.token);
+                                });
+                            }
+                        },
+                        function callback(error, results) {
+                            tokenDemo = results.tokenDemo;
+                            tokenAdmin = results.tokenAdmin;
 
-                        done(error);
-                    });
+                            done(error);
+                        }
+                    );
                 });
 
                 describe('GET ' + testCase.url, function findRecords() {
                     it('should return correct number of objects', function it(done) {
                         request(sails.hooks.http.app)
                             .get(testCase.url)
-                            .set('Authorization', 'bearer ' + token)
+                            .set('Authorization', 'bearer ' + tokenDemo)
                             .set('Content-Type', 'application/json')
                             .expect(200)
                             .end(
@@ -527,7 +542,7 @@ describe('Generic controller test', function controllerTest() {
                     it('should return expected object', function it(done) {
                         request(sails.hooks.http.app)
                             .get(testCase.url + testCase.identifier)
-                            .set('Authorization', 'bearer ' + token)
+                            .set('Authorization', 'bearer ' + tokenDemo)
                             .set('Content-Type', 'application/json')
                             .expect(200)
                             .end(
@@ -558,7 +573,7 @@ describe('Generic controller test', function controllerTest() {
                     it('should not return any data', function it(done) {
                         request(sails.hooks.http.app)
                             .get(testCase.url + 666)
-                            .set('Authorization', 'bearer ' + token)
+                            .set('Authorization', 'bearer ' + tokenDemo)
                             .set('Content-Type', 'application/json')
                             .expect(404)
                             .end(
@@ -579,7 +594,7 @@ describe('Generic controller test', function controllerTest() {
                     it('should return expected response', function it(done) {
                         request(sails.hooks.http.app)
                             .get(testCase.url + 'count')
-                            .set('Authorization', 'bearer ' + token)
+                            .set('Authorization', 'bearer ' + tokenDemo)
                             .set('Content-Type', 'application/json')
                             .expect(200)
                             .end(
@@ -601,7 +616,7 @@ describe('Generic controller test', function controllerTest() {
                     it('should create new record', function it(done) {
                         request(sails.hooks.http.app)
                             .post(testCase.url)
-                            .set('Authorization', 'bearer ' + token)
+                            .set('Authorization', 'bearer ' + tokenAdmin)
                             .set('Content-Type', 'application/json')
                             .send(testCase.data.newRecord)
                             .expect(200)
@@ -637,7 +652,7 @@ describe('Generic controller test', function controllerTest() {
 
                         request(sails.hooks.http.app)
                             .put(testCase.url + createdRecordId)
-                            .set('Authorization', 'bearer ' + token)
+                            .set('Authorization', 'bearer ' + tokenAdmin)
                             .set('Content-Type', 'application/json')
                             .send(dataToUpdate)
                             .expect(200)
@@ -671,7 +686,7 @@ describe('Generic controller test', function controllerTest() {
                     it('should delete specified record', function it(done) {
                         request(sails.hooks.http.app)
                             .del(testCase.url + createdRecordId)
-                            .set('Authorization', 'bearer ' + token)
+                            .set('Authorization', 'bearer ' + tokenAdmin)
                             .expect(200)
                             .end(
                                 function end(error, result) {
