@@ -4,13 +4,13 @@
   "version": "0.0.0",
   "description": "Backend server for angular-sailsjs-boilerplate a Sails application that serves just a JSON API for frontend application",
   "keywords": [
-      "sails.js",
-      "backend",
-      "REST",
-      "API",
-      "JWT",
-      "JSON Web Token",
-      "Passport.js"
+    "sails.js",
+    "backend",
+    "REST",
+    "API",
+    "JWT",
+    "JSON Web Token",
+    "Passport.js"
   ],
   "dependencies": {
     "async": "0.9.0",
@@ -30,7 +30,8 @@
     "jsonwebtoken": "1.1.2",
     "barrels": "1.3.0",
     "lodash": "2.4.1",
-    "ua-parser": "0.3.3"
+    "ua-parser": "0.3.3",
+    "moment-timezone": "0.2.5"
   },
   "devDependencies": {
     "supertest": "0.13.0",
