@@ -14,3 +14,4 @@ var __stack;
 
 // Sails is defined as global see /config/globals.js
 var sails;
+var exports;
