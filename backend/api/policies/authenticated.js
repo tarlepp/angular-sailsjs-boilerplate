@@ -49,8 +49,6 @@ module.exports = function(request, response, next) {
     // Verify JWT token via service
     sails.services['token'].verify(token, function(error, token) {
         if (_.isEmpty(error)) {
-            sails.log.verbose('     OK');
-
             // Store user id to request object
             request.token = token;
 
