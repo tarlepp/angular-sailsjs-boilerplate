@@ -25,12 +25,13 @@ module.exports = function hook(sails) {
                     } else {
                         sails.log.verbose(__filename + ':' + __line + ' [Hook.load-db] Populating database with fixture data...');
 
+                        var _ = require('lodash');
                         var Barrels = require('barrels');
                         var barrels = new Barrels();
+                        var fixtures = _.keys(barrels.data);
 
-                        barrels.populate(function onPopulate(error) {
-                            next(error);
-                        });
+                        // Do actual database population
+                        barrels.populate(fixtures, next, false);
                     }
                 });
         },

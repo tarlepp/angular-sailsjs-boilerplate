@@ -5,9 +5,8 @@
         "firstName": "Arnold",
         "lastName": "Administrator",
         "admin": true,
-        "passports": [
-            1
-        ]
+        "createdUser": 1,
+        "updatedUser": 1
     },
     {
         "username": "demo",
@@ -15,8 +14,7 @@
         "firstName": "John",
         "lastName": "Doe",
         "admin": false,
-        "passports": [
-            2
-        ]
+        "createdUser": 1,
+        "updatedUser": 1
     }
 ]
