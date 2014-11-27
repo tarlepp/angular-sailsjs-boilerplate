@@ -1,14 +1,14 @@
 'use strict';
 
+var _ = require('lodash');
+
 /**
  * User.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
-module.exports = {
-    schema: true,
-
+module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
     attributes: {
         username: {
             type: 'string',
@@ -47,6 +47,28 @@ module.exports = {
         logins: {
             collection: 'UserLogin',
             via:        'user'
+        },
+
+        // Below are relations to another objects via generic 'createdUser' and 'updatedUser' properties
+
+        // Authors
+        createdAuthors: {
+            collection: 'Author',
+            via:        'createdUser'
+        },
+        updatedAuthors: {
+            collection: 'Author',
+            via:        'updatedUser'
+        },
+
+        // Books
+        createdBooks: {
+            collection: 'Book',
+            via:        'createdUser'
+        },
+        updatedBooks: {
+            collection: 'Book',
+            via:        'updatedUser'
         }
     }
-};
+});
