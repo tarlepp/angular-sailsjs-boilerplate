@@ -15,16 +15,16 @@ module.exports = {
      * @param   {Request}   request
      * @param   {Response}  response
      */
-    count: function(request, response) {
+    count: function count(request, response) {
         var Model = actionUtil.parseModel(request);
 
         Model
             .count(actionUtil.parseCriteria(request))
             .exec(function found(error, count) {
                 if (error) {
-                    response.json(500, error);
+                    response.negotiate(error);
                 } else {
-                    response.json({count: count});
+                    response.ok({count: count});
                 }
             });
     }

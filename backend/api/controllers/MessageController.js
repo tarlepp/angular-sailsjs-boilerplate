@@ -8,5 +8,5 @@ var _ = require('lodash');
  * @description :: Server-side logic for managing messages
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-module.exports = _.merge(_.cloneDeep(require('../base/controller')), {
+module.exports = _.merge(_.cloneDeep(require('../base/Controller')), {
 });
