@@ -19,35 +19,35 @@
  */
 module.exports.policies = {
     // Default policy for all controllers and actions
-    '*':         ['passport', 'authenticated'],
+    '*':         ['authenticated'],
 
     // Author controller
     AuthController: {
         '*':                ['passport'],
-        'checkPassword':    ['passport', 'authenticated']
+        'checkPassword':    ['authenticated']
     },
 
     // Author controller
     AuthorController: {
-        '*':                ['passport', 'authenticated'],
-        'find':             ['passport', 'authenticated'],
-        'findOne':          ['passport', 'authenticated'],
-        'create':           ['passport', 'authenticated', 'isAdmin'],
-        'update':           ['passport', 'authenticated', 'isAdmin'],
-        'destroy':          ['passport', 'authenticated', 'isAdmin'],
-        'add':              ['passport', 'authenticated', 'isAdmin'],
-        'remove':           ['passport', 'authenticated', 'isAdmin']
+        '*':                ['authenticated'],
+        'find':             ['authenticated'],
+        'findOne':          ['authenticated'],
+        'create':           ['authenticated', 'isAdmin'],
+        'update':           ['authenticated', 'isAdmin'],
+        'destroy':          ['authenticated', 'isAdmin'],
+        'add':              ['authenticated', 'isAdmin'],
+        'remove':           ['authenticated', 'isAdmin']
     },
 
     // Book controller
     BookController: {
-        '*':                ['passport', 'authenticated'],
-        'find':             ['passport', 'authenticated'],
-        'findOne':          ['passport', 'authenticated'],
-        'create':           ['passport', 'authenticated', 'isAdmin'],
-        'update':           ['passport', 'authenticated', 'isAdmin'],
-        'destroy':          ['passport', 'authenticated', 'isAdmin'],
-        'add':              ['passport', 'authenticated', 'isAdmin'],
-        'remove':           ['passport', 'authenticated', 'isAdmin']
+        '*':                ['authenticated'],
+        'find':             ['authenticated'],
+        'findOne':          ['authenticated'],
+        'create':           ['authenticated', 'isAdmin'],
+        'update':           ['authenticated', 'isAdmin'],
+        'destroy':          ['authenticated', 'isAdmin'],
+        'add':              ['authenticated', 'isAdmin'],
+        'remove':           ['authenticated', 'isAdmin']
     }
 };
