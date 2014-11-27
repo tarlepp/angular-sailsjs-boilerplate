@@ -19,7 +19,7 @@
  */
 module.exports.policies = {
     // Default policy for all controllers and actions
-    '*':         ['authenticated'],
+    '*':                    ['authenticated'],
 
     // Author controller
     AuthController: {
@@ -32,8 +32,8 @@ module.exports.policies = {
         '*':                ['authenticated'],
         'find':             ['authenticated'],
         'findOne':          ['authenticated'],
-        'create':           ['authenticated', 'isAdmin'],
-        'update':           ['authenticated', 'isAdmin'],
+        'create':           ['authenticated', 'isAdmin', 'addDataCreate'],
+        'update':           ['authenticated', 'isAdmin', 'addDataUpdate'],
         'destroy':          ['authenticated', 'isAdmin'],
         'add':              ['authenticated', 'isAdmin'],
         'remove':           ['authenticated', 'isAdmin']
@@ -44,8 +44,20 @@ module.exports.policies = {
         '*':                ['authenticated'],
         'find':             ['authenticated'],
         'findOne':          ['authenticated'],
-        'create':           ['authenticated', 'isAdmin'],
-        'update':           ['authenticated', 'isAdmin'],
+        'create':           ['authenticated', 'isAdmin', 'addDataCreate'],
+        'update':           ['authenticated', 'isAdmin', 'addDataUpdate'],
+        'destroy':          ['authenticated', 'isAdmin'],
+        'add':              ['authenticated', 'isAdmin'],
+        'remove':           ['authenticated', 'isAdmin']
+    },
+
+    // User controller
+    UserController: {
+        '*':                ['authenticated'],
+        'find':             ['authenticated'],
+        'findOne':          ['authenticated'],
+        'create':           ['authenticated', 'isAdmin', 'addDataCreate'],
+        'update':           ['authenticated', 'isAdmin', 'addDataUpdate'],
         'destroy':          ['authenticated', 'isAdmin'],
         'add':              ['authenticated', 'isAdmin'],
         'remove':           ['authenticated', 'isAdmin']
