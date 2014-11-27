@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 /**
  * Generic logger service which Taskboard backend uses. Currently this service contains
  * following methods:
@@ -17,7 +19,7 @@
  * @param   {sails.model.user}  user        User object
  * @param   {Request}           request     Request object
  */
-exports.login = function(user, request) {
+exports.login = function login(user, request) {
     sails.log.verbose(__filename + ':' + __line + ' [Service.Logger.login() called]');
 
     // Parse detailed information from user-agent string
@@ -58,9 +60,43 @@ exports.login = function(user, request) {
  *
  * @param   {Request}   request Request object
  */
-exports.request = function(request) {
+exports.request = function request(request) {
     sails.log.verbose(__filename + ':' + __line + ' [Service.Logger.request() called]');
 
+    // Initialize user id value
+    var user = request.token || -1;
+
+    // Request object doesn't contain token yet, so we need to figure that out
+    if (!request.token) {
+        var token = '';
+
+        if (request.headers && request.headers.authorization) {
+            var parts = request.headers.authorization.split(' ');
+
+            if (parts.length == 2) {
+                var scheme = parts[0],
+                    credentials = parts[1];
+
+                if (/^Bearer$/i.test(scheme)) {
+                    token = credentials;
+                }
+            }
+        } else if (request.param('token')) { // JWT token sent by parameter
+            token = request.param('token');
+        }
+
+        // Yeah we have a token
+        if (token.length > 0) {
+            // Validate token
+            sails.services['token'].verify(token, function(error, token) {
+                if (_.isEmpty(error)) {
+                    user = token;
+                }
+            });
+        }
+    }
+
+    // Create new log entry
     sails.models['requestlog']
         .create({
             method:     request.method,
@@ -71,7 +107,7 @@ exports.request = function(request) {
             body:       request.body || {},
             protocol:   request.protocol,
             ip:         request.ip,
-            user:       request.token || -1
+            user:       user
         })
         .exec(function(error) {
             if (error) {
