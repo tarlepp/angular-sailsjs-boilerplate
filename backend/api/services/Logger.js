@@ -50,11 +50,11 @@ exports.login = function login(user, request) {
 /**
  * Service method to create request log. This is fired from two places:
  *
- *  1)  \config\bootstrap.js    = logs socket requests
- *  2)  \config\http.js         = logs http requests
+ *  1) \config\bootstrap.js = logs socket requests
+ *  2) \config\http.js      = logs http requests
  *
- * Note that this method is called "silently" and if error occurs those are
- * just added to sails error log.
+ * Note that this method is called "silently" and if error occurs those are  just added to sails error log. Also note
+ * that this also needs to determine user id from authentication token (JWT) within some cases.
  *
  * @todo    Make clean of this collection, because this will be a huge one :D
  *
@@ -63,37 +63,19 @@ exports.login = function login(user, request) {
 exports.request = function request(request) {
     sails.log.verbose(__filename + ':' + __line + ' [Service.Logger.request() called]');
 
-    // Initialize user id value
-    var user = request.token || -1;
+    var userId;
 
-    // Request object doesn't contain token yet, so we need to figure that out
-    if (!request.token) {
-        var token = '';
-
-        if (request.headers && request.headers.authorization) {
-            var parts = request.headers.authorization.split(' ');
-
-            if (parts.length == 2) {
-                var scheme = parts[0],
-                    credentials = parts[1];
-
-                if (/^Bearer$/i.test(scheme)) {
-                    token = credentials;
-                }
+    // Token is found on request object (this means that it has been already verified)
+    if (request.token) {
+        userId = request.token;
+    } else { // Otherwise we need to determine token for log data
+        sails.services['token'].getToken(request, function verify(error, token) {
+            if (_.isEmpty(error) && token !== -1) {
+                userId = token;
+            } else {
+                userId = -1;
             }
-        } else if (request.param('token')) { // JWT token sent by parameter
-            token = request.param('token');
-        }
-
-        // Yeah we have a token
-        if (token.length > 0) {
-            // Validate token
-            sails.services['token'].verify(token, function(error, token) {
-                if (_.isEmpty(error)) {
-                    user = token;
-                }
-            });
-        }
+        }, false);
     }
 
     // Create new log entry
@@ -107,9 +89,9 @@ exports.request = function request(request) {
             body:       request.body || {},
             protocol:   request.protocol,
             ip:         request.ip,
-            user:       user
+            user:       userId
         })
-        .exec(function(error) {
+        .exec(function exec(error) {
             if (error) {
                 sails.log.error(__filename + ':' + __line + ' [Failed to write request data to database]');
                 sails.log.error(error);

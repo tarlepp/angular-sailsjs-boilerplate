@@ -16,47 +16,23 @@ var _ = require('lodash');
 module.exports = function(request, response, next) {
     sails.log.verbose(__filename + ':' + __line + ' [Policy.Authenticated() called]');
 
-    var token;
+    try {
+        // Get and verify JWT via service
+        sails.services['token'].getToken(request, function verify(error, token) {
+            if (_.isEmpty(error) && token !== -1) {
+                // Store user id to request object
+                request.token = token;
 
-    // Yeah we got required 'authorization' header
-    if (request.headers && request.headers.authorization) {
-        var parts = request.headers.authorization.split(' ');
+                // We delete the token from query and body to not mess with blueprints
+                request.query && delete request.query.token;
+                request.body && delete request.body.token;
 
-        if (parts.length == 2) {
-            var scheme = parts[0],
-                credentials = parts[1];
-
-            if (/^Bearer$/i.test(scheme)) {
-                token = credentials;
+                return next();
+            } else {
+                throw new Error('Given authorization token is not valid');
             }
-        } else {
-            sails.log.verbose('     ERROR - Format is Authorization: Bearer [token]');
-
-            return response.json(401, {message: 'Invalid authorization header format. Format is Authorization: Bearer [token]'});
-        }
-    } else if (request.param('token')) { // JWT token sent by parameter
-        token = request.param('token');
-
-        // We delete the token from query and body to not mess with blueprints
-        request.query && delete request.query.token;
-        request.body && delete request.body.token;
-    } else { // Otherwise request didn't contain required JWT token
-        sails.log.verbose('     ERROR - No Authorization header was found');
-
-        return response.json(401, {message: 'No authorization header was found'});
+        }, true);
+    } catch (error) {
+        return response.json(401, {message: error.message});
     }
-
-    // Verify JWT token via service
-    sails.services['token'].verify(token, function(error, token) {
-        if (_.isEmpty(error)) {
-            // Store user id to request object
-            request.token = token;
-
-            return next();
-        } else {
-            sails.log.verbose('     ERROR - The token is not valid');
-
-            return response.json(401, {message: 'Given authorization token is not valid'});
-        }
-    });
 };

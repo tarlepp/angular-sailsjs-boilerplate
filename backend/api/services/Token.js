@@ -39,3 +39,38 @@ module.exports.verify = function(token, next) {
         next // The callback to be call when the verification is done.
     );
 };
+
+/**
+ * Service method to get current user token. Note that this will also verify actual token value.
+ *
+ * @param   {Request}   request     Request object
+ * @param   {Function}  next        Callback function
+ * @param   {Boolean}   throwError  Throw error from invalid token specification
+ *
+ * @return  {*}
+ */
+module.exports.getToken = function getToken(request, next, throwError) {
+    var token = '';
+
+    // Yeah we got required 'authorization' header
+    if (request.headers && request.headers.authorization) {
+        var parts = request.headers.authorization.split(' ');
+
+        if (parts.length === 2) {
+            var scheme = parts[0];
+            var credentials = parts[1];
+
+            if (/^Bearer$/i.test(scheme)) {
+                token = credentials;
+            }
+        } else if (throwError) {
+            throw new Error('Invalid authorization header format. Format is Authorization: Bearer [token]');
+        }
+    } else if (request.param('token')) { // JWT token sent by parameter
+        token = request.param('token');
+    } else if (throwError) { // Otherwise request didn't contain required JWT token
+        throw new Error('No authorization header was found');
+    }
+
+    return sails.services['token'].verify(token, next);
+};
