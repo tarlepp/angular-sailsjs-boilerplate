@@ -38,7 +38,6 @@
                      * to view that new created book.
                      */
                     $scope.addBook = function addBook() {
-                        console.log($scope.book);
                         BookModel
                             .create(angular.copy($scope.book))
                             .then(
