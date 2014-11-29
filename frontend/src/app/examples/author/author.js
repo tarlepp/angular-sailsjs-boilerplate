@@ -99,6 +99,20 @@
                                 }
                             }
                         })
+
+                        // Add new author
+                        .state('examples.author.add', {
+                            url: '/examples/author/add',
+                            data: {
+                                access: 2
+                            },
+                            views: {
+                                'content@': {
+                                    templateUrl: '/frontend/examples/author/add.html',
+                                    controller: 'AuthorAddController'
+                                }
+                            }
+                        })
                     ;
                 }
             ]

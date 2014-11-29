@@ -7,6 +7,43 @@
     'use strict';
 
     /**
+     * Controller for new author creation.
+     */
+    angular.module('frontend.examples.author')
+        .controller('AuthorAddController',
+            [
+                '$scope', '$state',
+                'MessageService', 'AuthorModel',
+                function (
+                    $scope, $state,
+                    MessageService, AuthorModel
+                ) {
+                    // Initialize author model
+                    $scope.author = {
+                        name: '',
+                        description: ''
+                    };
+
+                    /**
+                     * Scope function to store new author to database. After successfully save user will be redirected
+                     * to view that new created author.
+                     */
+                    $scope.addAuthor = function addAuthor() {
+                        AuthorModel
+                            .create(angular.copy($scope.author))
+                            .then(
+                                function onSuccess(result) {
+                                    MessageService.success('New author added successfully');
+
+                                    $state.go('examples.author', {id: result.data.id});
+                                }
+                            );
+                    };
+                }
+            ]
+        );
+
+    /**
      * Controller to show single author on GUI.
      */
     angular.module('frontend.examples.author')
@@ -52,13 +89,13 @@
                 '$scope', '$q', '$timeout',
                 '_',
                 'ListConfig',
-                'SocketWhereCondition', 'AuthorModel',
+                'SocketWhereCondition', 'CurrentUser', 'AuthorModel',
                 '_items', '_count',
                 function(
                     $scope, $q, $timeout,
                     _,
                     ListConfig,
-                    SocketWhereCondition, AuthorModel,
+                    SocketWhereCondition, CurrentUser, AuthorModel,
                     _items, _count
                 ) {
                     // Set current scope reference to model
@@ -70,6 +107,7 @@
                     // Set initial data
                     $scope.items = _items;
                     $scope.itemCount = _count.count;
+                    $scope.user = CurrentUser.user();
 
                     // Initialize used title items
                     $scope.titleItems = ListConfig.getTitleItems(AuthorModel.endpoint);
