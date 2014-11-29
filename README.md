@@ -63,6 +63,10 @@ npm install
 bower install
 </pre>
 
+##### Notes
+If you're changing your backend API url to another than <code>http://localhost:1337</code> you need to make 
+<code>frontend/config/config.json</code> with proper content on it. Use that example file as start.
+
 ### Running of this project
 You have to start both <code>backend</code> and <code>frontend</code> servers to run this project. These can
 be started

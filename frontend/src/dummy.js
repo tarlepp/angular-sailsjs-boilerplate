@@ -8,8 +8,12 @@
 
 var layout = {
     menuItem: {
-        state: '{string}',
-        title: '{string}',
-        access: '{number}'
+        state: '{String}',
+        title: '{String}',
+        access: '{Number}'
     }
+};
+
+var settings = {
+    backendUrl: '{String}'
 };

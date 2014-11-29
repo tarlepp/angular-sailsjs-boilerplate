@@ -45,6 +45,7 @@
     "gulp-ng-html2js": "~0.1.6",
     "gulp-ngmin": "~0.1.2",
     "gulp-karma": "~0.0.2",
+    "gulp-replace-task": "~0.1.0",
     "karma-chai": "~0.1.0",
     "karma-mocha": "~0.1.1",
     "karma-phantomjs-launcher": "~0.1.2",

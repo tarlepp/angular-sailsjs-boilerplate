@@ -15,17 +15,15 @@
     <body>
         <div data-ui-view="header"></div>
 
-
         <div id="container" class="container main-container">
             <div data-ui-view="pageNavigation"></div>
-
             <div data-ui-view="content"></div>
         </div>
 
         <div data-ui-view="footer"></div>
 
         <script>
-            (function () {
+            (function onLoad() {
                 var io;
 
                 Object.defineProperty(window, 'io', {
@@ -44,8 +42,7 @@
                             set: function set(value) {
                                 sails = value;
 
-                                <!-- TODO: Add here your backend API URL without trailing slashes -->
-                                sails.url = 'http://localhost:1337';
+                                sails.url = '@@backendUrl';
                             }
                         });
                     }
@@ -56,13 +53,7 @@
         <!-- inject:vendor:js -->
         <!-- endinject -->
 
-        <script>
-            io.sails.useCORSRouteToGetCookie = false;
-        </script>
-
-
         <!-- inject:js -->
         <!-- endinject -->
-
     </body>
 </html>
