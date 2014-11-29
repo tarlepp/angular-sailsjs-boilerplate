@@ -83,6 +83,28 @@
                                 }
                             }
                         })
+
+                        // Add new book
+                        .state('examples.book.add', {
+                            url: '/examples/book/add',
+                            data: {
+                                access: 2
+                            },
+                            views: {
+                                'content@': {
+                                    templateUrl: '/frontend/examples/book/add.html',
+                                    controller: 'BookAddController',
+                                    resolve: {
+                                        _authors: [
+                                            'AuthorModel',
+                                            function resolve(AuthorModel) {
+                                                return AuthorModel.load();
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        })
                     ;
                 }
             ]

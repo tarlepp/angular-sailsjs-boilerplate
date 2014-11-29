@@ -2,6 +2,11 @@
   text-align: right;
   padding: 0;
 
+  .fa.fa-plus-circle {
+    position: relative;
+    top: -6px;
+  }
+
   div.list-search-filters {
     max-width: 300px;
 

@@ -7,6 +7,53 @@
     'use strict';
 
     /**
+     * Controller for new book creation.
+     */
+    angular.module('frontend.examples.book')
+        .controller('BookAddController',
+            [
+                '$scope', '$state',
+                'MessageService',
+                'BookModel',
+                '_authors',
+                function(
+                    $scope, $state,
+                    MessageService,
+                    BookModel,
+                    _authors
+                ) {
+                    // Store authors
+                    $scope.authors = _authors;
+
+                    // Initialize book model
+                    $scope.book = {
+                        title: '',
+                        description: '',
+                        author: '',
+                        releaseDate: new Date()
+                    };
+
+                    /**
+                     * Scope function to store new book to database. After successfully save user will be redirected
+                     * to view that new created book.
+                     */
+                    $scope.addBook = function addBook() {
+                        console.log($scope.book);
+                        BookModel
+                            .create(angular.copy($scope.book))
+                            .then(
+                                function onSuccess(result) {
+                                    MessageService.success('New book added successfully');
+
+                                    $state.go('examples.book', {id: result.data.id});
+                                }
+                            );
+                    };
+                }
+            ]
+        );
+
+    /**
      * Controller to show single book on GUI.
      */
     angular.module('frontend.examples.book')
@@ -68,13 +115,13 @@
                 '$scope', '$q', '$timeout',
                 '_',
                 'ListConfig', 'SocketWhereCondition',
-                'BookModel', 'AuthorModel',
+                'CurrentUser', 'BookModel', 'AuthorModel',
                 '_items', '_count', '_authors',
                 function(
                     $scope, $q, $timeout,
                     _,
                     ListConfig, SocketWhereCondition,
-                    BookModel, AuthorModel,
+                    CurrentUser, BookModel, AuthorModel,
                     _items, _count, _authors
                 ) {
                     // Set current scope reference to models
@@ -88,6 +135,7 @@
                     $scope.items = _items;
                     $scope.itemCount = _count.count;
                     $scope.authors = _authors;
+                    $scope.user = CurrentUser.user();
 
                     // Initialize used title items
                     $scope.titleItems = ListConfig.getTitleItems(BookModel.endpoint);

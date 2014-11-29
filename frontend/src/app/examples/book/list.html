@@ -2,6 +2,12 @@
     Books ({{itemCount}})
 
     <div class="col-xs-6 pull-right list-search">
+        <a
+            data-ng-if="user.admin"
+            data-ui-sref="examples.book.add"
+            data-tooltip="Add new book"
+        ><i class="fa fa-plus-circle"></i></a>
+
         <list-search
             data-filters="filters"
             data-options="itemsPerPageOptions"
