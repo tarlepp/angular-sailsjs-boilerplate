@@ -130,11 +130,11 @@
     angular.module('frontend')
         .run(
             [
-                '$rootScope', '$state',
+                '$rootScope', '$state', '$injector',
                 'editableOptions',
                 'Auth',
                 function run(
-                    $rootScope, $state,
+                    $rootScope, $state, $injector,
                     editableOptions,
                     Auth
                 ) {
@@ -143,8 +143,7 @@
 
                     /**
                      * Route state change start event, this is needed for following:
-                     *  1) Loading bar start
-                     *  2) Check if user is authenticated to see page
+                     *  1) Check if user is authenticated to see page
                      */
                     $rootScope.$on('$stateChangeStart', function stateChangeStart(event, toState) {
                         if (!Auth.authorize(toState.data.access)) {
@@ -152,6 +151,27 @@
 
                             $state.go('auth.login');
                         }
+                    });
+
+                    /**
+                     * Check for state change errors.
+                     */
+                    $rootScope.$on('$stateChangeError', function stateChangeError(event, toState, toParams, fromState, fromParams, error) {
+                        event.preventDefault();
+
+                        $injector.get('MessageService')
+                            .error('Error loading the page');
+
+                        $state.get('error').error = {
+                            event: event,
+                            toState: toState,
+                            toParams: toParams,
+                            fromState: fromState,
+                            fromParams: fromParams,
+                            error: error
+                        };
+
+                        return $state.go('error');
                     });
                 }
             ]

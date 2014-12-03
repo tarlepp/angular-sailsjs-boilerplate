@@ -3,6 +3,7 @@
  *
  *  frontend.core.components
  *  frontend.core.directives
+ *  frontend.core.error
  *  frontend.core.filters
  *  frontend.core.interceptors
  *  frontend.core.layout
@@ -19,6 +20,7 @@
     angular.module('frontend.core', [
         'frontend.core.components',
         'frontend.core.directives',
+        'frontend.core.error',
         'frontend.core.filters',
         'frontend.core.interceptors',
         'frontend.core.layout',
