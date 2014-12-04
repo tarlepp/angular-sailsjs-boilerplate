@@ -12,6 +12,7 @@
     angular.module('frontend', [
         'angular-loading-bar',
         'ngSanitize',
+        'ngBootbox',
         'ui.router',
         'ui.bootstrap',
         'ui.bootstrap.showErrors',
