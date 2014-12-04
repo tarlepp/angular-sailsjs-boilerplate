@@ -74,7 +74,6 @@
                     // Initialize scope data
                     $scope.user = CurrentUser.user();
                     $scope.book = _book;
-                    $scope.originalBook = angular.copy(_book);
                     $scope.authors = [];
                     $scope.selectAuthor = _book.author ? _book.author.id : null;
 
