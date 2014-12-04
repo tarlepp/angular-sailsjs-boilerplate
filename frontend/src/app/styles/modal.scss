@@ -1,15 +1,16 @@
 @import "mixins";
 
 .modal {
-  overflow: hidden;
+  overflow: auto;
 
   .modal-title {
     margin: 0;
   }
 }
 
-.modal-open {
-  overflow: scroll;
+body.modal-open {
+  overflow-y: scroll;
+  padding-right: 0 !important;
 }
 
 .modal-header,
@@ -23,11 +24,15 @@
   padding: 10px 15px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
+
+  .close {
+    margin-top: -10px;
+    font-size: 45px;
+  }
 }
 
 .modal-body {
   @include noSelect();
-  padding: 0;
   overflow-x: auto;
   overflow-y: scroll;
 
