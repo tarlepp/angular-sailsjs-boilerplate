@@ -14,7 +14,7 @@
  *          ]
  *      );
  *
- * With this you can use lo-dash library easily in your controllers.
+ * With this you can use moment library easily in your controllers.
  */
 (function() {
     'use strict';
