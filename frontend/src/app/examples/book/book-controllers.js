@@ -58,23 +58,40 @@
     angular.module('frontend.examples.book')
         .controller('BookController',
             [
-                '$scope',
-                'CurrentUser',
+                '$scope', '$state',
+                'CurrentUser', 'MessageService',
                 'BookModel', 'AuthorModel',
                 '_book',
                 function(
-                    $scope,
-                    CurrentUser,
+                    $scope, $state,
+                    CurrentUser, MessageService,
                     BookModel, AuthorModel,
                     _book
                 ) {
                     // Set current scope reference to model
                     BookModel.setScope($scope, 'book');
 
+                    // Initialize scope data
                     $scope.user = CurrentUser.user();
                     $scope.book = _book;
+                    $scope.originalBook = angular.copy(_book);
                     $scope.authors = [];
                     $scope.selectAuthor = _book.author ? _book.author.id : null;
+
+                    // Book delete dialog buttons configuration
+                    $scope.confirmButtonsDelete = {
+                        ok: {
+                            label: "Delete",
+                            className: "btn-danger",
+                            callback: function callback() {
+                                $scope.deleteBook();
+                            }
+                        },
+                        cancel: {
+                            label: "Cancel",
+                            className: "btn-default pull-left"
+                        }
+                    };
 
                     /**
                      * Scope function to save actual modified book. Basically this will send a socket request to
@@ -87,7 +104,29 @@
                         data.author = $scope.selectAuthor;
 
                         // Make actual data update
-                        BookModel.update(data.id, data);
+                        BookModel
+                            .update(data.id, data)
+                            .then(
+                                function onSuccess(result) {
+                                    MessageService.success('Book "' + $scope.book.title + '" updated successfully');
+                                }
+                            );
+                    };
+
+                    /**
+                     * Scope function to delete current book. This will send DELETE query to backend via web socket
+                     * query and after successfully delete redirect user back to book list.
+                     */
+                    $scope.deleteBook = function deleteBook() {
+                        BookModel
+                            .delete($scope.book.id)
+                            .then(
+                                function onSuccess() {
+                                    MessageService.success('Book "' + $scope.book.title + '" deleted successfully');
+
+                                    $state.go('examples.books');
+                                }
+                            );
                     };
 
                     /**
