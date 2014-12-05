@@ -49,13 +49,13 @@
     angular.module('frontend.examples.author')
         .controller('AuthorController',
             [
-                '$scope',
-                'CurrentUser',
+                '$scope', '$state',
+                'CurrentUser', 'MessageService',
                 'AuthorModel', 'BookModel',
                 '_author', '_books', '_booksCount',
                 function(
-                    $scope,
-                    CurrentUser,
+                    $scope, $state,
+                    CurrentUser, MessageService,
                     AuthorModel, BookModel,
                     _author, _books, _booksCount
                 ) {
@@ -69,12 +69,46 @@
                     $scope.books = _books;
                     $scope.booksCount = _booksCount.count;
 
+                    // Author delete dialog buttons configuration
+                    $scope.confirmButtonsDelete = {
+                        ok: {
+                            label: "Delete",
+                            className: "btn-danger",
+                            callback: function callback() {
+                                $scope.deleteAuthor();
+                            }
+                        },
+                        cancel: {
+                            label: "Cancel",
+                            className: "btn-default pull-left"
+                        }
+                    };
+
                     // Scope function to save modified author.
                     $scope.saveAuthor = function saveAuthor() {
                         var data = angular.copy($scope.author);
 
                         // Make actual data update
-                        AuthorModel.update(data.id, data);
+                        AuthorModel
+                            .update(data.id, data)
+                            .then(
+                                function onSuccess() {
+                                    MessageService.success('Author "' + $scope.author.name + '" updated successfully');
+                                }
+                            );
+                    };
+
+                    // Scope function to delete author
+                    $scope.deleteAuthor = function deleteAuthor() {
+                        AuthorModel
+                            .delete($scope.author.id)
+                            .then(
+                                function onSuccess() {
+                                    MessageService.success('Author "' + $scope.author.name + '" deleted successfully');
+
+                                    $state.go('examples.authors');
+                                }
+                            );
                     };
                 }
             ]
