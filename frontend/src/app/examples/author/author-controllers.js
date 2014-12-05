@@ -72,15 +72,15 @@
                     // Author delete dialog buttons configuration
                     $scope.confirmButtonsDelete = {
                         ok: {
-                            label: "Delete",
-                            className: "btn-danger",
+                            label: 'Delete',
+                            className: 'btn-danger',
                             callback: function callback() {
                                 $scope.deleteAuthor();
                             }
                         },
                         cancel: {
-                            label: "Cancel",
-                            className: "btn-default pull-left"
+                            label: 'Cancel',
+                            className: 'btn-default pull-left'
                         }
                     };
 

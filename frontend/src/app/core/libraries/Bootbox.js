@@ -25,17 +25,27 @@
     'use strict';
 
     angular.module('frontend.core.libraries')
-        .factory('bootbox', function factory() {
-            return bootbox;
-        })
-        .provider('$bootbox', function provider() {
-            return {
-                setDefaults: function setDefaults(options) {
-                    bootbox.setDefaults(options);
-                },
-                $get: function get() {
-                    return {};
+        .factory('bootbox',
+            [
+                '$window',
+                function factory($window) {
+                    return $window.bootbox;
                 }
-            };
-        });
+            ]
+        )
+        .provider('$bootbox',
+            [
+                '$window',
+                function provider($window) {
+                    return {
+                        setDefaults: function setDefaults(options) {
+                            $window.bootbox.setDefaults(options);
+                        },
+                        $get: function get() {
+                            return {};
+                        }
+                    };
+                }
+            ]
+        );
 }());

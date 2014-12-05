@@ -80,15 +80,15 @@
                     // Book delete dialog buttons configuration
                     $scope.confirmButtonsDelete = {
                         ok: {
-                            label: "Delete",
-                            className: "btn-danger",
+                            label: 'Delete',
+                            className: 'btn-danger',
                             callback: function callback() {
                                 $scope.deleteBook();
                             }
                         },
                         cancel: {
-                            label: "Cancel",
-                            className: "btn-default pull-left"
+                            label: 'Cancel',
+                            className: 'btn-default pull-left'
                         }
                     };
 
@@ -106,7 +106,7 @@
                         BookModel
                             .update(data.id, data)
                             .then(
-                                function onSuccess(result) {
+                                function onSuccess() {
                                     MessageService.success('Book "' + $scope.book.title + '" updated successfully');
                                 }
                             );
@@ -218,12 +218,10 @@
 
                         // Find author
                         var author =  _.find($scope.authors, function(author) {
-                            return author.id == authorId;
+                            return parseInt(author.id, 10) === parseInt(authorId, 10);
                         });
 
-                        return author
-                            ? (property === true ? author : author[property])
-                            : defaultValue;
+                        return author ? (property === true ? author : author[property]) : defaultValue;
                     };
 
                     /**
