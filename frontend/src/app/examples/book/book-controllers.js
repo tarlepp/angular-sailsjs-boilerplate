@@ -206,17 +206,24 @@
                     /**
                      * Helper function to fetch specified author property.
                      *
-                     * @param   {Number}    authorId
-                     * @param   {String}    property
+                     * @param   {Number}    authorId        Author id to search
+                     * @param   {String}    [property]      Property to return, if not given returns whole author object
+                     * @param   {String}    [defaultValue]  Default value if author or property is not founded
                      *
                      * @returns {*}
                      */
-                    $scope.getAuthor = function getAuthor(authorId, property) {
+                    $scope.getAuthor = function getAuthor(authorId, property, defaultValue) {
+                        defaultValue = defaultValue || 'Unknown';
+                        property = property || true;
+
+                        // Find author
                         var author =  _.find($scope.authors, function(author) {
                             return author.id == authorId;
                         });
 
-                        return author[property];
+                        return author
+                            ? (property === true ? author : author[property])
+                            : defaultValue;
                     };
 
                     /**
