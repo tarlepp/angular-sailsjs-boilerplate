@@ -35,11 +35,10 @@
         )
         .provider('$bootbox',
             [
-                '$window',
-                function provider($window) {
+                function provider() {
                     return {
                         setDefaults: function setDefaults(options) {
-                            $window.bootbox.setDefaults(options);
+                            bootbox.setDefaults(options);
                         },
                         $get: function get() {
                             return {};
