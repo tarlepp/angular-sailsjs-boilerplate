@@ -45,7 +45,7 @@ npm install sails -g
 After you have fetched codes of this project to your computer, please follow instructions below.
 
 #### Setup
-Change your <code>/frontend/src/app/index.html</code> file, locate <code>io.sails.url</code> and but your backend
+Change your <code>/frontend/src/app/index.html</code> file, locate <code>io.sails.url</code> and put your backend
 URL address there. Also you have add your own <code>local.js</code> to your backend side. There is an example file
 for that <code>/backend/config/local_example.js</code>, just copy that file to <code>/backend/config/local.js</code>
 file and make necessary changes and you're ready to go.
