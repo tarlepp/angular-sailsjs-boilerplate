@@ -45,9 +45,9 @@
                         responseError: function responseErrorCallback(response) {
                             var message = '';
 
-                            if (response.data.error) {
+                            if (response.data && response.data.error) {
                                 message = response.data.error;
-                            } else if (response.data.message) {
+                            } else if (response.data && response.data.message) {
                                 message = response.data.message;
                             } else {
                                 if (typeof response.data === 'string') {
