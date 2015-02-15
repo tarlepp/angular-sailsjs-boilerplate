@@ -14,9 +14,9 @@
   ],
   "dependencies": {
     "async": "0.9.0",
-    "sails": "0.10.5",
+    "sails": "0.11.0",
     "sails-disk": "0.10.4",
-    "sails-mysql": "0.10.7",
+    "sails-mysql": "0.10.11",
     "rc": "0.5.1",
     "include-all": "0.1.6",
     "passport": "0.2.1",
@@ -27,11 +27,11 @@
     "passport-google": "0.3.0",
     "bcryptjs": "2.1.0",
     "validator": "3.19.0",
-    "jsonwebtoken": "1.1.2",
-    "barrels": "1.3.0",
-    "lodash": "2.4.1",
-    "ua-parser": "0.3.3",
-    "moment-timezone": "0.2.5"
+    "jsonwebtoken": "3.2.2",
+    "barrels": "1.4.0",
+    "lodash": "3.2.0",
+    "ua-parser": "0.3.5",
+    "moment-timezone": "0.3.0"
   },
   "devDependencies": {
     "supertest": "0.13.0",

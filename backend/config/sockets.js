@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * WebSocket Server Settings
  * (sails.config.sockets)
@@ -11,54 +9,8 @@
  * For more information on sockets configuration, including advanced config options, see:
  * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.sockets.html
  */
+
 module.exports.sockets = {
-    /***************************************************************************
-     *                                                                          *
-     * This custom onConnect function will be run each time AFTER a new socket  *
-     * connects (To control whether a socket is allowed to connect, check out   *
-     * `authorization` config.) Keep in mind that Sails' RESTful simulation for *
-     * sockets mixes in socket.io events for your routes and blueprints         *
-     * automatically.                                                           *
-     *                                                                          *
-     ***************************************************************************/
-    onConnect: function(session, socket) {
-        // By default, do nothing.
-    },
-
-    /***************************************************************************
-     *                                                                          *
-     * This custom onDisconnect function will be run each time a socket         *
-     * disconnects                                                              *
-     *                                                                          *
-     ***************************************************************************/
-    onDisconnect: function(session, socket) {
-        // By default: do nothing.
-    },
-
-    /***************************************************************************
-     *                                                                          *
-     * `transports`                                                             *
-     *                                                                          *
-     * A array of allowed transport methods which the clients will try to use.  *
-     * The flashsocket transport is disabled by default You can enable          *
-     * flashsockets by adding 'flashsocket' to this list:                       *
-     *                                                                          *
-     ***************************************************************************/
-    transports: [
-      'websocket',
-      'htmlfile',
-      'xhr-polling',
-      'jsonp-polling'
-    ],
-
-    /***************************************************************************
-     *                                                                          *
-     * Use this option to set the datastore socket.io will use to manage        *
-     * rooms/sockets/subscriptions: default: memory                             *
-     *                                                                          *
-     ***************************************************************************/
-    adapter: 'memory',
-
     /***************************************************************************
      *                                                                          *
      * Node.js (and consequently Sails.js) apps scale horizontally. It's a      *
@@ -84,72 +36,18 @@ module.exports.sockets = {
      * via port 6379                                                            *
      *                                                                          *
      ***************************************************************************/
+    adapter: 'memory',
+
+    //
+    // -OR-
+    //
+
     // adapter: 'redis',
     // host: '127.0.0.1',
     // port: 6379,
     // db: 'sails',
     // pass: '<redis auth password>'
 
-    /***************************************************************************
-     *                                                                          *
-     * `authorization`                                                          *
-     *                                                                          *
-     * Global authorization for Socket.IO access, this is called when the       *
-     * initial handshake is performed with the server.                          *
-     *                                                                          *
-     * By default (`authorization: false`), when a socket tries to connect,     *
-     * Sails allows it, every time. If no valid cookie was sent, a temporary    *
-     * session will be created for the connecting socket.                       *
-     *                                                                          *
-     * If `authorization: true`, before allowing a connection, Sails verifies   *
-     * that a valid cookie was sent with the upgrade request. If the cookie     *
-     * doesn't match any known user session, a new user session is created for  *
-     * it. (In most cases, the user would already have a cookie since they      *
-     * loaded the socket.io client and the initial HTML page.)                  *
-     *                                                                          *
-     * However, in the case of cross-domain requests, it is possible to receive *
-     * a connection upgrade request WITHOUT A COOKIE (for certain transports)   *
-     * In this case, there is no way to keep track of the requesting user       *
-     * between requests, since there is no identifying information to link      *
-     * him/her with a session. The sails.io.js client solves this by connecting *
-     * to a CORS endpoint first to get a 3rd party cookie (fortunately this     *
-     * works, even in Safari), then opening the connection.                     *
-     *                                                                          *
-     * You can also pass along a ?cookie query parameter to the upgrade url,    *
-     * which Sails will use in the absense of a proper cookie e.g. (when        *
-     * connection from the client):                                             *
-     * io.connect('http://localhost:1337?cookie=smokeybear')                    *
-     *                                                                          *
-     * (Un)fortunately, the user's cookie is (should!) not accessible in        *
-     * client-side js. Using HTTP-only cookies is crucial for your app's        *
-     * security. Primarily because of this situation, as well as a handful of   *
-     * other advanced use cases, Sails allows you to override the authorization *
-     * behavior with your own custom logic by specifying a function, e.g:       *
-     *                                                                          *
-     *    authorization: function authSocketConnectionAttempt(reqObj, cb) {     *
-     *                                                                          *
-     *        // Any data saved in `handshake` is available in subsequent       *
-     *        requests from this as `req.socket.handshake.*`                    *
-     *                                                                          *
-     *        // to allow the connection, call `cb(null, true)`                 *
-     *        // to prevent the connection, call `cb(null, false)`              *
-     *        // to report an error, call `cb(err)`                             *
-     *     }                                                                    *
-     *                                                                          *
-     ***************************************************************************/
-    authorization: false,
-
-    /***************************************************************************
-     *                                                                          *
-     * Whether to run code which supports legacy usage for connected sockets    *
-     * running the v0.9 version of the socket client SDK (i.e. sails.io.js).    *
-     * Disabled in newly generated projects, but enabled as an implicit default *
-     * (i.e. legacy usage/v0.9 clients be supported if this property is set to  *
-     * true, but also if it is removed from this configuration file or set to   *
-     * `undefined`)                                                             *
-     *                                                                          *
-     ***************************************************************************/
-    'backwardsCompatibilityFor0.9SocketClients': false,
 
     /***************************************************************************
      *                                                                          *
@@ -165,12 +63,70 @@ module.exports.sockets = {
      ***************************************************************************/
     grant3rdPartyCookie: true,
 
+
     /***************************************************************************
      *                                                                          *
-     * Match string representing the origins that are allowed to connect to the *
-     * Socket.IO server                                                         *
+     * `beforeConnect`                                                          *
+     *                                                                          *
+     * This custom beforeConnect function will be run each time BEFORE a new    *
+     * socket is allowed to connect, when the initial socket.io handshake is    *
+     * performed with the server.                                               *
+     *                                                                          *
+     * By default, when a socket tries to connect, Sails allows it, every time. *
+     * (much in the same way any HTTP request is allowed to reach your routes.  *
+     * If no valid cookie was sent, a temporary session will be created for the *
+     * connecting socket.                                                       *
+     *                                                                          *
+     * If the cookie sent as part of the connetion request doesn't match any    *
+     * known user session, a new user session is created for it.                *
+     *                                                                          *
+     * In most cases, the user would already have a cookie since they loaded    *
+     * the socket.io client and the initial HTML pageyou're building.           *
+     *                                                                          *
+     * However, in the case of cross-domain requests, it is possible to receive *
+     * a connection upgrade request WITHOUT A COOKIE (for certain transports)   *
+     * In this case, there is no way to keep track of the requesting user       *
+     * between requests, since there is no identifying information to link      *
+     * him/her with a session. The sails.io.js client solves this by connecting *
+     * to a CORS/jsonp endpoint first to get a 3rd party cookie(fortunately this*
+     * works, even in Safari), then opening the connection.                     *
+     *                                                                          *
+     * You can also pass along a ?cookie query parameter to the upgrade url,    *
+     * which Sails will use in the absense of a proper cookie e.g. (when        *
+     * connecting from the client):                                             *
+     * io.sails.connect('http://localhost:1337?cookie=smokeybear')              *
+     *                                                                          *
+     * Finally note that the user's cookie is NOT (and will never be) accessible*
+     * from client-side javascript. Using HTTP-only cookies is crucial for your *
+     * app's security.                                                          *
      *                                                                          *
      ***************************************************************************/
-    origins: '*:*'
-};
+    // beforeConnect: function(handshake, cb) {
+    //   // `true` allows the connection
+    //   return cb(null, true);
+    //
+    //   // (`false` would reject the connection)
+    // },
 
+    /***************************************************************************
+     *                                                                          *
+     * This custom afterDisconnect function will be run each time a socket         *
+     * disconnects                                                              *
+     *                                                                          *
+     ***************************************************************************/
+    // afterDisconnect: function(session, socket, cb) {
+    //   // By default: do nothing.
+    //   return cb();
+    // },
+
+    transports: [
+        'websocket',
+        'htmlfile',
+        'polling'
+    ],
+
+    origins: '*:*'
+
+    // More configuration options for Sails+Socket.io:
+    // http://sailsjs.org/#/documentation/reference/sails.config/sails.config.sockets.html
+};
