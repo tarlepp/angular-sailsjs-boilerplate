@@ -10,18 +10,6 @@
 
     // Create frontend module and specify dependencies for that
     angular.module('frontend', [
-        'angular-loading-bar',
-        'ngSanitize',
-        'ngBootbox',
-        'ui.router',
-        'ui.bootstrap',
-        'ui.bootstrap.showErrors',
-        'ui.utils',
-        'angularMoment',
-        'linkify',
-        'toastr',
-        'xeditable',
-        'sails.io',
         'frontend-templates',
         'frontend.core',
         'frontend.examples',
@@ -81,7 +69,10 @@
 
                     // Yeah we wanna to use HTML5 urls!
                     $locationProvider
-                        .html5Mode(true)
+                        .html5Mode({
+                            enabled: true,
+                            requireBase: false
+                        })
                         .hashPrefix('!')
                     ;
 
@@ -144,7 +135,7 @@
 
                     /**
                      * Route state change start event, this is needed for following:
-                     *  1) Check if user is authenticated to see page
+                     *  1) Check if user is authenticated to access page, and if not redirect user back to login page
                      */
                     $rootScope.$on('$stateChangeStart', function stateChangeStart(event, toState) {
                         if (!Auth.authorize(toState.data.access)) {
