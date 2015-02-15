@@ -1,5 +1,5 @@
 # Boilerplate for AngularJS + Sails.js 
-[![MIT License][license-image][license-url]] 
+[![MIT License]] 
 [![Build Status](https://travis-ci.org/tarlepp/angular-sailsjs-boilerplate.png?branch=master)](https://travis-ci.org/tarlepp/angular-sailsjs-boilerplate)
 
 ### Why?
