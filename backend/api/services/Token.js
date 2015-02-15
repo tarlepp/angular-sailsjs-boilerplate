@@ -15,7 +15,7 @@ var jwt = require('jsonwebtoken');
  * @returns {*}
  */
 module.exports.issue = function(payload) {
-    sails.log.verbose(__filename + ':' + __line + ' [Service.Passport.deserializeUser() called]');
+    sails.log.verbose(__filename + ':' + __line + ' [Service.Token.issue() called]');
 
     return jwt.sign(
         payload, // This is the payload we want to put inside the token
@@ -32,6 +32,8 @@ module.exports.issue = function(payload) {
  * @returns {*}
  */
 module.exports.verify = function(token, next) {
+    sails.log.verbose(__filename + ':' + __line + ' [Service.Token.verify() called]');
+
     return jwt.verify(
         token, // The token to be verified
         process.env.TOKEN_SECRET || "oursecret", // The secret we used to sign it.
@@ -50,6 +52,8 @@ module.exports.verify = function(token, next) {
  * @return  {*}
  */
 module.exports.getToken = function getToken(request, next, throwError) {
+    sails.log.verbose(__filename + ':' + __line + ' [Service.Token.getToken() called]');
+
     var token = '';
 
     // Yeah we got required 'authorization' header
