@@ -16,9 +16,9 @@ var _ = require('lodash');
 module.exports = function(request, response, next) {
     sails.log.verbose(__filename + ':' + __line + ' [Policy.Authenticated() called]');
 
-    try {
-        // Get and verify JWT via service
-        sails.services['token'].getToken(request, function verify(error, token) {
+    // Get and verify JWT via service
+    sails.services['token'].getToken(request, function verify(error, token) {
+        try {
             if (_.isEmpty(error) && token !== -1) {
                 // Store user id to request object
                 request.token = token;
@@ -31,8 +31,8 @@ module.exports = function(request, response, next) {
             } else {
                 throw new Error('Given authorization token is not valid');
             }
-        }, true);
-    } catch (error) {
-        return response.json(401, {message: error.message});
-    }
+        } catch (error) {
+            return response.json(401, {message: error.message});
+        }
+    }, true);
 };
