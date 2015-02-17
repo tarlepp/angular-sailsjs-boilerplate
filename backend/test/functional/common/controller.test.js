@@ -619,7 +619,7 @@ describe('Generic controller test', function controllerTest() {
                             .set('Authorization', 'bearer ' + tokenAdmin)
                             .set('Content-Type', 'application/json')
                             .send(testCase.data.newRecord)
-                            .expect(200)
+                            .expect(201)
                             .end(
                                 function end(error, result) {
                                     if (error) {

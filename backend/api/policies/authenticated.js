@@ -17,9 +17,11 @@ module.exports = function(request, response, next) {
     sails.log.verbose(__filename + ':' + __line + ' [Policy.Authenticated() called]');
 
     // Get and verify JWT via service
-    sails.services['token'].getToken(request, function verify(error, token) {
-        try {
-            if (_.isEmpty(error) && token !== -1) {
+    try {
+        sails.services['token'].getToken(request, function verify(error, token) {
+            if (!(_.isEmpty(error) && token !== -1)) {
+                return response.json(401, {message: 'Given authorization token is not valid'});
+            } else {
                 // Store user id to request object
                 request.token = token;
 
@@ -28,11 +30,9 @@ module.exports = function(request, response, next) {
                 request.body && delete request.body.token;
 
                 return next();
-            } else {
-                throw new Error('Given authorization token is not valid');
             }
-        } catch (error) {
-            return response.json(401, {message: error.message});
-        }
-    }, true);
+        }, true);
+    } catch (error) {
+        return response.json(401, {message: error.message});
+    }
 };
