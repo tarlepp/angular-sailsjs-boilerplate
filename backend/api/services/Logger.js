@@ -68,6 +68,8 @@ exports.request = function request(request) {
     // Token is found on request object (this means that it has been already verified)
     if (request.token) {
         userId = request.token;
+
+        writeLog();
     } else { // Otherwise we need to determine token for log data
         sails.services['token'].getToken(request, function verify(error, token) {
             if (_.isEmpty(error) && token !== -1) {
@@ -75,26 +77,30 @@ exports.request = function request(request) {
             } else {
                 userId = -1;
             }
+
+            writeLog();
         }, false);
     }
 
-    // Create new log entry
-    sails.models['requestlog']
-        .create({
-            method:     request.method,
-            url:        request.url,
-            headers:    request.headers || {},
-            parameters: request.params || {},
-            query:      request.query || {},
-            body:       request.body || {},
-            protocol:   request.protocol,
-            ip:         request.ip,
-            user:       userId
-        })
-        .exec(function exec(error) {
-            if (error) {
-                sails.log.error(__filename + ':' + __line + ' [Failed to write request data to database]');
-                sails.log.error(error);
-            }
-        });
+    function writeLog() {
+        // Create new log entry
+        sails.models['requestlog']
+            .create({
+                method:     request.method,
+                url:        request.url,
+                headers:    request.headers || {},
+                parameters: request.params || {},
+                query:      request.query || {},
+                body:       request.body || {},
+                protocol:   request.protocol,
+                ip:         request.ip,
+                user:       userId
+            })
+            .exec(function exec(error) {
+                if (error) {
+                    sails.log.error(__filename + ':' + __line + ' [Failed to write request data to database]');
+                    sails.log.error(error);
+                }
+            });
+    }
 };
