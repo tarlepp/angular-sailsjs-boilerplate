@@ -40,8 +40,8 @@ See more info at https://github.com/slushjs/slush-angular This library is awesom
 First of all you have to install <code>npm</code> and <code>node.js</code> to your box. Installation instructions can
 be found [here](http://sailsjs.org/#/getStarted?q=what-os-do-i-need).
 
-After that you need to install <code>bower, gulp and sails</code> main packages to make all things to happen. These
-can be installed with following commands on your *nix box.
+After that you need to install <code>bower</code>, <code>gulp</code> and <code>sails</code> main packages to make all 
+things to happen. These can be installed with following commands on your *nix box.
 <pre>
 sudo npm install bower -g
 sudo npm install gulp -g
