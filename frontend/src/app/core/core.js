@@ -13,19 +13,19 @@
  *  frontend.core.services
  */
 (function() {
-    'use strict';
+  'use strict';
 
-    // Define frontend.core module
-    angular.module('frontend.core', [
-        'frontend.core.dependencies',
-        'frontend.core.components',
-        'frontend.core.directives',
-        'frontend.core.error',
-        'frontend.core.filters',
-        'frontend.core.interceptors',
-        'frontend.core.layout',
-        'frontend.core.libraries',
-        'frontend.core.models',
-        'frontend.core.services'
-    ]);
+  // Define frontend.core module
+  angular.module('frontend.core', [
+    'frontend.core.dependencies',
+    'frontend.core.components',
+    'frontend.core.directives',
+    'frontend.core.error',
+    'frontend.core.filters',
+    'frontend.core.interceptors',
+    'frontend.core.layout',
+    'frontend.core.libraries',
+    'frontend.core.models',
+    'frontend.core.services'
+  ]);
 }());

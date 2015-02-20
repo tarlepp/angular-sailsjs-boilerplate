@@ -12,94 +12,93 @@
  * @todo do we need some queue dismiss?
  */
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('frontend.core.services')
-        .factory('MessageService',
-            [
-                'toastr', '_',
-                function(toastr, _) {
-                    var service = {};
+  angular.module('frontend.core.services')
+    .factory('MessageService', [
+      'toastr', '_',
+      function factory(toastr, _) {
+        var service = {};
 
-                    /**
-                     * Private helper function to make actual message via toastr component.
-                     *
-                     * @param   {string}    message         Message content
-                     * @param   {string}    title           Message title
-                     * @param   {{}}        options         Message specified options
-                     * @param   {{}}        defaultOptions  Default options for current message type
-                     * @param   {string}    type            Message type
-                     * @private
-                     */
-                    function _makeMessage(message, title, options, defaultOptions, type) {
-                        title = title || '';
-                        options = options || {};
+        /**
+         * Private helper function to make actual message via toastr component.
+         *
+         * @param   {string}  message         Message content
+         * @param   {string}  title           Message title
+         * @param   {{}}      options         Message specified options
+         * @param   {{}}      defaultOptions  Default options for current message type
+         * @param   {string}  type            Message type
+         * @private
+         */
+        function _makeMessage(message, title, options, defaultOptions, type) {
+          title = title || '';
+          options = options || {};
 
-                        toastr[type](message, title, _.assign(defaultOptions, options));
-                    }
+          toastr[type](message, title, _.assign(defaultOptions, options));
+        }
 
-                    /**
-                     * Method to generate 'success' message.
-                     *
-                     * @param   {string}    message     Message content
-                     * @param   {string}    [title]     Message title
-                     * @param   {{}}        [options]   Message options
-                     */
-                    service.success = function success(message, title, options) {
-                        var defaultOptions = {
-                            timeOut: 2000
-                        };
+        /**
+         * Method to generate 'success' message.
+         *
+         * @param   {string}  message   Message content
+         * @param   {string}  [title]   Message title
+         * @param   {{}}      [options] Message options
+         */
+        service.success = function success(message, title, options) {
+          var defaultOptions = {
+            timeOut: 2000
+          };
 
-                        _makeMessage(message, title, options, defaultOptions, 'success');
-                    };
+          _makeMessage(message, title, options, defaultOptions, 'success');
+        };
 
-                    /**
-                     * Method to generate 'info' message.
-                     *
-                     * @param   {string}    message     Message content
-                     * @param   {string}    [title]     Message title
-                     * @param   {{}}        [options]   Message options
-                     */
-                    service.info = function error(message, title, options) {
-                        var defaultOptions = {
-                            timeout: 3000
-                        };
+        /**
+         * Method to generate 'info' message.
+         *
+         * @param   {string}  message   Message content
+         * @param   {string}  [title]   Message title
+         * @param   {{}}      [options] Message options
+         */
+        service.info = function error(message, title, options) {
+          var defaultOptions = {
+            timeout: 3000
+          };
 
-                        _makeMessage(message, title, options, defaultOptions, 'info');
-                    };
+          _makeMessage(message, title, options, defaultOptions, 'info');
+        };
 
-                    /**
-                     * Method to generate 'warning' message.
-                     *
-                     * @param   {string}    message     Message content
-                     * @param   {string}    [title]     Message title
-                     * @param   {{}}        [options]   Message options
-                     */
-                    service.warning = function error(message, title, options) {
-                        var defaultOptions = {
-                            timeout: 3000
-                        };
+        /**
+         * Method to generate 'warning' message.
+         *
+         * @param   {string}  message   Message content
+         * @param   {string}  [title]   Message title
+         * @param   {{}}      [options] Message options
+         */
+        service.warning = function error(message, title, options) {
+          var defaultOptions = {
+            timeout: 3000
+          };
 
-                        _makeMessage(message, title, options, defaultOptions, 'warning');
-                    };
+          _makeMessage(message, title, options, defaultOptions, 'warning');
+        };
 
-                    /**
-                     * Method to generate 'error' message.
-                     *
-                     * @param   {string}    message     Message content
-                     * @param   {string}    [title]     Message title
-                     * @param   {{}}        [options]   Message options
-                     */
-                    service.error = function error(message, title, options) {
-                        var defaultOptions = {
-                            timeout: 4000
-                        };
+        /**
+         * Method to generate 'error' message.
+         *
+         * @param   {string}  message   Message content
+         * @param   {string}  [title]   Message title
+         * @param   {{}}      [options] Message options
+         */
+        service.error = function error(message, title, options) {
+          var defaultOptions = {
+            timeout: 4000
+          };
 
-                        _makeMessage(message, title, options, defaultOptions, 'error');
-                    };
+          _makeMessage(message, title, options, defaultOptions, 'error');
+        };
 
-                    return service;
-                }
-            ]
-        );
+        return service;
+      }
+    ])
+  ;
 }());

@@ -17,15 +17,14 @@
  * With this you can use lo-dash library easily in your controllers.
  */
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('frontend.core.libraries')
-        .factory('_',
-            [
-                '$window',
-                function service($window) {
-                    return $window._;
-                }
-            ]
-        );
+  angular.module('frontend.core.libraries')
+    .factory('_', [
+      '$window',
+      function factory($window) {
+        return $window._;
+      }
+    ])
+  ;
 }());

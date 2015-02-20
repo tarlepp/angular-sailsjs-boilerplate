@@ -3,20 +3,20 @@
  * actually work.
  */
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('frontend.core.dependencies', [
-        'angular-loading-bar',
-        'ngSanitize',
-        'ngBootbox',
-        'ui.router',
-        'ui.bootstrap',
-        'ui.bootstrap.showErrors',
-        'ui.utils',
-        'angularMoment',
-        'linkify',
-        'toastr',
-        'xeditable',
-        'sails.io'
-    ]);
+  angular.module('frontend.core.dependencies', [
+    'angular-loading-bar',
+    'ngSanitize',
+    'ngBootbox',
+    'ui.router',
+    'ui.bootstrap',
+    'ui.bootstrap.showErrors',
+    'ui.utils',
+    'angularMoment',
+    'linkify',
+    'toastr',
+    'xeditable',
+    'sails.io'
+  ]);
 }());

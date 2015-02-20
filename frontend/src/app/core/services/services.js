@@ -1,8 +1,6 @@
-/**
- * Generic models angular module initialize.
- */
+// Generic models angular module initialize.
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('frontend.core.services', []);
+  angular.module('frontend.core.services', []);
 }());

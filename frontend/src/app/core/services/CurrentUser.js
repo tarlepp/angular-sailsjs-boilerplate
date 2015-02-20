@@ -5,16 +5,15 @@
  *
  * Usage example in controller:
  *  angular
- *      .module('app')
- *      .controller('SomeController',
- *          [
- *              '$scope', 'Auth', 'CurrentUser',
- *              function ($scope, Auth, CurrentUser) {
- *                  $scope.auth = Auth;
- *                  $scope.user = CurrentUser.user;
- *              }
- *          ]
- *      );
+ *    .module('app')
+ *    .controller('SomeController',[
+ *      '$scope', 'Auth', 'CurrentUser',
+ *      function controller($scope, Auth, CurrentUser) {
+ *        $scope.auth = Auth;
+ *        $scope.user = CurrentUser.user;
+ *      }
+ *    ])
+ *  ;
  *
  * Usage example in view:
  *  <div data-ng-show="auth.isAuthenticated()">
@@ -24,25 +23,24 @@
  * Happy coding!
  */
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('frontend.core.services')
-        .factory('CurrentUser',
-            [
-                'Storage',
-                function service(Storage) {
-                    return {
-                        user: function user() {
-                            var data = Storage.get('auth_token');
+  angular.module('frontend.core.services')
+    .factory('CurrentUser', [
+      'Storage',
+      function factory(Storage) {
+        return {
+          user: function user() {
+            var data = Storage.get('auth_token');
 
-                            if (data) {
-                                return angular.fromJson(data).user;
-                            } else {
-                                return {};
-                            }
-                        }
-                    };
-                }
-            ]
-        );
+            if (data) {
+              return angular.fromJson(data).user;
+            } else {
+              return {};
+            }
+          }
+        };
+      }
+    ])
+  ;
 }());

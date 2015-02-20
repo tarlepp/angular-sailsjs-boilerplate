@@ -4,31 +4,34 @@
  *  2) And why the hell this doesn't work without this interceptor?
  */
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('frontend.core.interceptors')
-        .factory('LoaderInterceptor',
-        [
-            '$q', '$timeout', 'cfpLoadingBar',
-            function($q, $timeout, cfpLoadingBar) {
-                return {
-                    request: function callback(config) {
-                        cfpLoadingBar.start();
+  angular.module('frontend.core.interceptors')
+    .factory('LoaderInterceptor', [
+      '$q', '$timeout',
+      'cfpLoadingBar',
+      function factory(
+        $q, $timeout,
+        cfpLoadingBar
+      ) {
+        return {
+          request: function request(config) {
+            cfpLoadingBar.start();
 
-                        return config || $q.when(config);
-                    },
-                    response: function callback(response) {
-                        cfpLoadingBar.complete();
+            return config || $q.when(config);
+          },
+          response: function response(response) {
+            cfpLoadingBar.complete();
 
-                        return response || $q.when(response);
-                    },
-                    responseError: function callback(response) {
-                        cfpLoadingBar.complete();
+            return response || $q.when(response);
+          },
+          responseError: function responseError(response) {
+            cfpLoadingBar.complete();
 
-                        return $q.reject(response);
-                    }
-                };
-            }
-        ]
-    );
+            return $q.reject(response);
+          }
+        };
+      }
+    ])
+  ;
 }());
