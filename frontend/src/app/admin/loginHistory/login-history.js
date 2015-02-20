@@ -7,34 +7,33 @@
  * definitions for this module.
  */
 (function() {
-    'use strict';
+  'use strict';
 
-    // Define frontend.admin module.login-history
-    angular.module('frontend.admin.login-history', []);
+  // Define frontend.admin module.login-history
+  angular.module('frontend.admin.login-history', []);
 
-    // Module configuration
-    angular.module('frontend.admin.login-history')
-        .config(
-            [
-                '$stateProvider',
-                function($stateProvider) {
-                    $stateProvider
-                        .state('admin.login-history', {
-                            url: '/admin/loginHistory',
-                            views: {
-                                'content@': {
-                                    templateUrl: '/frontend/admin/loginHistory/index.html',
-                                    controller: 'LoginHistoryController',
-                                    resolve: {
-                                        _historyData: function resolve() {
-                                            return [];
-                                        }
-                                    }
-                                }
-                            }
-                        })
-                    ;
+  // Module configuration
+  angular.module('frontend.admin.login-history')
+    .config([
+      '$stateProvider',
+      function config($stateProvider) {
+        $stateProvider
+          .state('admin.login-history', {
+            url: '/admin/loginHistory',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/admin/loginHistory/index.html',
+                controller: 'LoginHistoryController',
+                resolve: {
+                  _historyData: function resolve() {
+                    return [];
+                  }
                 }
-            ]
-        );
+              }
+            }
+          })
+        ;
+      }
+    ])
+  ;
 }());

@@ -4,19 +4,18 @@
  * Note that this file should only contain controllers and nothing else.
  */
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('frontend.admin.login-history')
-        .controller('LoginHistoryController',
-            [
-                '$scope',
-                '_historyData',
-                function controller(
-                    $scope,
-                    _historyData
-                ) {
-                    $scope.historyData = _historyData;
-                }
-            ]
-        );
+  angular.module('frontend.admin.login-history')
+    .controller('LoginHistoryController', [
+      '$scope',
+      '_historyData',
+      function controller(
+        $scope,
+        _historyData
+      ) {
+        $scope.historyData = _historyData;
+      }
+    ])
+  ;
 }());
