@@ -8,113 +8,112 @@
  * All of these are wrapped to 'frontend.examples.author' angular module.
  */
 (function() {
-    'use strict';
+  'use strict';
 
-    // Define frontend.examples.author angular module
-    angular.module('frontend.examples.author', []);
+  // Define frontend.examples.author angular module
+  angular.module('frontend.examples.author', []);
 
-    // Module configuration
-    angular.module('frontend.examples.author')
-        .config(
-            [
-                '$stateProvider',
-                function($stateProvider) {
-                    $stateProvider
-                        // Authors list
-                        .state('examples.authors', {
-                            url: '/examples/authors',
-                            views: {
-                                'content@': {
-                                    templateUrl: '/frontend/examples/author/list.html',
-                                    controller: 'AuthorListController',
-                                    resolve: {
-                                        _items: [
-                                            'ListConfig',
-                                            'AuthorModel',
-                                            function resolve(
-                                                ListConfig,
-                                                AuthorModel
-                                            ) {
-                                                var config = ListConfig.getConfig();
+  // Module configuration
+  angular.module('frontend.examples.author')
+    .config([
+      '$stateProvider',
+      function config($stateProvider) {
+        $stateProvider
+          // Authors list
+          .state('examples.authors', {
+            url: '/examples/authors',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/examples/author/list.html',
+                controller: 'AuthorListController',
+                resolve: {
+                  _items: [
+                    'ListConfig',
+                    'AuthorModel',
+                    function resolve(
+                      ListConfig,
+                      AuthorModel
+                    ) {
+                      var config = ListConfig.getConfig();
 
-                                                var parameters = {
-                                                    populate: 'books',
-                                                    limit: config.itemsPerPage,
-                                                    sort: 'name ASC'
-                                                };
+                      var parameters = {
+                        populate: 'books',
+                        limit: config.itemsPerPage,
+                        sort: 'name ASC'
+                      };
 
-                                                return AuthorModel.load(parameters);
-                                            }
-                                        ],
-                                        _count: [
-                                            'AuthorModel',
-                                            function resolve(AuthorModel) {
-                                                return AuthorModel.count();
-                                            }
-                                        ]
-                                    }
-                                }
-                            }
-                        })
-
-                        // Single author
-                        .state('examples.author', {
-                            url: '/examples/author/:id',
-                            views: {
-                                'content@': {
-                                    templateUrl: '/frontend/examples/author/author.html',
-                                    controller: 'AuthorController',
-                                    resolve: {
-                                        _author: [
-                                            '$stateParams',
-                                            'AuthorModel',
-                                            function resolve(
-                                                $stateParams,
-                                                AuthorModel
-                                            ) {
-                                                return AuthorModel.fetch($stateParams.id);
-                                            }
-                                        ],
-                                        _books: [
-                                            '$stateParams',
-                                            'BookModel',
-                                            function resolve(
-                                                $stateParams,
-                                                BookModel
-                                            ) {
-                                                return BookModel.load({author: $stateParams.id});
-                                            }
-                                        ],
-                                        _booksCount: [
-                                            '$stateParams',
-                                            'BookModel',
-                                            function resolve(
-                                                $stateParams,
-                                                BookModel
-                                            ) {
-                                                return BookModel.count({author: $stateParams.id});
-                                            }
-                                        ]
-                                    }
-                                }
-                            }
-                        })
-
-                        // Add new author
-                        .state('examples.author.add', {
-                            url: '/examples/author/add',
-                            data: {
-                                access: 2
-                            },
-                            views: {
-                                'content@': {
-                                    templateUrl: '/frontend/examples/author/add.html',
-                                    controller: 'AuthorAddController'
-                                }
-                            }
-                        })
-                    ;
+                      return AuthorModel.load(parameters);
+                    }
+                  ],
+                  _count: [
+                    'AuthorModel',
+                    function resolve(AuthorModel) {
+                      return AuthorModel.count();
+                    }
+                  ]
                 }
-            ]
-        );
+              }
+            }
+          })
+
+          // Single author
+          .state('examples.author', {
+            url: '/examples/author/:id',
+            views: {
+              'content@': {
+                templateUrl: '/frontend/examples/author/author.html',
+                controller: 'AuthorController',
+                resolve: {
+                  _author: [
+                    '$stateParams',
+                    'AuthorModel',
+                    function resolve(
+                      $stateParams,
+                      AuthorModel
+                    ) {
+                      return AuthorModel.fetch($stateParams.id);
+                    }
+                  ],
+                  _books: [
+                    '$stateParams',
+                    'BookModel',
+                    function resolve(
+                      $stateParams,
+                      BookModel
+                    ) {
+                      return BookModel.load({author: $stateParams.id});
+                    }
+                  ],
+                  _booksCount: [
+                    '$stateParams',
+                    'BookModel',
+                    function resolve(
+                      $stateParams,
+                      BookModel
+                    ) {
+                      return BookModel.count({author: $stateParams.id});
+                    }
+                  ]
+                }
+              }
+            }
+          })
+
+          // Add new author
+          .state('examples.author.add', {
+            url: '/examples/author/add',
+            data: {
+              access: 2
+            },
+            views: {
+              'content@': {
+                templateUrl: '/frontend/examples/author/add.html',
+                controller: 'AuthorAddController'
+              }
+            }
+          })
+        ;
+      }
+    ])
+  ;
 }());
