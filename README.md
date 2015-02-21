@@ -145,6 +145,9 @@ Below is small list of possible failures that can occur while trying this POC.
 This might be up and running... or not. http://wunder.sytes.net:3000/
 
 ## Who is using this?
+* All in my own projects, @tarlepp
+
+If you're using this please make PR and add your project to this list.
 
 ## Author
 Tarmo Leppänen
