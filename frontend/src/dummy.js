@@ -7,13 +7,19 @@
  */
 
 var layout = {
-    menuItem: {
-        state: '{String}',
-        title: '{String}',
-        access: '{Number}'
-    }
+  menuItem: {
+    state: string,
+    title: string,
+    access: number
+  }
 };
 
 var settings = {
-    backendUrl: '{String}'
+  backendUrl: string,
+  frontend: {
+    ports: {
+      production: number,
+      development: number
+    }
+  }
 };

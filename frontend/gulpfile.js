@@ -184,7 +184,7 @@ gulp.task('dist', ['vendors', 'assets', 'fonts', 'styles-dist', 'scripts-dist'],
  * Static file server
  */
 gulp.task('statics', g.serve({
-  port: 3001,
+  port: settings.frontend.ports.development,
   root: ['./.tmp', './src/app', './bower_components'],
   middleware: function(req, res, next) {
     return historyApiFallback(req, res, next);
@@ -195,7 +195,7 @@ gulp.task('statics', g.serve({
  * Production file server, note remember to run 'gulp dist' first!
  */
 gulp.task('production', g.serve({
-  port: 3000,
+  port: settings.frontend.ports.production,
   root: ['./dist'],
   middleware: function(req, res, next) {
     return historyApiFallback(req, res, next);
