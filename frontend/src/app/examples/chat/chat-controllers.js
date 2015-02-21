@@ -63,7 +63,7 @@
 
         // Enter to chat function
         $scope.enterToChat = function enterToChat() {
-          if ($scope.nick.trim() !== '') {
+          if ($scope.nick && $scope.nick.trim() !== '') {
             $scope.message.nick = $scope.nick;
 
             Storage.set('chat.nick', $scope.nick);

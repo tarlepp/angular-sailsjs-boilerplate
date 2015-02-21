@@ -28,15 +28,15 @@
                 controller: 'ChatController',
                 resolve: {
                   _messages: [
-                    'Moment',
+                    'moment',
                     'MessageModel',
                     function resolve(
-                      Moment,
+                      moment,
                       MessageModel
                     ) {
                       var parameters = {
                         where: {
-                          createdAt: {'>': new Moment().format()}
+                          createdAt: {'>': new moment().format()}
                         }
                       };
 
