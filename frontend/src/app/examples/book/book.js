@@ -6,7 +6,7 @@
  *
  * All of these are wrapped to 'frontend.examples.book' angular module.
  */
-(function () {
+(function() {
   'use strict';
 
   // Define frontend.examples.book angular module
@@ -106,5 +106,6 @@
           })
         ;
       }
-    ]);
+    ])
+  ;
 }());

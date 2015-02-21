@@ -3,7 +3,7 @@
  *
  * Note that this file should only contain controllers and nothing else.
  */
-(function () {
+(function() {
   'use strict';
 
   // Controller for new book creation.
@@ -43,10 +43,12 @@
 
                 $state.go('examples.book', {id: result.data.id});
               }
-            );
+            )
+          ;
         };
       }
-    ]);
+    ])
+  ;
 
   // Controller to show single book on GUI.
   angular.module('frontend.examples.book')
@@ -102,7 +104,8 @@
               function onSuccess() {
                 MessageService.success('Book "' + $scope.book.title + '" updated successfully');
               }
-            );
+            )
+          ;
         };
 
         /**
@@ -118,7 +121,8 @@
 
                 $state.go('examples.books');
               }
-            );
+            )
+          ;
         };
 
         /**
@@ -128,12 +132,22 @@
          * @returns {null|promise}
          */
         $scope.loadAuthors = function loadAuthors() {
-          return $scope.authors.length ? null : AuthorModel.load().then(function onSuccess(data) {
-            $scope.authors = data;
-          });
+          if ($scope.authors.length) {
+            return null;
+          } else {
+            return AuthorModel
+              .load()
+              .then(
+                function onSuccess(data) {
+                  $scope.authors = data;
+                }
+              )
+            ;
+          }
         };
       }
-    ]);
+    ])
+  ;
 
   // Controller which contains all necessary logic for book list GUI on boilerplate application.
   angular.module('frontend.examples.book')
@@ -206,7 +220,7 @@
           property = property || true;
 
           // Find author
-          var author = _.find($scope.authors, function (author) {
+          var author = _.find($scope.authors, function iterator(author) {
             return parseInt(author.id, 10) === parseInt(authorId.toString(), 10);
           });
 
@@ -307,7 +321,8 @@
               function onSuccess(response) {
                 $scope.itemCount = response.count;
               }
-            );
+            )
+          ;
 
           // Fetch actual data
           var load = BookModel
@@ -316,7 +331,8 @@
               function onSuccess(response) {
                 $scope.items = response;
               }
-            );
+            )
+          ;
 
           // Load all needed data
           $q
@@ -326,8 +342,10 @@
                 $scope.loaded = true;
                 $scope.loading = false;
               }
-            );
+            )
+          ;
         }
       }
-    ]);
+    ])
+  ;
 }());
