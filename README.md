@@ -1,5 +1,4 @@
 # 'Boilerplate' for AngularJS + Sails.js 
-[![MIT License]] 
 [![Build Status](https://travis-ci.org/tarlepp/angular-sailsjs-boilerplate.png?branch=master)](https://travis-ci.org/tarlepp/angular-sailsjs-boilerplate)
 
 ### Why?
@@ -68,20 +67,20 @@ be run on http://localhost:1337 and frontend on http://localhost:3001 (developme
 There is an example of backend configuration file on following path.
 
 <pre>
-backend/config/local_example.js
+/backend/config/local_example.js
 </pre>
 
-Just copy this to <code>backend/config/local.js</code> and make necessary changes to it. Note that this 
+Just copy this to <code>/backend/config/local.js</code> and make necessary changes to it. Note that this 
 <code>local.js</code> file is in .gitignore so it won't go to VCS at any point.
 
 ##### Frontend
 There is an example of front configuration file on following path.
 
 <pre>
-frontend/config/config_example.json
+/frontend/config/config_example.json
 </pre>
 
-Just copy this to <code>backend/config/config.json</code> and make necessary changes to it. Note that this 
+Just copy this to <code>/frontend/config/config.json</code> and make necessary changes to it. Note that this 
 <code>config.json</code> file is in .gitignore so it won't go to VCS at any point.
 
 ##### Notes
