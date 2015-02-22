@@ -12,19 +12,19 @@
    */
   angular.module('frontend.examples.chat')
     .directive('chatScreen', [
-      '$timeout',
-      function directive($timeout) {
+      '$timeout', '$window',
+      function directive($timeout, $window) {
         return {
           restrict: 'C',
           link: function link(scope, element) {
             var resize = function resize() {
-              var totalHeight = angular.element(document).height() - 170;
+              var totalHeight = angular.element($window).height() - 170;
 
               angular.element(element).css('height', totalHeight + 'px');
             };
 
-            angular.element(window).resize(function resize() {
-              $timeout(resize);
+            angular.element($window).bind('resize', function onEvent() {
+              resize();
             });
 
             resize();
