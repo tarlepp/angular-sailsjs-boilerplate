@@ -7,6 +7,7 @@
 
   angular.module('frontend.core.dependencies', [
     'angular-loading-bar',
+    'ngAnimate',
     'ngSanitize',
     'ngBootbox',
     'ui.router',
