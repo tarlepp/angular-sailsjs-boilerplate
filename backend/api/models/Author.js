@@ -9,23 +9,23 @@ var _ = require('lodash');
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
 module.exports = _.merge(_.cloneDeep(require('../base/Model')), {
-    attributes: {
-        // Name of the author
-        name: {
-            type: 'string',
-            required: true
-        },
-        // Author description
-        description: {
-            type: 'text'
-        },
+  attributes: {
+    // Name of the author
+    name: {
+      type: 'string',
+      required: true
+    },
+    // Author description
+    description: {
+      type: 'text'
+    },
 
-        // Below is all specification for relations to another models
+    // Below is all specification for relations to another models
 
-        // Books that area attached to author
-        books: {
-            collection: 'book',
-            via: 'author'
-        }
+    // Books that area attached to author
+    books: {
+      collection: 'book',
+      via: 'author'
     }
+  }
 });

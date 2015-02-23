@@ -7,23 +7,23 @@
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
 module.exports = {
-    schema: true,
+  schema: true,
 
-    attributes: {
-        nick: {
-            type: 'text',
-            required: true
-        },
-        message: {
-            type: 'text',
-            required: true
-        },
+  attributes: {
+    nick: {
+      type: 'text',
+      required: true
+    },
+    message: {
+      type: 'text',
+      required: true
+    },
 
-        // Below is all specification for relations to another models
+    // Below is all specification for relations to another models
 
-        // User object that is attached to message
-        user: {
-            model: 'user'
-        }
+    // User object that is attached to message
+    user: {
+      model: 'user'
     }
+  }
 };
