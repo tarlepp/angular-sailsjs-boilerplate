@@ -44,6 +44,14 @@ module.exports = {
     ip: {
       type: 'string'
     },
+    // Request response time
+    responseTime: {
+      type: 'integer'
+    },
+    // Middleware latency
+    middlewareLatency: {
+      type: 'integer'
+    },
 
     // Below is all specification for relations to another models
 

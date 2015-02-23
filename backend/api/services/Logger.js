@@ -94,6 +94,8 @@ exports.request = function request(log, request, response) {
         body: log.diagnostic.bodyParams,
         protocol: log.protocol,
         ip: log.ip,
+        responseTime: log.responseTime,
+        middlewareLatency: log.diagnostic.middlewareLatency,
         user: userId
       })
       .exec(function exec(error) {
