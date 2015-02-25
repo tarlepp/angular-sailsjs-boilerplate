@@ -9,32 +9,32 @@ var _ = require('lodash');
  * @param   {Response}  response    Response object
  * @param   {Function}  next        Callback function
  */
-module.exports = function(request, response, next) {
-    sails.log.verbose(__filename + ':' + __line + ' [Policy.addDataUpdate() called]');
+module.exports = function addDataUpdate(request, response, next) {
+  sails.log.verbose(__filename + ':' + __line + ' [Policy.addDataUpdate() called]');
 
-    if (request.token) {
-        var itemsToRemove = [
-            'id',
-            'createdUser',
-            'updatedUser',
-            'createdAt',
-            'updatedAt'
-        ];
+  if (request.token) {
+    var itemsToRemove = [
+      'id',
+      'createdUser',
+      'updatedUser',
+      'createdAt',
+      'updatedAt'
+    ];
 
-        // Remove not needed attributes from body
-        _.each(itemsToRemove, function iterator(item) {
-            delete request.body[item];
-        });
+    // Remove not needed attributes from body
+    _.forEach(itemsToRemove, function iterator(item) {
+      delete request.body[item];
+    });
 
-        request.body.updatedUser = request.token;
+    request.body.updatedUser = request.token;
 
-        next();
-    } else {
-        var error = new Error();
+    next();
+  } else {
+    var error = new Error();
 
-        error.message = 'Request token not present.';
-        error.status = 403;
+    error.message = 'Request token not present.';
+    error.status = 403;
 
-        next(error);
-    }
+    next(error);
+  }
 };

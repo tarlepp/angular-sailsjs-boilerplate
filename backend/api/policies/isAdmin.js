@@ -9,31 +9,31 @@
  *
  * @returns {*}
  */
-module.exports = function(request, response, next) {
-    sails.log.verbose(__filename + ':' + __line + ' [Policy.isAdmin() called]');
+module.exports = function isAdmin(request, response, next) {
+  sails.log.verbose(__filename + ':' + __line + ' [Policy.isAdmin() called]');
 
-    // Fetch current user by the token
-    sails.models['user']
-        .findOne(request.token)
-        .exec(function exec(error, user) {
-            if (error) {
-                next(error);
-            } else if (!user) {
-                error = new Error();
+  // Fetch current user by the token
+  sails.models['user']
+    .findOne(request.token)
+    .exec(function exec(error, user) {
+      if (error) {
+        next(error);
+      } else if (!user) {
+        error = new Error();
 
-                error.status = 401;
-                error.message = 'User not found - Please login.';
+        error.status = 401;
+        error.message = 'User not found - Please login.';
 
-                next(error);
-            } else if (user.admin) {
-                next();
-            } else {
-                error = new Error();
+        next(error);
+      } else if (user.admin) {
+        next();
+      } else {
+        error = new Error();
 
-                error.status = 403;
-                error.message = 'Forbidden - You are not administrator user.';
+        error.status = 403;
+        error.message = 'Forbidden - You are not administrator user.';
 
-                next(error);
-            }
-        })
+        next(error);
+      }
+    })
 };

@@ -7,20 +7,20 @@
  * @param   {Response}  response    Response object
  * @param   {Function}  next        Callback function
  */
-module.exports = function(request, response, next) {
-    sails.log.verbose(__filename + ':' + __line + ' [Policy.addDataCreate() called]');
+module.exports = function addDataCreate(request, response, next) {
+  sails.log.verbose(__filename + ':' + __line + ' [Policy.addDataCreate() called]');
 
-    if (request.token) {
-        request.body.createdUser = request.token;
-        request.body.updatedUser = request.token;
+  if (request.token) {
+    request.body.createdUser = request.token;
+    request.body.updatedUser = request.token;
 
-        next();
-    } else {
-        var error = new Error();
+    next();
+  } else {
+    var error = new Error();
 
-        error.message = 'Request token not present.';
-        error.status = 403;
+    error.message = 'Request token not present.';
+    error.status = 403;
 
-        next(error);
-    }
+    next(error);
+  }
 };
