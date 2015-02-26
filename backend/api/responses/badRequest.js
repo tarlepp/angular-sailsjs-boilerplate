@@ -15,30 +15,33 @@
  *   'trial/signup'
  * );
  * ```
+ *
+ * @param   {{}}  data    Data for response
+ * @param   {{}}  options Response options
+ * @returns {*}
  */
 module.exports = function badRequest(data, options) {
-    // Get access to `req`, `res`, & `sails`
-    var req = this.req;
-    var res = this.res;
-    var sails = req._sails;
+  // Get access to `req`, `res`, & `sails`
+  var request = this.req;
+  var response = this.res;
+  var sails = request._sails;
 
-    // Set status code
-    res.status(400);
+  /**
+   * If second argument is a string, we take that to mean it refers to a view.
+   * If it was omitted, use an empty object (`{}`)
+   */
+  options = (typeof options === 'string') ? { view: options } : options || {};
 
-    // Log error to console
-    if (data !== undefined) {
-        sails.log.verbose('Sending 400 ("Bad Request") response: \n', data);
-    } else {
-        sails.log.verbose('Sending 400 ("Bad Request") response');
-    }
+  // Set status code
+  response.status(400);
 
-    // Only include errors in response if application environment
-    // is not set to 'production'.  In production, we shouldn't
-    // send back any identifying information about errors.
-    if (sails.config.environment === 'production') {
-        data = undefined;
-    }
+  // Log error to console
+  if (data !== undefined) {
+    sails.log.verbose('Sending 400 ("Bad Request") response: \n', data);
+  } else {
+    sails.log.verbose('Sending 400 ("Bad Request") response');
+  }
 
-    // Backend will always response JSON
-    return res.jsonx(data);
+  // Backend will always response JSON
+  return response.jsonx(data);
 };
