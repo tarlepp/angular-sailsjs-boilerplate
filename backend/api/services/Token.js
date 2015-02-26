@@ -14,13 +14,13 @@ var jwt = require('jsonwebtoken');
  *
  * @returns {*}
  */
-module.exports.issue = function(payload) {
-    sails.log.verbose(__filename + ':' + __line + ' [Service.Token.issue() called]');
+module.exports.issue = function issue(payload) {
+  sails.log.verbose(__filename + ':' + __line + ' [Service.Token.issue() called]');
 
-    return jwt.sign(
-        payload, // This is the payload we want to put inside the token
-        process.env.TOKEN_SECRET || "oursecret" // Secret string which will be used to sign the token
-    );
+  return jwt.sign(
+    payload, // This is the payload we want to put inside the token
+    process.env.TOKEN_SECRET || "oursecret" // Secret string which will be used to sign the token
+  );
 };
 
 /**
@@ -31,15 +31,15 @@ module.exports.issue = function(payload) {
  *
  * @returns {*}
  */
-module.exports.verify = function(token, next) {
-    sails.log.verbose(__filename + ':' + __line + ' [Service.Token.verify() called]');
+module.exports.verify = function verify(token, next) {
+  sails.log.verbose(__filename + ':' + __line + ' [Service.Token.verify() called]');
 
-    return jwt.verify(
-        token, // The token to be verified
-        process.env.TOKEN_SECRET || "oursecret", // The secret we used to sign it.
-        {}, // Options, none in this case
-        next // The callback to be call when the verification is done.
-    );
+  return jwt.verify(
+    token, // The token to be verified
+    process.env.TOKEN_SECRET || "oursecret", // The secret we used to sign it.
+    {}, // Options, none in this case
+    next // The callback to be call when the verification is done.
+  );
 };
 
 /**
@@ -52,29 +52,29 @@ module.exports.verify = function(token, next) {
  * @return  {*}
  */
 module.exports.getToken = function getToken(request, next, throwError) {
-    sails.log.verbose(__filename + ':' + __line + ' [Service.Token.getToken() called]');
+  sails.log.verbose(__filename + ':' + __line + ' [Service.Token.getToken() called]');
 
-    var token = '';
+  var token = '';
 
-    // Yeah we got required 'authorization' header
-    if (request.headers && request.headers.authorization) {
-        var parts = request.headers.authorization.split(' ');
+  // Yeah we got required 'authorization' header
+  if (request.headers && request.headers.authorization) {
+    var parts = request.headers.authorization.split(' ');
 
-        if (parts.length === 2) {
-            var scheme = parts[0];
-            var credentials = parts[1];
+    if (parts.length === 2) {
+      var scheme = parts[0];
+      var credentials = parts[1];
 
-            if (/^Bearer$/i.test(scheme)) {
-                token = credentials;
-            }
-        } else if (throwError) {
-            throw new Error('Invalid authorization header format. Format is Authorization: Bearer [token]');
-        }
-    } else if (request.param('token')) { // JWT token sent by parameter
-        token = request.param('token');
-    } else if (throwError) { // Otherwise request didn't contain required JWT token
-        throw new Error('No authorization header was found');
+      if (/^Bearer$/i.test(scheme)) {
+        token = credentials;
+      }
+    } else if (throwError) {
+      throw new Error('Invalid authorization header format. Format is Authorization: Bearer [token]');
     }
+  } else if (request.param('token')) { // JWT token sent by parameter
+    token = request.param('token');
+  } else if (throwError) { // Otherwise request didn't contain required JWT token
+    throw new Error('No authorization header was found');
+  }
 
-    return sails.services['token'].verify(token, next);
+  return sails.services.token.verify(token, next);
 };

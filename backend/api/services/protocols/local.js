@@ -21,38 +21,39 @@ var validator = require('validator');
  * have one already. This would be the case if the user registered using a
  * third-party service and therefore never set a password.
  *
- * @param   {Object}   request
- * @param   {Object}   response
- * @param   {Function} next
+ * @param {Request}   request
+ * @param {Response}  response
+ * @param {Function}  next
  */
-exports.connect = function(request, response, next) {
-    var user = request.user;
-    var password = request.param('password');
+exports.connect = function connect(request, response, next) {
+  var user = request.user;
+  var password = request.param('password');
 
-    sails.models['passport']
-        .findOne({
-            protocol: 'local',
-            user: user.id
-        })
-        .exec(function(error, passport) {
-            if (error) {
-                next(error);
-            } else {
-                if (!passport) {
-                    sails.models['passport']
-                        .create({
-                            protocol: 'local',
-                            password: password,
-                            user: user.id
-                        })
-                        .exec(function (error) {
-                            next(error, user);
-                        });
-                } else {
-                    next(null, user);
-                }
-            }
-        });
+  sails.models.passport
+    .findOne({
+      protocol: 'local',
+      user: user.id
+    })
+    .exec(function onExec(error, passport) {
+      if (error) {
+        next(error);
+      } else {
+        if (!passport) {
+          sails.models['passport']
+            .create({
+              protocol: 'local',
+              password: password,
+              user: user.id
+            })
+            .exec(function onExec(error) {
+              next(error, user);
+            });
+        } else {
+          next(null, user);
+        }
+      }
+    })
+  ;
 };
 
 /**
@@ -62,49 +63,51 @@ exports.connect = function(request, response, next) {
  * attempts to find a local Passport associated with the user. If a Passport is
  * found, its password is checked against the password supplied in the form.
  *
- * @param   {Object}   request
- * @param   {string}   identifier
- * @param   {string}   password
- * @param   {Function} next
+ * @param {Request}   request
+ * @param {string}    identifier
+ * @param {string}    password
+ * @param {Function}  next
  */
-exports.login = function(request, identifier, password, next) {
-    var isEmail = validator.isEmail(identifier);
-    var query = {};
+exports.login = function login(request, identifier, password, next) {
+  var isEmail = validator.isEmail(identifier);
+  var query = {};
 
-    if (isEmail) {
-        query.email = identifier;
-    } else {
-        query.username = identifier;
-    }
+  if (isEmail) {
+    query.email = identifier;
+  } else {
+    query.username = identifier;
+  }
 
-    sails.models['user']
-        .findOne(query)
-        .exec(function(error, user) {
-            if (error) {
-                next(error);
-            } else if (!user) {
-                next(null, false);
+  sails.models.user
+    .findOne(query)
+    .exec(function onExec(error, user) {
+      if (error) {
+        next(error);
+      } else if (!user) {
+        next(null, false);
+      } else {
+        sails.models.passport
+          .findOne({
+            protocol: 'local',
+            user: user.id
+          })
+          .exec(function onExec(error, passport) {
+            if (passport) {
+              passport.validatePassword(password, function callback(error, response) {
+                if (error) {
+                  next(error);
+                } else if (!response) {
+                  next(null, false);
+                } else {
+                  next(null, user);
+                }
+              });
             } else {
-                sails.models['passport']
-                    .findOne({
-                        protocol: 'local',
-                        user: user.id
-                    })
-                    .exec(function(error, passport) {
-                        if (passport) {
-                            passport.validatePassword(password, function(error, response) {
-                                if (error) {
-                                    next(error);
-                                } else if (!response) {
-                                    next(null, false);
-                                } else {
-                                    next(null, user);
-                                }
-                            });
-                        } else {
-                            next(null, false);
-                        }
-                    });
+              next(null, false);
             }
-        });
+          })
+        ;
+      }
+    })
+  ;
 };

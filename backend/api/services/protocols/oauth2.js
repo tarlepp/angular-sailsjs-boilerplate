@@ -14,24 +14,24 @@
  * For more information on OAuth in Passport.js, check out:
  * http://passportjs.org/guide/oauth/
  *
- * @param   {Object}    request
- * @param   {string}    accessToken
- * @param   {string}    refreshToken
- * @param   {Object}    profile
- * @param   {Function}  next
+ * @param {Request}   request
+ * @param {string}    accessToken
+ * @param {string}    refreshToken
+ * @param {{}}        profile
+ * @param {Function}  next
  */
-module.exports = function (request, accessToken, refreshToken, profile, next) {
-    var query = {
-        identifier: profile.id,
-        protocol: 'oauth2',
-        tokens: {
-            accessToken: accessToken
-        }
-    };
-
-    if (refreshToken !== undefined) {
-        query.tokens.refreshToken = refreshToken;
+module.exports = function oauth2(request, accessToken, refreshToken, profile, next) {
+  var query = {
+    identifier: profile.id,
+    protocol: 'oauth2',
+    tokens: {
+      accessToken: accessToken
     }
+  };
 
-    sails.services['passport'].connect(request, query, profile, next);
+  if (refreshToken !== undefined) {
+    query.tokens.refreshToken = refreshToken;
+  }
+
+  sails.services.passport.connect(request, query, profile, next);
 };

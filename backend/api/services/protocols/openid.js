@@ -12,16 +12,16 @@
  * For more information on OpenID in Passport.js, check out:
  * http://passportjs.org/guide/openid/
  *
- * @param   {Object}    request
- * @param   {string}    identifier
- * @param   {Object}    profile
- * @param   {Function}  next
+ * @param {Request}   request
+ * @param {string}    identifier
+ * @param {{}}        profile
+ * @param {Function}  next
  */
-module.exports = function(request, identifier, profile, next) {
-    var query = {
-        identifier: identifier,
-        protocol: 'openid'
-    };
+module.exports = function openid(request, identifier, profile, next) {
+  var query = {
+    identifier: identifier,
+    protocol: 'openid'
+  };
 
-    sails.services['passport'].connect(request, query, profile, next);
+  sails.services.passport.connect(request, query, profile, next);
 };

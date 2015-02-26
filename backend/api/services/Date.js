@@ -5,6 +5,8 @@
  *
  * Generic date service which contains helper methods for date and time handling.
  */
+
+// Module dependencies
 var moment = require('moment-timezone');
 var fs = require('fs');
 var _ = require('lodash');
@@ -17,7 +19,7 @@ var _ = require('lodash');
  * @returns {moment}
  */
 exports.convertDateObjectToUtc = function convertDateObjectToUtc(date) {
-    return moment(date).tz('Etc/Universal');
+  return moment(date).tz('Etc/Universal');
 };
 
 /**
@@ -26,16 +28,16 @@ exports.convertDateObjectToUtc = function convertDateObjectToUtc(date) {
  * @returns {Date}
  */
 exports.getCurrentDateAsUtc = function getCurrentDateAsUtc() {
-    var now = new Date();
+  var now = new Date();
 
-    return new Date(
-        now.getUTCFullYear(),
-        now.getUTCMonth(),
-        now.getUTCDate(),
-        now.getUTCHours(),
-        now.getUTCMinutes(),
-        now.getUTCSeconds()
-    );
+  return new Date(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+    now.getUTCHours(),
+    now.getUTCMinutes(),
+    now.getUTCSeconds()
+  );
 };
 
 /**
@@ -45,17 +47,17 @@ exports.getCurrentDateAsUtc = function getCurrentDateAsUtc() {
  * @returns {[]}    Array of timezone data
  */
 exports.getTimezones = function getTimezones() {
-    var timezoneData = JSON.parse(fs.readFileSync('node_modules/moment-timezone/data/unpacked/latest.json', 'utf8'));
-    var timezones = [];
+  var timezoneData = JSON.parse(fs.readFileSync('node_modules/moment-timezone/data/unpacked/latest.json', 'utf8'));
+  var timezones = [];
 
-    _.each(timezoneData.zones, function iterator(value, key) {
-        timezones.push({
-            id: key,
-            name: value
-        });
+  _.forEach(timezoneData.zones, function iterator(value, key) {
+    timezones.push({
+      id: key,
+      name: value
     });
+  });
 
-    return _.uniq(_.sortBy(timezones, 'name'), false, function iterator(timezone) {
-        return timezone.name;
-    });
+  return _.uniq(_.sortBy(timezones, 'name'), false, function iterator(timezone) {
+    return timezone.name;
+  });
 };
