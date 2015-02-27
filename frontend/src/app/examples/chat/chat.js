@@ -36,7 +36,7 @@
                     ) {
                       var parameters = {
                         where: {
-                          createdAt: {'>': new moment().format()}
+                          createdAt: {'>': moment().format()}
                         }
                       };
 
