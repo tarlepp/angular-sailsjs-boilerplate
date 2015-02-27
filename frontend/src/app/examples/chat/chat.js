@@ -28,15 +28,20 @@
                 controller: 'ChatController',
                 resolve: {
                   _messages: [
+                    '$localStorage',
                     'moment',
                     'MessageModel',
                     function resolve(
+                      $localStorage,
                       moment,
                       MessageModel
                     ) {
                       var parameters = {
                         where: {
-                          createdAt: {'>': moment().format()}
+                          createdAt: {
+                            '>': ($localStorage.chat && $localStorage.chat.time) ?
+                              $localStorage.chat.time : moment().format()
+                          }
                         }
                       };
 

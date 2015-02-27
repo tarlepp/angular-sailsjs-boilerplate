@@ -27,13 +27,15 @@
    */
   angular.module('frontend.examples.chat')
     .controller('ChatController', [
-      '$scope', '$timeout',
-      'Storage', 'MessageService',
+      '$scope', '$timeout', '$localStorage',
+      'moment',
+      'MessageService',
       'MessageModel',
       '_messages',
       function controller(
-        $scope, $timeout,
-        Storage, MessageService,
+        $scope, $timeout, $localStorage,
+        moment,
+        MessageService,
         MessageModel,
         _messages
       ) {
@@ -41,7 +43,7 @@
         $scope.messages = _messages;
 
         // Get current nick of user
-        $scope.nick = Storage.get('chat.nick');
+        $scope.nick = ($localStorage.chat && $localStorage.chat.nick) ? $localStorage.chat.nick : '';
 
         // Initialize message object
         $scope.message = {
@@ -66,7 +68,10 @@
           if ($scope.nick && $scope.nick.trim() !== '') {
             $scope.message.nick = $scope.nick;
 
-            Storage.set('chat.nick', $scope.nick);
+            $localStorage.chat = {
+              nick: $scope.nick,
+              time: moment().format()
+            };
 
             _scrollBottom();
           } else {
@@ -78,8 +83,9 @@
         $scope.leaveChat = function leaveChat() {
           $scope.message.nick = '';
           $scope.nick = '';
+          $scope.messages = [];
 
-          Storage.unset('chat.nick');
+          $localStorage.chat = {};
         };
 
         // Function to post a new message to server
