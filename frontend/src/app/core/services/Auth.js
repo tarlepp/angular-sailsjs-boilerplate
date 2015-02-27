@@ -45,11 +45,11 @@
 
   angular.module('frontend.core.services')
     .factory('Auth', [
-      '$http', '$state',
-      'Storage', 'AccessLevels', 'BackendConfig', 'MessageService',
+      '$http', '$state', '$localStorage',
+      'AccessLevels', 'BackendConfig', 'MessageService',
       function factory(
-        $http, $state,
-        Storage, AccessLevels, BackendConfig, MessageService
+        $http, $state, $localStorage,
+        AccessLevels, BackendConfig, MessageService
       ) {
         return {
           /**
@@ -63,7 +63,7 @@
             if (accessLevel === AccessLevels.user) {
               return this.isAuthenticated();
             } else if (accessLevel === AccessLevels.admin) {
-              return this.isAuthenticated() && Boolean(angular.fromJson(Storage.get('auth_token')).user.admin);
+              return this.isAuthenticated() && Boolean($localStorage.credentials.user.admin);
             } else {
               return accessLevel === AccessLevels.anon;
             }
@@ -76,7 +76,7 @@
            * @returns {Boolean}
            */
           isAuthenticated: function isAuthenticated() {
-            return Boolean(Storage.get('auth_token'));
+            return Boolean($localStorage.credentials);
           },
 
           /**
@@ -96,7 +96,7 @@
                 function(response) {
                   MessageService.success('You have been logged in.');
 
-                  Storage.set('auth_token', JSON.stringify(response.data));
+                  $localStorage.credentials = response.data;
                 }
               )
             ;
@@ -109,7 +109,7 @@
            * Question still: Should we make logout process to backend side?
            */
           logout: function logout() {
-            Storage.unset('auth_token');
+            $localStorage.$reset();
 
             MessageService.success('You have been logged out.');
 

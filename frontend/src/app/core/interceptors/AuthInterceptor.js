@@ -11,11 +11,9 @@
 
   angular.module('frontend.core.interceptors')
     .factory('AuthInterceptor', [
-      '$q', '$injector',
-      'Storage',
+      '$q', '$injector', '$localStorage',
       function(
-        $q, $injector,
-        Storage
+        $q, $injector, $localStorage
       ) {
         return {
           /**
@@ -30,8 +28,8 @@
             var token;
 
             // Yeah we have some user data on local storage
-            if (Storage.get('auth_token')) {
-              token = angular.fromJson(Storage.get('auth_token')).token;
+            if ($localStorage.credentials) {
+              token = $localStorage.credentials.token;
             }
 
             // Yeah we have a token
@@ -60,7 +58,7 @@
            */
           responseError: function responseErrorCallback(response) {
             if (response.status === 401) {
-              Storage.unset('auth_token');
+              $localStorage.$reset();
 
               $injector.get('$state').go('auth.login');
             }

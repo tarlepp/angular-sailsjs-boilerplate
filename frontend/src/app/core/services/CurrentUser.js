@@ -27,17 +27,11 @@
 
   angular.module('frontend.core.services')
     .factory('CurrentUser', [
-      'Storage',
-      function factory(Storage) {
+      '$localStorage',
+      function factory($localStorage) {
         return {
           user: function user() {
-            var data = Storage.get('auth_token');
-
-            if (data) {
-              return angular.fromJson(data).user;
-            } else {
-              return {};
-            }
+            return $localStorage.credentials ? $localStorage.credentials.user : {};
           }
         };
       }

@@ -10,6 +10,7 @@
     'ngAnimate',
     'ngSanitize',
     'ngBootbox',
+    'ngStorage',
     'ui.router',
     'ui.bootstrap',
     'ui.bootstrap.showErrors',
