@@ -24,30 +24,30 @@
  * http://links.sailsjs.org/docs/config/local
  */
 module.exports = {
-    connections: {
-        // Add your connections here, remember install that adapter also
+  connections: {
+    // Add your connections here, remember install that adapter also
 
-        // MySQL is the world's most popular relational database.
-        // Learn more: http://en.wikipedia.org/wiki/MySQL
-        mysql: {
-            adapter: 'sails-mysql',
-            host: 'localhost',
-            user: '',
-            password: '',
-            database: '',
-            charset: 'utf8',
-            collation: 'utf8_swedish_ci'
-        }
-    },
-    models: {
-        connection: 'mysql' // Change this to be one of your connections key
-    },
-    session: {
-        secret: '' // Add your own SECRET string here
-    },
-    port: 1337,
-    environment: 'development',
-    log: {
-        level: 'info'
+    // MySQL is the world's most popular relational database.
+    // Learn more: http://en.wikipedia.org/wiki/MySQL
+    mysql: {
+      adapter: 'sails-mysql',
+      host: 'localhost',
+      user: '',
+      password: '',
+      database: '',
+      charset: 'utf8',
+      collation: 'utf8_swedish_ci'
     }
+  },
+  models: {
+    connection: 'mysql' // Change this to be one of your connections key
+  },
+  session: {
+    secret: '' // Add your own SECRET string here
+  },
+  port: 1337,
+  environment: 'development',
+  log: {
+    level: 'info'
+  }
 };

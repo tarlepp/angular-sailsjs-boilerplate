@@ -22,15 +22,15 @@
  * http://sailsjs.org/#/documentation/concepts/Routes/RouteTargetSyntax.html
  */
 module.exports.routes = {
-    // See https://github.com/balderdashy/sails/issues/2062
-    'OPTIONS /*': function(req, res) {
-        res.send(200);
-    },
+  // See https://github.com/balderdashy/sails/issues/2062
+  'OPTIONS /*': function(req, res) {
+    res.send(200);
+  },
 
-    // Authentication routes
-    '/logout': 'AuthController.logout',
-    'POST /login': 'AuthController.callback',
-    'POST /login/:action': 'AuthController.callback',
-    'POST /auth/local': 'AuthController.callback',
-    'POST /auth/local/:action': 'AuthController.callback'
+  // Authentication routes
+  '/logout': 'AuthController.logout',
+  'POST /login': 'AuthController.callback',
+  'POST /login/:action': 'AuthController.callback',
+  'POST /auth/local': 'AuthController.callback',
+  'POST /auth/local/:action': 'AuthController.callback'
 };
