@@ -363,8 +363,11 @@ function livereload() {
  * Jshint with stylish reporter
  */
 function jshint(jshintfile) {
+  // Read JSHint settings, for some reason jshint-stylish won't work on initial load of files
+  var jshintSettings = JSON.parse(fs.readFileSync(jshintfile, 'utf8'));
+
   return lazypipe()
-    .pipe(g.jshint, jshintfile)
+    .pipe(g.jshint, jshintSettings)
     .pipe(g.jshint.reporter, stylish)()
   ;
 }
