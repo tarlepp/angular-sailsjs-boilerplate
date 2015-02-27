@@ -117,13 +117,13 @@
       '$scope', '$q', '$timeout',
       '_',
       'ListConfig',
-      'SocketWhereCondition', 'UserService', 'AuthorModel',
+      'SocketHelperService', 'UserService', 'AuthorModel',
       '_items', '_count',
       function controller(
         $scope, $q, $timeout,
         _,
         ListConfig,
-        SocketWhereCondition, UserService, AuthorModel,
+        SocketHelperService, UserService, AuthorModel,
         _items, _count
       ) {
         // Set current scope reference to model
@@ -243,7 +243,7 @@
 
           // Common parameters for count and data query
           var commonParameters = {
-            where: SocketWhereCondition.get($scope.filters)
+            where: SocketHelperService.getWhere($scope.filters)
           };
 
           // Data query specified parameters

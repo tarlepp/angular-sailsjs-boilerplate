@@ -154,13 +154,13 @@
     .controller('BookListController', [
       '$scope', '$q', '$timeout',
       '_',
-      'ListConfig', 'SocketWhereCondition',
+      'ListConfig', 'SocketHelperService',
       'UserService', 'BookModel', 'AuthorModel',
       '_items', '_count', '_authors',
       function controller(
         $scope, $q, $timeout,
         _,
-        ListConfig, SocketWhereCondition,
+        ListConfig, SocketHelperService,
         UserService, BookModel, AuthorModel,
         _items, _count, _authors
       ) {
@@ -304,7 +304,7 @@
 
           // Common parameters for count and data query
           var commonParameters = {
-            where: SocketWhereCondition.get($scope.filters)
+            where: SocketHelperService.getWhere($scope.filters)
           };
 
           // Data query specified parameters

@@ -4,7 +4,7 @@
  *  $sailsSocket
  *    .get("/Book/", {
  *      params: {
- *        where: SocketWhereCondition.get($scope.filters)
+ *        where: SocketHelperService.getWhere($scope.filters)
  *      }
  *    })
  *    .then(
@@ -22,11 +22,11 @@
   'use strict';
 
   angular.module('frontend.core.services')
-    .factory('SocketWhereCondition', [
+    .factory('SocketHelperService', [
       '_',
       function factory(_) {
         return {
-          get: function get(filters, defaults) {
+          getWhere: function getWhere(filters, defaults) {
             var output = defaults || {};
 
             // Determine search columns
