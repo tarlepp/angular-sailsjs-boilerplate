@@ -54,7 +54,7 @@
               } else if (response.statusText) {
                 message = response.statusText;
               } else {
-                message = $injector.get('HttpStatus').getStatusCodeText(response.status);
+                message = $injector.get('HttpStatusService').getStatusCodeText(response.status);
               }
 
               message = message + ' <span class="text-small">(HTTP status ' + response.status + ')</span>';

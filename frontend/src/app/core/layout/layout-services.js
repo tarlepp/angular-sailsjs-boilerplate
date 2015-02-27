@@ -340,8 +340,8 @@
                 info: 'Service to show messages to users via <em>toastr</em> service.'
               },
               {
-                url: repository + 'frontend/src/app/core/services/HttpStatus.js',
-                title: 'HttpStatus.js',
+                url: repository + 'frontend/src/app/core/services/HttpStatusService.js',
+                title: 'HttpStatusService.js',
                 info: 'Generic HTTP status service that contains helper methods for HTTP status code handling.'
               }
             ]

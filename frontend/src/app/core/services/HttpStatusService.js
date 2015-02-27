@@ -2,7 +2,7 @@
  * Service to wrap generic HTTP status specified helper methods. Currently this service has
  * following methods available:
  *
- *  HttpStatus.getStatusCodeText(httpStatusCode);
+ *  HttpStatusService.getStatusCodeText(httpStatusCode);
  *
  * @todo add more these helpers :D
  */
@@ -10,7 +10,7 @@
   'use strict';
 
   angular.module('frontend.core.services')
-    .factory('HttpStatus',
+    .factory('HttpStatusService',
       function factory() {
         return {
           /**
