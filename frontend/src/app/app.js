@@ -11,8 +11,7 @@
     'frontend-templates',
     'frontend.core',
     'frontend.examples',
-    'frontend.admin',
-    'frontend.auth'
+    'frontend.admin'
   ]);
 
   /**
@@ -241,11 +240,11 @@
     .run([
       '$rootScope', '$state', '$injector',
       'editableOptions',
-      'Auth',
+      'AuthService',
       function run(
         $rootScope, $state, $injector,
         editableOptions,
-        Auth
+        AuthService
       ) {
         // Set usage of Bootstrap 3 CSS with angular-xeditable
         editableOptions.theme = 'bs3';
@@ -255,7 +254,7 @@
          *  1) Check if user is authenticated to access page, and if not redirect user back to login page
          */
         $rootScope.$on('$stateChangeStart', function stateChangeStart(event, toState) {
-          if (!Auth.authorize(toState.data.access)) {
+          if (!AuthService.authorize(toState.data.access)) {
             event.preventDefault();
 
             $state.go('auth.login');

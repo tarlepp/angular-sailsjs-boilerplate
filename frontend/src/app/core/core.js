@@ -2,6 +2,7 @@
  * Angular module for 'core' component. This component is divided to following logical components:
  *
  *  frontend.core.dependencies
+ *  frontend.core.auth
  *  frontend.core.components
  *  frontend.core.directives
  *  frontend.core.error
@@ -17,7 +18,8 @@
 
   // Define frontend.core module
   angular.module('frontend.core', [
-    'frontend.core.dependencies',
+    'frontend.core.dependencies', // Note that this must be loaded first
+    'frontend.core.auth',
     'frontend.core.components',
     'frontend.core.directives',
     'frontend.core.error',

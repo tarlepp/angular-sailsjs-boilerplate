@@ -18,14 +18,14 @@
     .controller('HeaderController', [
       '$scope', '$state',
       'HeaderNavigationItems',
-      'CurrentUser', 'Auth',
+      'UserService', 'AuthService',
       function controller(
         $scope, $state,
         HeaderNavigationItems,
-        CurrentUser, Auth
+        UserService, AuthService
       ) {
-        $scope.user = CurrentUser.user;
-        $scope.auth = Auth;
+        $scope.user = UserService.user;
+        $scope.auth = AuthService;
         $scope.navigationItems = HeaderNavigationItems;
 
         /**
@@ -60,7 +60,7 @@
 
         // Simple helper function which triggers user logout action.
         $scope.logout = function logout() {
-          Auth.logout();
+          AuthService.logout();
         };
       }
     ])

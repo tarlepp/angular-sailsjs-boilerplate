@@ -54,12 +54,12 @@
   angular.module('frontend.examples.book')
     .controller('BookController', [
       '$scope', '$state',
-      'CurrentUser', 'MessageService',
+      'UserService', 'MessageService',
       'BookModel', 'AuthorModel',
       '_book',
       function controller(
         $scope, $state,
-        CurrentUser, MessageService,
+        UserService, MessageService,
         BookModel, AuthorModel,
         _book
       ) {
@@ -67,7 +67,7 @@
         BookModel.setScope($scope, 'book');
 
         // Initialize scope data
-        $scope.user = CurrentUser.user();
+        $scope.user = UserService.user();
         $scope.book = _book;
         $scope.authors = [];
         $scope.selectAuthor = _book.author ? _book.author.id : null;
@@ -155,13 +155,13 @@
       '$scope', '$q', '$timeout',
       '_',
       'ListConfig', 'SocketWhereCondition',
-      'CurrentUser', 'BookModel', 'AuthorModel',
+      'UserService', 'BookModel', 'AuthorModel',
       '_items', '_count', '_authors',
       function controller(
         $scope, $q, $timeout,
         _,
         ListConfig, SocketWhereCondition,
-        CurrentUser, BookModel, AuthorModel,
+        UserService, BookModel, AuthorModel,
         _items, _count, _authors
       ) {
         // Set current scope reference to models
@@ -175,7 +175,7 @@
         $scope.items = _items;
         $scope.itemCount = _count.count;
         $scope.authors = _authors;
-        $scope.user = CurrentUser.user();
+        $scope.user = UserService.user();
 
         // Initialize used title items
         $scope.titleItems = ListConfig.getTitleItems(BookModel.endpoint);

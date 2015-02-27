@@ -7,10 +7,10 @@
  *  angular
  *    .module('app')
  *    .controller('SomeController',[
- *      '$scope', 'Auth', 'CurrentUser',
- *      function controller($scope, Auth, CurrentUser) {
- *        $scope.auth = Auth;
- *        $scope.user = CurrentUser.user;
+ *      '$scope', 'AuthService', 'UserService',
+ *      function controller($scope, AuthService, UserService) {
+ *        $scope.auth = AuthService;
+ *        $scope.user = UserService.user;
  *      }
  *    ])
  *  ;
@@ -25,8 +25,8 @@
 (function() {
   'use strict';
 
-  angular.module('frontend.core.services')
-    .factory('CurrentUser', [
+  angular.module('frontend.core.auth.services')
+    .factory('UserService', [
       '$localStorage',
       function factory($localStorage) {
         return {

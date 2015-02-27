@@ -9,12 +9,13 @@
   'use strict';
 
   // Define frontend.auth module
-  angular.module('frontend.auth', [
-    'frontend.auth.login'
+  angular.module('frontend.core.auth', [
+    'frontend.core.auth.login',
+    'frontend.core.auth.services'
   ]);
 
   // Module configuration
-  angular.module('frontend.auth')
+  angular.module('frontend.core.auth')
     .config([
       '$stateProvider',
       function config($stateProvider) {

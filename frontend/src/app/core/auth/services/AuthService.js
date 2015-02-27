@@ -1,19 +1,19 @@
 /**
- * Auth service which is used to authenticate users with backend server and provide simple
+ * AuthService service which is used to authenticate users with backend server and provide simple
  * methods to check if user is authenticated or not.
  *
- * Within successfully login process service will store user data and JWT token to local
- * storage where those are accessible in the application.
+ * Within successfully login process service will store user data and JWT token to ngStorage where
+ * those are accessible in the application.
  *
  * This service provides following methods:
  *
- *  Auth.authorize(access)
- *  Auth.isAuthenticated()
- *  Auth.login(credentials)
- *  Auth.logout()
+ *  AuthService.authorize(access)
+ *  AuthService.isAuthenticated()
+ *  AuthService.login(credentials)
+ *  AuthService.logout()
  *
  * You can use this service fairly easy on your controllers and views if you like to. It's
- * recommend that you use this service with 'CurrentUser' service in your controllers and
+ * recommend that you use this service with 'UserService' service in your controllers and
  * views.
  *
  * Usage example in controller:
@@ -21,10 +21,10 @@
  *  angular
  *    .module('app')
  *    .controller('SomeController', [
- *      '$scope', 'Auth', 'CurrentUser',
- *      function ($scope, Auth, CurrentUser) {
- *        $scope.auth = Auth;
- *        $scope.user = CurrentUser.user;
+ *      '$scope', 'AuthService', 'UserService',
+ *      function ($scope, AuthService, UserService) {
+ *        $scope.auth = AuthService;
+ *        $scope.user = UserService.user;
  *      }
  *    ])
  *  ;
@@ -37,14 +37,14 @@
  *
  * Happy coding!
  *
- * @todo    Revoke method?
- * @todo    Text localizations?
+ * @todo  Revoke method?
+ * @todo  Text localizations?
  */
 (function() {
   'use strict';
 
-  angular.module('frontend.core.services')
-    .factory('Auth', [
+  angular.module('frontend.core.auth.services')
+    .factory('AuthService', [
       '$http', '$state', '$localStorage',
       'AccessLevels', 'BackendConfig', 'MessageService',
       function factory(

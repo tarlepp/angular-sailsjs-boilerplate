@@ -9,10 +9,10 @@
   'use strict';
 
   // Define frontend.auth.login angular module
-  angular.module('frontend.auth.login', []);
+  angular.module('frontend.core.auth.login', []);
 
   // Module configuration
-  angular.module('frontend.auth.login')
+  angular.module('frontend.core.auth.login')
     .config([
       '$stateProvider',
       function config($stateProvider) {
@@ -25,7 +25,7 @@
             },
             views: {
               'content@': {
-                templateUrl: '/frontend/auth/login/login.html',
+                templateUrl: '/frontend/core/auth/login/login.html',
                 controller: 'LoginController'
               }
             }

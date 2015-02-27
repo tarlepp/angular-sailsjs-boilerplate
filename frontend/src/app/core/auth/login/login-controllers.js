@@ -17,22 +17,22 @@
    *  1) different authentication providers
    *  2) user registration
    */
-  angular.module('frontend.auth.login')
+  angular.module('frontend.core.auth.login')
     .controller('LoginController', [
       '$scope', '$state',
-      'Auth', 'FocusOnService',
+      'AuthService', 'FocusOnService',
       function controller(
         $scope, $state,
-        Auth, FocusOnService
+        AuthService, FocusOnService
       ) {
         // Already authenticated so redirect back to books list
-        if (Auth.isAuthenticated()) {
+        if (AuthService.isAuthenticated()) {
           $state.go('examples.books');
         }
 
         // Scope function to perform actual login request to server
         $scope.login = function login() {
-          Auth
+          AuthService
             .login($scope.credentials)
             .then(
               function successCallback() {
