@@ -25,9 +25,30 @@
                 templateUrl: '/frontend/admin/loginHistory/index.html',
                 controller: 'LoginHistoryController',
                 resolve: {
-                  _historyData: function resolve() {
-                    return [];
-                  }
+                  _items: [
+                    'ListConfig',
+                    'LoginHistoryModel',
+                    function resolve(
+                      ListConfig,
+                      LoginHistoryModel
+                    ) {
+                      var config = ListConfig.getConfig();
+
+                      var parameters = {
+                        limit: config.itemsPerPage,
+                        sort: 'createdAt DESC',
+                        populate: 'user'
+                      };
+
+                      return LoginHistoryModel.load(parameters);
+                    }
+                  ],
+                  _count: [
+                    'LoginHistoryModel',
+                    function resolve(LoginHistoryModel) {
+                      return LoginHistoryModel.count();
+                    }
+                  ]
                 }
               }
             }

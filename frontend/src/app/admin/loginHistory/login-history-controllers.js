@@ -9,12 +9,39 @@
   angular.module('frontend.admin.login-history')
     .controller('LoginHistoryController', [
       '$scope',
-      '_historyData',
+      'ListConfig',
+      'LoginHistoryModel',
+      '_items', '_count',
       function controller(
         $scope,
-        _historyData
+        ListConfig,
+        LoginHistoryModel,
+        _items, _count
       ) {
-        $scope.historyData = _historyData;
+        // Set current scope reference to models
+        LoginHistoryModel.setScope($scope, false, 'items', 'itemCount');
+
+        // Add default list configuration variable to current scope
+        $scope = angular.extend($scope, angular.copy(ListConfig.getConfig()));
+
+        // Set initial data
+        $scope.items = _items;
+        $scope.itemCount = _count.count;
+
+        // Initialize used title items
+        $scope.titleItems = ListConfig.getTitleItems(LoginHistoryModel.endpoint);
+
+        // Initialize default sort data
+        $scope.sort = {
+          column: 'releaseDate',
+          direction: false
+        };
+
+        // Initialize filters
+        $scope.filters = {
+          searchWord: '',
+          columns: $scope.titleItems
+        };
       }
     ])
   ;

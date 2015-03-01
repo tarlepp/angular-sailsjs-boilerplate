@@ -71,6 +71,53 @@
               inSearch: true,
               inTitle: true
             }
+          ],
+          userlogin: [
+            {
+              title: 'IP-address',
+              column: 'ip',
+              class: 'col-xs-2',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Browser',
+              column: 'browser',
+              class: 'col-xs-2',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Operating System',
+              column: 'os',
+              class: 'col-xs-2',
+              searchable: true,
+              sortable: true,
+              inSearch: true,
+              inTitle: true
+            },
+            {
+              title: 'Username',
+              column: false,
+              class: 'col-xs-2',
+              searchable: false,
+              sortable: false,
+              inSearch: false,
+              inTitle: true
+            },
+            {
+              title: 'Login time',
+              column: 'createdAt',
+              class: 'col-xs-4',
+              searchable: false,
+              sortable: true,
+              inSearch: false,
+              inTitle: true
+            }
           ]
         };
 
