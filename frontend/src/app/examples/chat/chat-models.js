@@ -12,20 +12,13 @@
    */
   angular.module('frontend.examples.chat')
     .factory('MessageModel', [
-      'ModelFactory',
-      function factory(ModelFactory) {
-        // Endpoint definition for model
-        var endpoint = 'message';
-
-        // Get model
-        var model = angular.copy(ModelFactory);
-
-        // Initialize model
-        model.setEndpoint(endpoint);
+      'DataModel',
+      function factory(DataModel) {
+        var model = new DataModel('message');
 
         // Custom handler for created objects
-        model.handlerCreated = function handlerCreated(message) {
-          model.objects.push(message.data);
+        model.handlerCreated = function handlerCreated(message){
+          this.objects.push(message.data);
         };
 
         return model;

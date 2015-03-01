@@ -2,18 +2,12 @@
  * This file contains generic model factory that will return a specified model instance for desired endpoint with
  * given event handlers. Basically all of this boilerplate application individual models are using this service to
  * generate real model.
- *
- * @todo
- *  1) add usage examples
- *  2) more documentation
- *  3) better handling of events
- *  4) refactor this to use prototypes
  */
 (function() {
   'use strict';
 
   angular.module('frontend.core.models')
-    .factory('ModelFactory', [
+    .factory('DataModel', [
       '$sailsSocket',
       '_',
       'DataService',
@@ -22,75 +16,44 @@
         _,
         DataService
       ) {
-        var model = this;
-
         /**
-         * Single object for current endpoint, this is populated automatic with 'fetch' function.
+         * Constructor for actual data model.
          *
-         * @type {{}}
+         * @param   {string}  endpoint  Name of the API endpoint
+         * @constructor
          */
-        model.object = {};
+        var DataModel = function(endpoint) {
+          this.endpoint = endpoint;
 
-        /**
-         * Array of loaded objects for current endpoint, this is populated with 'load' function.
-         *
-         * @type {Array}
-         */
-        model.objects = [];
+          // Initialize default values.
+          this.object = {};
+          this.objects = [];
 
-        /**
-         * Current model instance endpoint. This can be set via 'setEndpoint' service function.
-         *
-         * @type {string}
-         */
-        model.endpoint = '';
+          this.cache = {
+            count: {},
+            fetch: {},
+            load: {}
+          };
 
-        /**
-         * Cache for model 'count', 'fetch' and 'load' parameters. These are needed to determine model data
-         * after some event.
-         *
-         * @type  {{
-         *          count: {},
-         *          fetch: {},
-         *          load: {}
-         *        }}
-         */
-        model.cache = {
-          count: {},
-          fetch: {},
-          load: {}
-        };
+          this.scope = false;
 
-        /**
-         * Current scope where this model is used, this is needed to update scope data on socket events.
-         * By default this is set to false.
-         *
-         * @type {boolean|{}}
-         */
-        model.scope = false;
+          this.itemNames = {
+            object: false,
+            objects: false,
+            count: false
+          };
 
-        /**
-         * Used item names within specified scope
-         *
-         * @type  {{
-         *          object: boolean|string,
-         *          objects: boolean|string,
-         *          count: boolean|string
-         *        }}
-         */
-        model.itemNames = {
-          object: false,
-          objects: false,
-          count: false
+          // Subscribe to specified endpoint
+          this._subscribe();
         };
 
         /**
          * Service function to set used model endpoint. Note that this will also trigger subscribe for
          * this endpoint actions (created, updated, deleted, etc.).
          *
-         * @param   {string}    endpoint    Model endpoint definition
+         * @param {string}  endpoint  Model endpoint definition
          */
-        model.setEndpoint = function setEndpoint(endpoint) {
+        DataModel.prototype.setEndpoint = function setEndpoint(endpoint) {
           var self = this;
 
           // Set used endpoint
@@ -104,12 +67,12 @@
          * Service function to set used model and 'item' names which are updated on specified scope when
          * socket events occurs.
          *
-         * @param   {{}}                scope
-         * @param   {string|boolean}    [nameObject]
-         * @param   {string|boolean}    [nameObjects]
-         * @param   {string|boolean}    [nameCount]
+         * @param {{}}              scope
+         * @param {string|boolean}  [nameObject]
+         * @param {string|boolean}  [nameObjects]
+         * @param {string|boolean}  [nameCount]
          */
-        model.setScope = function setScope(scope, nameObject, nameObjects, nameCount) {
+        DataModel.prototype.setScope = function setScope(scope, nameObject, nameObjects, nameCount) {
           var self = this;
 
           self.scope = scope;
@@ -131,7 +94,7 @@
          *          [previous]: {}
          *        }}  message
          */
-        model.handlerCreated = function handlerCreated(message) {
+        DataModel.prototype.handlerCreated = function handlerCreated(message) {
           var self = this;
 
           console.log('Object created', self.endpoint, message);
@@ -148,7 +111,7 @@
          *          [previous]: {}
          *        }}  message
          */
-        model.handlerUpdated = function handlerUpdated(message) {
+        DataModel.prototype.handlerUpdated = function handlerUpdated(message) {
           var self = this;
 
           console.log('Object updated', self.endpoint, message);
@@ -179,7 +142,7 @@
          *          [previous]: {}
          *        }}  message
          */
-        model.handlerDeleted = function handlerDeleted(message) {
+        DataModel.prototype.handlerDeleted = function handlerDeleted(message) {
           var self = this;
 
           console.log('Object deleted', self.endpoint, message);
@@ -196,7 +159,7 @@
          *          [previous]: {}
          *        }}  message
          */
-        model.handlerAddedTo = function handlerAddedTo(message) {
+        DataModel.prototype.handlerAddedTo = function handlerAddedTo(message) {
           var self = this;
 
           console.log('AddedTo', self.endpoint, message);
@@ -213,7 +176,7 @@
          *           [previous]: {}
          *         }}  message
          */
-        model.handlerRemovedFrom = function handlerRemovedFrom(message) {
+        DataModel.prototype.handlerRemovedFrom = function handlerRemovedFrom(message) {
           var self = this;
 
           console.log('RemovedFrom', self.endpoint, message);
@@ -227,7 +190,7 @@
          *
          * @returns {Promise|models.count}
          */
-        model.count = function count(parameters, fromCache) {
+        DataModel.prototype.count = function count(parameters, fromCache) {
           var self = this;
 
           if (fromCache) {
@@ -262,7 +225,7 @@
          *
          * @returns {Promise|*}
          */
-        model.load = function load(parameters, fromCache) {
+        DataModel.prototype.load = function load(parameters, fromCache) {
           var self = this;
 
           if (fromCache) {
@@ -300,7 +263,7 @@
          *
          * @returns {Promise|*}
          */
-        model.fetch = function fetch(identifier, parameters, fromCache) {
+        DataModel.prototype.fetch = function fetch(identifier, parameters, fromCache) {
           var self = this;
 
           if (fromCache) {
@@ -339,7 +302,7 @@
          *
          * @returns {Promise|*}
          */
-        model.create = function create(data) {
+        DataModel.prototype.create = function create(data) {
           var self = this;
 
           return DataService.create(self.endpoint, data);
@@ -355,7 +318,7 @@
          *
          * @returns {Promise|*}
          */
-        model.update = function update(identifier, data) {
+        DataModel.prototype.update = function update(identifier, data) {
           var self = this;
 
           return DataService.update(self.endpoint, identifier, data);
@@ -370,7 +333,7 @@
          *
          * @returns {Promise|*}
          */
-        model.delete = function deleteObject(identifier) {
+        DataModel.prototype.delete = function deleteObject(identifier) {
           var self = this;
 
           return DataService.delete(self.endpoint, identifier);
@@ -389,7 +352,7 @@
          *
          * @private
          */
-        model._subscribe = function subscribe() {
+        DataModel.prototype._subscribe = function subscribe() {
           var self = this;
 
           // Actual subscribe
@@ -413,7 +376,7 @@
          *
          * @private
          */
-        model._handleEvent = function handleEvent(message) {
+        DataModel.prototype._handleEvent = function handleEvent(message) {
           var self = this;
           var method = 'handler' + message.verb[0].toUpperCase() + message.verb.slice(1);
 
@@ -424,8 +387,8 @@
           }
         };
 
-        return model;
+        return DataModel;
       }
-    ]
-  );
+    ])
+  ;
 }());

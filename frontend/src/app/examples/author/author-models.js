@@ -5,27 +5,17 @@
  * services that wraps all things together.
  */
 (function() {
-    'use strict';
+  'use strict';
 
-    /**
-     * Model for Author API, this is used to wrap all Author objects specified actions and data change actions.
-     */
-    angular.module('frontend.examples.author')
-        .service('AuthorModel',
-            [
-                'ModelFactory',
-                function(ModelFactory) {
-                    // Endpoint definition for model
-                    var endpoint = 'author';
-
-                    // Get model
-                    var model = angular.copy(ModelFactory);
-
-                    // Initialize model
-                    model.setEndpoint(endpoint);
-
-                    return model;
-                }
-            ]
-        );
+  /**
+   * Model for Author API, this is used to wrap all Author objects specified actions and data change actions.
+   */
+  angular.module('frontend.examples.author')
+    .service('AuthorModel', [
+      'DataModel',
+      function(DataModel) {
+        return new DataModel('author');
+      }
+    ])
+  ;
 }());

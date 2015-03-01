@@ -12,18 +12,9 @@
    */
   angular.module('frontend.examples.book')
     .factory('BookModel', [
-      'ModelFactory',
-      function factory(ModelFactory) {
-        // Endpoint definition for model
-        var endpoint = 'book';
-
-        // Get model
-        var model = angular.copy(ModelFactory);
-
-        // Initialize model
-        model.setEndpoint(endpoint);
-
-        return model;
+      'DataModel',
+      function factory(DataModel) {
+        return new DataModel('book');
       }
     ])
   ;
