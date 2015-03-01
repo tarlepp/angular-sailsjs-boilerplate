@@ -31,7 +31,7 @@
 
                     <span class="pull-left message">
                         <span class="text-info">{{message.nick}}</span>
-                        <span data-ng-bind-html="message.message | linkify"></span>
+                        <span data-ng-bind-html="message.message | linky : '_blank'"></span>
                     </span>
                 </li>
             </ul>

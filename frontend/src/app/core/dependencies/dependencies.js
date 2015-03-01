@@ -19,7 +19,6 @@
     'ui.bootstrap.showErrors',
     'ui.utils',
     'angularMoment',
-    'linkify',
     'toastr',
     'xeditable',
     'sails.io'
