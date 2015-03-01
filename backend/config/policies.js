@@ -30,6 +30,7 @@ module.exports.policies = {
   // Author controller
   AuthorController: {
     '*':        ['authenticated'],
+    'count':    ['authenticated'],
     'find':     ['authenticated'],
     'findOne':  ['authenticated'],
     'create':   ['authenticated', 'isAdmin', 'addDataCreate'],
@@ -42,6 +43,7 @@ module.exports.policies = {
   // Book controller
   BookController: {
     '*':        ['authenticated'],
+    'count':    ['authenticated'],
     'find':     ['authenticated'],
     'findOne':  ['authenticated'],
     'create':   ['authenticated', 'isAdmin', 'addDataCreate'],
@@ -54,6 +56,7 @@ module.exports.policies = {
   // User controller
   UserController: {
     '*':        ['authenticated'],
+    'count':    ['authenticated'],
     'find':     ['authenticated'],
     'findOne':  ['authenticated'],
     'create':   ['authenticated', 'isAdmin', 'addDataCreate'],
@@ -61,5 +64,18 @@ module.exports.policies = {
     'destroy':  ['authenticated', 'isAdmin'],
     'add':      ['authenticated', 'isAdmin'],
     'remove':   ['authenticated', 'isAdmin']
+  },
+
+  // UserLogin controller
+  UserLoginController: {
+    '*':        false,
+    'count':    ['authenticated', 'isAdmin'],
+    'find':     ['authenticated', 'isAdmin'],
+    'findOne':  ['authenticated', 'isAdmin'],
+    'create':   false,
+    'update':   false,
+    'destroy':  false,
+    'add':      false,
+    'remove':   false
   }
 };
