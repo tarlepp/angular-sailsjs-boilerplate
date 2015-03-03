@@ -25,7 +25,7 @@ exports.login = function login(user, request) {
   var r = require('ua-parser').parse(request.headers['user-agent']);
 
   // Create new UserLogin row to database
-  sails.models['userlogin']
+  sails.models.userlogin
     .create({
       ip: request.ip,
       host: request.host,
@@ -38,10 +38,14 @@ exports.login = function login(user, request) {
       osFamily: (r.os.family || 'Unknown'),
       user: user.id
     })
-    .exec(function (error) {
+    .exec(function callback(error, record) {
       if (error) {
         sails.log.error(__filename + ':' + __line + ' [Failed to write user login data to database]');
         sails.log.error(error);
+      } else {
+        if (request._sails.hooks.pubsub) {
+          sails.models.userlogin.publishCreate(record);
+        }
       }
     })
   ;
