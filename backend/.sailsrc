@@ -4,6 +4,7 @@
   },
   "hooks": {
     "grunt": false,
-    "session": false
+    "session": false,
+    "csrf": false
   }
 }
