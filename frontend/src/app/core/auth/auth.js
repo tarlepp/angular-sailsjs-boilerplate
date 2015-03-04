@@ -1,9 +1,8 @@
 /**
- * Angular module for auth component. This component is divided to following logical components:
+ * Angular module for frontend.core.auth component. This component is divided to following logical components:
  *
- *  frontend.auth.login
- *
- * Each component has it own configuration for ui-router.
+ *  frontend.core.auth.login
+ *  frontend.core.auth.services
  */
 (function() {
   'use strict';
