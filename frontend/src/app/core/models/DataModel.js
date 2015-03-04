@@ -8,35 +8,36 @@
 
   angular.module('frontend.core.models')
     .factory('DataModel', [
-      '$sailsSocket',
+      '$sailsSocket', '$log',
       '_',
       'DataService',
       function(
-        $sailsSocket,
+        $sailsSocket, $log,
         _,
         DataService
       ) {
         /**
          * Constructor for actual data model.
          *
-         * @param   {string}  endpoint  Name of the API endpoint
+         * @param   {string}  [endpoint]  Name of the API endpoint
          * @constructor
          */
         var DataModel = function(endpoint) {
-          this.endpoint = endpoint;
-
           // Initialize default values.
           this.object = {};
           this.objects = [];
 
+          // Cache parameters
           this.cache = {
             count: {},
             fetch: {},
             load: {}
           };
 
+          // Is scope used with data model or not, if yes this is actual scope
           this.scope = false;
 
+          // Scope item names for single, collection and count
           this.itemNames = {
             object: false,
             objects: false,
@@ -44,9 +45,16 @@
           };
 
           // Subscribe to specified endpoint
-          this._subscribe();
+          if (endpoint) {
+            this.endpoint = endpoint;
+
+            this._subscribe();
+          } else {
+            this.endpoint = false;
+          }
         };
 
+        //noinspection JSUnusedGlobalSymbols
         /**
          * Service function to set used model endpoint. Note that this will also trigger subscribe for
          * this endpoint actions (created, updated, deleted, etc.).
@@ -83,6 +91,7 @@
           };
         };
 
+        //noinspection JSUnusedGlobalSymbols
         /**
          * Default behaviour for created objects for specified endpoint. If you need some custom logic
          * for your model, just overwrite this function on your model.
@@ -97,9 +106,21 @@
         DataModel.prototype.handlerCreated = function handlerCreated(message) {
           var self = this;
 
-          console.log('Object created', self.endpoint, message);
+          $log.log('Object created', self.endpoint, message);
+
+          // Scope is set, so we need to load collection and determine count again
+          if (self.scope) {
+            if (self.itemNames.objects) {
+              self.load(null, true);
+            }
+
+            if (self.itemNames.count) {
+              self.count(null, true);
+            }
+          }
         };
 
+        //noinspection JSUnusedGlobalSymbols
         /**
          * Default behaviour for updated objects for specified endpoint. If you need some custom logic
          * for your model, just overwrite this function on your model.
@@ -114,8 +135,9 @@
         DataModel.prototype.handlerUpdated = function handlerUpdated(message) {
           var self = this;
 
-          console.log('Object updated', self.endpoint, message);
+          $log.log('Object updated', self.endpoint, message);
 
+          // Scope is set, so we need to fetch collection and object data again
           if (self.scope) {
             if (self.itemNames.object && parseInt(message.id, 10) === parseInt(self.object.id, 10)) {
               self.fetch(null, null, true);
@@ -124,13 +146,10 @@
             if (self.itemNames.objects) {
               self.load(null, true);
             }
-
-            if (self.itemNames.count) {
-              self.count(null, true);
-            }
           }
         };
 
+        //noinspection JSUnusedGlobalSymbols
         /**
          * Default behaviour for deleted objects for specified endpoint. If you need some custom logic
          * for your model, just overwrite this function on your model.
@@ -145,9 +164,25 @@
         DataModel.prototype.handlerDeleted = function handlerDeleted(message) {
           var self = this;
 
-          console.log('Object deleted', self.endpoint, message);
+          $log.log('Object deleted', self.endpoint, message);
+
+          // Scope is set, so we need to fetch collection and object data again
+          if (self.scope) {
+            if (self.itemNames.object && parseInt(message.id, 10) === parseInt(self.object.id, 10)) {
+              $log.warn('How to handle this case?');
+            }
+
+            if (self.itemNames.objects) {
+              self.load(null, true);
+            }
+
+            if (self.itemNames.count) {
+              self.count(null, true);
+            }
+          }
         };
 
+        //noinspection JSUnusedGlobalSymbols
         /**
          * Default behaviour for addedTo events for specified endpoint. If you need some custom logic for
          * your model, just overwrite this function on your model.
@@ -162,9 +197,10 @@
         DataModel.prototype.handlerAddedTo = function handlerAddedTo(message) {
           var self = this;
 
-          console.log('AddedTo', self.endpoint, message);
+          $log.log('AddedTo', self.endpoint, message);
         };
 
+        //noinspection JSUnusedGlobalSymbols
         /**
          * Default behaviour for removedFrom events for specified endpoint. If you need some custom logic
          * for your model, just overwrite this function on your model.
@@ -179,7 +215,7 @@
         DataModel.prototype.handlerRemovedFrom = function handlerRemovedFrom(message) {
           var self = this;
 
-          console.log('RemovedFrom', self.endpoint, message);
+          $log.log('RemovedFrom', self.endpoint, message);
         };
 
         /**
@@ -192,6 +228,10 @@
          */
         DataModel.prototype.count = function count(parameters, fromCache) {
           var self = this;
+
+          // Normalize parameters
+          parameters = parameters || {};
+          fromCache = fromCache || false;
 
           if (fromCache) {
             parameters = self.cache.count.parameters;
@@ -211,6 +251,9 @@
                 }
 
                 return response.data;
+              },
+              function onError(error) {
+                $log.error('DataModel.count() failed.', error, self.endpoint, parameters);
               }
             )
           ;
@@ -227,6 +270,10 @@
          */
         DataModel.prototype.load = function load(parameters, fromCache) {
           var self = this;
+
+          // Normalize parameters
+          parameters = parameters || {};
+          fromCache = fromCache || false;
 
           if (fromCache) {
             parameters = self.cache.load.parameters;
@@ -248,6 +295,9 @@
                 }
 
                 return self.objects;
+              },
+              function onError(error) {
+                $log.error('DataModel.load() failed.', error, self.endpoint, parameters);
               }
             )
           ;
@@ -265,6 +315,10 @@
          */
         DataModel.prototype.fetch = function fetch(identifier, parameters, fromCache) {
           var self = this;
+
+          // Normalize parameters
+          parameters = parameters || {};
+          fromCache = fromCache || false;
 
           if (fromCache) {
             identifier = self.cache.fetch.identifier;
@@ -288,6 +342,9 @@
                 }
 
                 return self.object;
+              },
+              function onError(error) {
+                $log.error('DataModel.fetch() failed.', error, self.endpoint, identifier, parameters);
               }
             )
           ;
@@ -305,7 +362,17 @@
         DataModel.prototype.create = function create(data) {
           var self = this;
 
-          return DataService.create(self.endpoint, data);
+          return DataService
+            .create(self.endpoint, data)
+            .then(
+              function onSuccess(result) {
+                return result;
+              },
+              function onError(error) {
+                $log.error('DataModel.create() failed.', error, self.endpoint, data);
+              }
+            )
+          ;
         };
 
         /**
@@ -321,7 +388,17 @@
         DataModel.prototype.update = function update(identifier, data) {
           var self = this;
 
-          return DataService.update(self.endpoint, identifier, data);
+          return DataService
+            .update(self.endpoint, identifier, data)
+            .then(
+              function onSuccess(result) {
+                return result;
+              },
+              function onError(error) {
+                $log.error('DataModel.update() failed.', error, self.endpoint, identifier, data);
+              }
+            )
+          ;
         };
 
         /**
@@ -336,7 +413,17 @@
         DataModel.prototype.delete = function deleteObject(identifier) {
           var self = this;
 
-          return DataService.delete(self.endpoint, identifier);
+          return DataService
+            .delete(self.endpoint, identifier)
+            .then(
+              function onSuccess(result) {
+                return result;
+              },
+              function onError(error) {
+                $log.error('DataModel.delete() failed.', error, self.endpoint, identifier);
+              }
+            )
+          ;
         };
 
         /**
@@ -383,7 +470,7 @@
           if (_.isFunction(self[method])) {
             self[method](message);
           } else {
-            console.log('Implement handling for \'' + message.verb + '\' socket messages');
+            $log.log('Implement handling for \'' + message.verb + '\' socket messages');
           }
         };
 
