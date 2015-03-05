@@ -68,14 +68,15 @@ module.exports.policies = {
 
   // UserLogin controller
   UserLoginController: {
-    '*':        false,
-    'count':    ['authenticated', 'isAdmin'],
-    'find':     ['authenticated', 'isAdmin'],
-    'findOne':  ['authenticated', 'isAdmin'],
-    'create':   false,
-    'update':   false,
-    'destroy':  false,
-    'add':      false,
-    'remove':   false
+    '*':          false,
+    'statistics': ['authenticated', 'isAdmin'],
+    'count':      ['authenticated', 'isAdmin'],
+    'find':       ['authenticated', 'isAdmin'],
+    'findOne':    ['authenticated', 'isAdmin'],
+    'create':     false,
+    'update':     false,
+    'destroy':    false,
+    'add':        false,
+    'remove':     false
   }
 };
