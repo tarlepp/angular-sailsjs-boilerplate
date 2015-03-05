@@ -21,6 +21,7 @@
     'angularMoment',
     'toastr',
     'xeditable',
-    'sails.io'
+    'sails.io',
+    'highcharts-ng'
   ]);
 }());
