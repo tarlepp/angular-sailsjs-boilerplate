@@ -16,6 +16,7 @@
     "async": "0.9.0",
     "barrels": "1.4.0",
     "bcryptjs": "2.1.0",
+    "bluebird": "^2.9.13",
     "include-all": "0.1.6",
     "jsonwebtoken": "3.2.2",
     "lodash": "3.2.0",
