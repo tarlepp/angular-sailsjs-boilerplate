@@ -48,6 +48,24 @@
                     function resolve(LoginHistoryModel) {
                       return LoginHistoryModel.count();
                     }
+                  ],
+                  _statsBrowser: [
+                    'LoginHistoryModel',
+                    function resolve(LoginHistoryModel) {
+                      return LoginHistoryModel.statistics('Browser');
+                    }
+                  ],
+                  _statsOS: [
+                    'LoginHistoryModel',
+                    function resolve(LoginHistoryModel) {
+                      return LoginHistoryModel.statistics('OS');
+                    }
+                  ],
+                  _statsUser: [
+                    'LoginHistoryModel',
+                    function resolve(LoginHistoryModel) {
+                      return LoginHistoryModel.statistics('User');
+                    }
                   ]
                 }
               }

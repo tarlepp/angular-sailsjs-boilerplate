@@ -12,9 +12,31 @@
    */
   angular.module('frontend.admin.login-history')
     .factory('LoginHistoryModel', [
-      'DataModel',
-      function factory(DataModel) {
-        return new DataModel('userlogin');
+      '$log',
+      'DataModel', 'DataService',
+      function factory(
+        $log,
+        DataModel, DataService
+      ) {
+        var model = new DataModel('userlogin');
+
+        model.statistics = function statistics(type) {
+          var self = this;
+
+          return DataService
+            .collection(self.endpoint + '/statistics/', {type: type})
+            .then(
+              function onSuccess(response) {
+                return response.data;
+              },
+              function onError(error) {
+                $log.error('LoginHistoryModel.statistics() failed.', error, self.endpoint, type);
+              }
+            )
+          ;
+        };
+
+        return model;
       }
     ])
   ;

@@ -63,7 +63,7 @@
             </td>
             <td class="col-xs-4">
                 {{item.createdAt | amDateFormat : 'LLLL'}},
-                {{item.createdAt | amTimeAgo}}
+                <span data-am-time-ago="item.createdAt"></span>
             </td>
         </tr>
 
@@ -83,3 +83,17 @@
     data-boundary-links="true"
     data-rotate="false"
 ></pagination>
+
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-xs-4">
+        <highchart id="statsBrowser" config="chartBrowser"></highchart>
+    </div>
+    <div class="col-xs-4">
+        <highchart id="statsOs" config="chartOs"></highchart>
+    </div>
+    <div class="col-xs-4">
+        <highchart id="statsUser" config="chartUser"></highchart>
+    </div>
+</div>
