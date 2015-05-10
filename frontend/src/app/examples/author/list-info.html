@@ -1,17 +1,17 @@
 <h4>General info</h4>
 
 <p>
-    This page demonstrates simple data fetch from backend via WebSockets and how to show that data in simple list.
-    Within this example application fetches <em>authors</em> data with related <em>book</em> data populated to each
-    one. Example also covers data pagination, sort and search functions. Actual data is fetched from following backend
-    endpoint.
+    This page demonstrates fetching data from the backend via WebSockets and showing it in a simple list.
+    This example application fetches <em>authors</em> with related <em>book</em> data populated for each
+    and also covers data pagination, sort, and search functions. The actual data is fetched from the
+    following endpoint on the backend.
 </p>
 
 <pre>GET {{backendConfig.url}}/author <a ng-href="{{backendConfig.url}}/author" target="_blank" data-tooltip="Open endpoint url"><i class="fa fa-external-link"></i></a></pre>
 
 <p>
-    Note that all data communications to backend requires JSON Web Token <em>JWT</em>. This JWT is used to authenticate
-    current request to make sure that user is allowed to access that data.
+    Note that all data communication to the backend requires a JSON Web Token (<em>JWT</em>)
+    for authentication to make sure that user is allowed to access the data.
 </p>
 
 <h4>Functions in this example</h4>
@@ -35,7 +35,7 @@
         Pagination
     </dt>
     <dd>
-        By default, the page displays an example of ten books per page. And you can change the number to be
+        By default, the page displays an example of ten books per page. You can change the number to be
         displayed per page.
     </dd>
 
@@ -43,7 +43,7 @@
         Sorting data
     </dt>
     <dd>
-        Simple by clicking of column header. This will fetch data from backend again. <em>Unfortunately not from
+        Simply by clicking the column header. This will fetch data from backend again. <em>Unfortunately not from
         relation columns... yet.</em>
     </dd>
 
@@ -51,14 +51,14 @@
         Live updates
     </dt>
     <dd>
-        Data is updated automatic to GUI if someone changes data that is shown currently.
+        GUI is automatically updated if changes are made to the data.
     </dd>
 
     <dt>
         Navigation
     </dt>
     <dd>
-        Access to single author and book pages simply by click author or book name.
+        Access to a single author and book pages simply by clicking the author or book name.
     </dd>
 </dl>
 
