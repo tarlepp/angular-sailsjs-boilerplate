@@ -1,9 +1,9 @@
 /**
- * Interceptor fot $http and $sailSocket request to handle possible errors and show
- * that error to user automatic. Message is shown by application 'Message' service
+ * Interceptor for $http and $sailSocket request to handle possible errors and show
+ * that error to user automatically. Message is shown by application 'Message' service
  * which uses noty library.
  *
- * @todo Add option to skip automatic error message show
+ * @todo Add option to skip showing automatic error message
  */
 (function() {
   'use strict';

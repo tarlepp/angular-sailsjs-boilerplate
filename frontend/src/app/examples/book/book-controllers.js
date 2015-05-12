@@ -88,8 +88,8 @@
         };
 
         /**
-         * Scope function to save actual modified book. Basically this will send a socket request to
-         * backend server with modified object.
+         * Scope function to save the modified book. This will send a
+         * socket request to the backend server with the modified object.
          */
         $scope.saveBook = function saveBook() {
           var data = angular.copy($scope.book);
