@@ -18,7 +18,7 @@
     "bcryptjs": "2.1.0",
     "bluebird": "^2.9.13",
     "include-all": "0.1.6",
-    "jsonwebtoken": "3.2.2",
+    "jsonwebtoken": "5.0.0",
     "lodash": "3.2.0",
     "moment-timezone": "0.3.0",
     "passport": "0.2.1",
