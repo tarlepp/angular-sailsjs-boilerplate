@@ -31,7 +31,7 @@
     "sails": "0.11.0",
     "sails-disk": "0.10.4",
     "sails-hook-apianalytics": "git://github.com/mikermcneil/sails-hook-apianalytics",
-    "sails-mysql": "0.10.11",
+    "sails-mysql": "0.10.12",
     "ua-parser": "0.3.5",
     "validator": "3.19.0"
   },
