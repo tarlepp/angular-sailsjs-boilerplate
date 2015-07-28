@@ -20,7 +20,7 @@ module.exports = function hook(sails) {
         .exec(function callback(error, users) {
           if (error) {
             next(error);
-          } else if (users.length !== 0) {
+          } else if (users.length !== 0 && JSON.stringify(users[0]) !== '{}') {
             next();
           } else {
             sails.log.verbose(__filename + ':' + __line + ' [Hook.load-db] Populating database with fixture data...');
