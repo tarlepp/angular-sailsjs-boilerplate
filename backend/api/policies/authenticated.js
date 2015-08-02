@@ -33,23 +33,18 @@ module.exports = function authenticated(request, response, next) {
           if (error) {
             next(error);
           } else if (!user) {
-            error = new Error();
+            return response.json(401, {message: 'Given authorization token is not valid'});
+          } else {
+            // Store user id to request object
+            request.token = token;
 
-            error.status = 401;
-            error.message = 'Given authorization token is not valid.';
+            // We delete the token from query and body to not mess with blueprints
+            request.query && delete request.query.token;
+            request.body && delete request.body.token;
 
-            next(error);
+            return next();
           }
         });
-
-      // Store user id to request object
-      request.token = token;
-
-      // We delete the token from query and body to not mess with blueprints
-      request.query && delete request.query.token;
-      request.body && delete request.body.token;
-
-      return next();
     }
   };
 
