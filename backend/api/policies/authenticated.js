@@ -27,6 +27,21 @@ module.exports = function authenticated(request, response, next) {
     if (!(_.isEmpty(error) && token !== -1)) {
       return response.json(401, {message: 'Given authorization token is not valid'});
     } else {
+      sails.models['user']
+        .findOne(token)
+        .exec(function exec(error, user) {
+          if (error) {
+            next(error);
+          } else if (!user) {
+            error = new Error();
+
+            error.status = 401;
+            error.message = 'Given authorization token is not valid.';
+
+            next(error);
+          }
+        });
+
       // Store user id to request object
       request.token = token;
 
