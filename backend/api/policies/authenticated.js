@@ -27,14 +27,24 @@ module.exports = function authenticated(request, response, next) {
     if (!(_.isEmpty(error) && token !== -1)) {
       return response.json(401, {message: 'Given authorization token is not valid'});
     } else {
-      // Store user id to request object
-      request.token = token;
+      sails.models['user']
+        .findOne(token)
+        .exec(function exec(error, user) {
+          if (error) {
+            next(error);
+          } else if (!user) {
+            return response.json(401, {message: 'Given authorization token is not valid'});
+          } else {
+            // Store user id to request object
+            request.token = token;
 
-      // We delete the token from query and body to not mess with blueprints
-      request.query && delete request.query.token;
-      request.body && delete request.body.token;
+            // We delete the token from query and body to not mess with blueprints
+            request.query && delete request.query.token;
+            request.body && delete request.body.token;
 
-      return next();
+            return next();
+          }
+        });
     }
   };
 
