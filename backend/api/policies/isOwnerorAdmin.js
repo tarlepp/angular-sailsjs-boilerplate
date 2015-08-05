@@ -20,7 +20,7 @@ module.exports = function isOwner(req, res, next) {
         next(error);
       }
 
-      if(req.token != model.user) {
+      if(req.token !== model.user) {
         sails.models['user']
           .findOne(req.token)
           .exec(function exec(error, user) {
