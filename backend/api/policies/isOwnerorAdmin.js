@@ -32,7 +32,7 @@ module.exports = function isOwner(req, res, next) {
               error.status = 401;
               error.message = 'User not found - Please login.';
 
-              return res.json(error);
+              return res.negoatiate(error);
             } else if (user.admin) {
               next();
             } else {
@@ -40,7 +40,7 @@ module.exports = function isOwner(req, res, next) {
 
               error.status = 403;
               error.message = 'Forbidden - You are not an authorized user.';
-              return res.json(error);
+              return res.negoatiate(error);
             }
           });
       }
