@@ -13,34 +13,33 @@
     "Passport.js"
   ],
   "dependencies": {
-    "async": "0.9.0",
-    "barrels": "1.4.0",
-    "bcryptjs": "2.1.0",
-    "bluebird": "^2.9.13",
+    "async": "^1.4.2",
+    "barrels": "1.5.0",
+    "bcryptjs": "2.2.1",
+    "bluebird": "2.9.34",
     "include-all": "0.1.6",
-    "jsonwebtoken": "3.2.2",
-    "lodash": "3.2.0",
-    "moment-timezone": "0.3.0",
-    "passport": "0.2.1",
-    "passport-facebook": "1.0.3",
-    "passport-github": "0.1.5",
+    "jsonwebtoken": "5.0.5",
+    "lodash": "3.10.1",
+    "moment-timezone": "0.4.0",
+    "passport": "0.3.0",
+    "passport-facebook": "2.0.0",
+    "passport-github": "1.0.0",
     "passport-google": "0.3.0",
     "passport-local": "1.0.0",
-    "passport-twitter": "1.0.2",
-    "rc": "0.5.1",
+    "passport-twitter": "1.0.3",
+    "rc": "1.1.0",
     "sails": "0.11.0",
-    "sails-disk": "0.10.4",
+    "sails-disk": "0.10.8",
     "sails-hook-apianalytics": "git://github.com/mikermcneil/sails-hook-apianalytics",
-    "sails-mysql": "0.10.11",
+    "sails-mysql": "0.11.0",
     "ua-parser": "0.3.5",
-    "validator": "3.19.0"
+    "validator": "4.0.5"
   },
   "devDependencies": {
-    "supertest": "0.13.0",
-    "mocha": "1.21.4",
-    "should": "4.0.4",
-    "chai": "1.9.1",
-    "sails-generate-auth": "0.1.6"
+    "supertest": "1.1.0",
+    "mocha": "2.2.5",
+    "should": "7.1.0",
+    "chai": "3.2.0"
   },
   "engines": {
     "node": "0.10.x"
