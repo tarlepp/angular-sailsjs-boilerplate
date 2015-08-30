@@ -21,11 +21,13 @@ frontend/   = Slush-angular, just frontend side
 
 #### Backend
 For backend side this boilerplate uses Sails.js (imho awesome). See more info at https://github.com/balderdashy/sails
-I have just done some small tweaks to generic workflow of sails nothing else. 
+I have just done some small tweaks to generic workflow of sails nothing else. Backend side of this 'boilerplate' is 
+served on separate repository https://github.com/tarlepp/angular-sailsjs-boilerplate-backend
 
 #### Frontend
 Boilerplate uses slush-angular for frontend (AngularJS using Google Angular App Structure Recommendations).
-See more info at https://github.com/slushjs/slush-angular This library is awesome to distribute frontend.
+See more info at https://github.com/slushjs/slush-angular This library is awesome to distribute frontend. Frontend side 
+of this 'boilerplate' is served on separate repository https://github.com/tarlepp/angular-sailsjs-boilerplate-frontend
 
 ### Used libraries, guides, etc.
 * Sails.js, http://sailsjs.org/
