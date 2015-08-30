@@ -1,3 +1,6 @@
 [submodule "backend"]
 	path = backend
 	url = https://github.com/tarlepp/angular-sailsjs-boilerplate-backend.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/tarlepp/angular-sailsjs-boilerplate-frontend.git
