@@ -1,5 +1,4 @@
 # 'Boilerplate' for AngularJS + Sails.js 
-[![Build Status](https://travis-ci.org/tarlepp/angular-sailsjs-boilerplate.png?branch=master)](https://travis-ci.org/tarlepp/angular-sailsjs-boilerplate)
 
 ### Why?
 Modern web applications has separated front- and backend sides to use. This 'boilerplate' present one way to make
@@ -20,11 +19,18 @@ boilerplate, proper term would be 'example application'.
 Also note that these 'directories' are just submodules to another repos
 
 #### Backend
+[![Build Status](https://travis-ci.org/tarlepp/angular-sailsjs-boilerplate-backend.png?branch=master)](https://travis-ci.org/tarlepp/angular-sailsjs-boilerplate-backend)
+[![Dependency Status](https://david-dm.org/tarlepp/angular-sailsjs-boilerplate-backend.svg)](https://david-dm.org/tarlepp/angular-sailsjs-boilerplate-backend)
+[![devDependency Status](https://david-dm.org/tarlepp/angular-sailsjs-boilerplate-backend/dev-status.svg)](https://david-dm.org/tarlepp/angular-sailsjs-boilerplate-backend#info=devDependencies)
+
 For backend side this boilerplate uses Sails.js (imho awesome). See more info at https://github.com/balderdashy/sails
 I have just done some small tweaks to generic workflow of sails nothing else. Backend side of this 'boilerplate' is 
 served on separate repository https://github.com/tarlepp/angular-sailsjs-boilerplate-backend
 
 #### Frontend
+[![Dependency Status](https://david-dm.org/tarlepp/angular-sailsjs-boilerplate-frontend.svg)](https://david-dm.org/tarlepp/angular-sailsjs-boilerplate-frontend)
+[![devDependency Status](https://david-dm.org/tarlepp/angular-sailsjs-boilerplate-frontend/dev-status.svg)](https://david-dm.org/tarlepp/angular-sailsjs-boilerplate-frontend#info=devDependencies)
+
 Boilerplate uses slush-angular for frontend (AngularJS using Google Angular App Structure Recommendations).
 See more info at https://github.com/slushjs/slush-angular This library is awesome to distribute frontend. Frontend side 
 of this 'boilerplate' is served on separate repository https://github.com/tarlepp/angular-sailsjs-boilerplate-frontend
