@@ -167,7 +167,8 @@ Below is small list of possible failures that can occur while trying this POC.
 This might be up and running... or not. http://wunder.sytes.net:3000/
 
 ## Who is using this?
-* All in my own projects, @tarlepp
+* All in my own sails.js projects, @tarlepp
+* [Hackday 2015 - infoTV](https://github.com/ProtaconSolutions/hackday-2015)
 * [Liukko-POC](https://github.com/ProtaconSolutions/Liukko-POC)
 * [switch168](https://github.com/switch168)
 
@@ -179,7 +180,7 @@ Tarmo Leppänen
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2014 Tarmo Leppänen
+Copyright (c) 2015 Tarmo Leppänen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
