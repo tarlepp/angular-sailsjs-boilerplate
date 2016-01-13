@@ -174,6 +174,7 @@ This might be up and running... or not. http://wunder.sytes.net:3000/
 * [Hackday 2015 - infoTV](https://github.com/ProtaconSolutions/hackday-2015)
 * [Liukko-POC](https://github.com/ProtaconSolutions/Liukko-POC)
 * [switch168](https://github.com/switch168)
+* [home-dashboard](https://github.com/Hekku2/home-dashboard)
 
 If you're using this please make PR and add your project to this list.
 
