@@ -12,8 +12,9 @@
 module.exports = function isOwner(req, res, next) {
   sails.log.verbose(__filename + ':' +__line + ' [Policy.isOwner() called]');
 
-  var modelType = req.options.model;
-  sails.models[modelType]
+  var model = req.options.model;
+
+  sails.models[model]
     .findOne(req.query.id)
     .then(function(model) {
       if(req.token !== model.user) {

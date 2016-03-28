@@ -15,8 +15,10 @@ module.exports = function isAdmin(request, response, next) {
   // Fetch current user by the token
   sails.models['user']
     .findOne(request.token)
-    .them(function (user) {
-      if (!user) {
+    .exec(function exec(error, user) {
+      if (error) {
+        next(error);
+      } else if (!user) {
         error = new Error();
 
         error.status = 401;
@@ -33,8 +35,5 @@ module.exports = function isAdmin(request, response, next) {
 
         next(error);
       }
-    })
-    .catch(function (error) {
-      next(error);
     })
 };
