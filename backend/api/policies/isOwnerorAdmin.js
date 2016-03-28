@@ -23,10 +23,8 @@ module.exports = function isOwner(req, res, next) {
       if(req.token != model.user) {
         sails.models['user']
           .findOne(req.token)
-          .exec(function exec(error, user) {
-            if (error) {
-              next(error);
-            } else if (!user) {
+          .then(function (user) {
+            if (!user) {
               error = new Error();
 
               error.status = 401;
@@ -42,7 +40,10 @@ module.exports = function isOwner(req, res, next) {
               error.message = 'Forbidden - You are not an authorized user.';
               return res.json(error);
             }
-          });
+          })
+          .catch(function (error) {
+            next(error);
+          })
       }
 
       else {
