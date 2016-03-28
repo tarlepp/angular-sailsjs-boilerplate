@@ -21,7 +21,7 @@ module.exports = function isOwner(req, res, next) {
   sails.models[model]
     .findOne(pk)
     .then(function(model) {
-      if(req.token !== model.user) {
+      if (req.token !== model.user) {
         sails.models['user']
           .findOne(req.token)
           .then(function (user) {
