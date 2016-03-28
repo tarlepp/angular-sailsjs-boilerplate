@@ -15,11 +15,7 @@ module.exports = function isOwner(req, res, next) {
   var modelType = req.options.model;
   sails.models[modelType]
     .findOne(req.query.id)
-    .exec(function(error, model) {
-      if(error) {
-        next(error);
-      }
-
+    .then(function(model) {
       if(req.token !== model.user) {
         sails.models['user']
           .findOne(req.token)
@@ -49,5 +45,8 @@ module.exports = function isOwner(req, res, next) {
       else {
         next();
       }
+    })
+    .catch(function(error) {
+      next(error);
     });
 };
