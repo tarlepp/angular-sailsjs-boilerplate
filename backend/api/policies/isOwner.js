@@ -9,13 +9,17 @@
  *
  * @returns {*}
  */
+
+var actionUtil = require('../actionUtil');
+
 module.exports = function isOwner(req, res, next) {
   sails.log.verbose(__filename + ':' +__line + ' [Policy.isOwner() called]');
 
-  var model = req.options.model;
+  var model = actionUtil.parseModel(req);
+  var pk = actionUtil.requirePk(req);
 
   sails.models[model]
-    .findOne(req.query.id)
+    .findOne(pk)
     .then(function(model) {
       if(req.token !== model.user) {
         sails.models['user']
