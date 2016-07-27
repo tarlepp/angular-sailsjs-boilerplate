@@ -53,9 +53,7 @@ be found [here](http://sailsjs.org/#/getStarted?q=what-os-do-i-need).
 After that you need to install <code>bower</code>, <code>gulp</code> and <code>sails</code> main packages to make all
 things to happen. These can be installed with following commands on your *nix box.
 <pre>
-sudo npm install bower -g
-sudo npm install gulp -g
-sudo npm install sails -g
+sudo npm install bower gulp sails -g
 </pre>
 
 After that you need to download codes of this project to your computer, please follow instructions below.
